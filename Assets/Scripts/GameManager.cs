@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
     public GameObject InventoryUI;
     public GameObject MixingUI;
     private Menus menu;
+
+    public System.Action<int> OnTimeChange;
 
     // Start is called before the first frame update
     void Awake()
@@ -123,5 +126,10 @@ public class GameManager : MonoBehaviour
         {
             CloseMixing();
         }
+    }
+
+    public float getTime()
+    {
+        return this.time;
     }
 }

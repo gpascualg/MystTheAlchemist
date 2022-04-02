@@ -18,19 +18,15 @@ public class Movement : MonoBehaviour
         Vector2 vel = Vector2.zero;
         if (Input.GetKey(KeyCode.W)) {
             vel.y += 1;
-            Debug.Log("W");
         }
         if (Input.GetKey(KeyCode.A)) {
             vel.x -= 1;
-            Debug.Log("A");
         }
         if (Input.GetKey(KeyCode.S)) {
             vel.y -= 1;
-            Debug.Log("S");
         }
         if (Input.GetKey(KeyCode.D)) {
             vel.x += 1;
-            Debug.Log("D");
         }
 
         rg.velocity = vel * Speed;
