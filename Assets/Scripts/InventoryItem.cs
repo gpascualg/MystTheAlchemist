@@ -104,6 +104,11 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
                         break;
                     }
                 }
+
+                if (!Mixing.Instance.HasComponent(AlchemicComponent))
+                {
+                    Inventory.Instance.Tooltip.Hide();
+                }
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
@@ -115,7 +120,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (InMixing)
+        if (IsPlaceHolder)
         {
             return;
         }
@@ -125,7 +130,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (InMixing)
+        if (IsPlaceHolder)
         {
             return;
         }

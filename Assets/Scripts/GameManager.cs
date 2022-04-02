@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public enum Menus
     {
+        None = 0,
         Inventory = 1,
         Mixing = 2,
     }
@@ -31,6 +33,12 @@ public class GameManager : MonoBehaviour
 
     public System.Action<int> OnTimeChange;
 
+    public Action OnInventoryOpened;
+    public Action OnInventoryClosed;
+    public Action OnMixingOpened;
+    public Action OnMixingClosed;
+
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -44,7 +52,10 @@ public class GameManager : MonoBehaviour
         //time = 5f;
         EndScreen.SetActive(false);
         status = Status.Playing;
-        menu = Menus.Inventory | Menus.Mixing;
+
+        menu = Menus.None;
+        OpenInventory();
+        OpenMixing();
     }
 
     // Update is called once per frame
@@ -74,12 +85,14 @@ public class GameManager : MonoBehaviour
     {
         InventoryUI.gameObject.SetActive(true);
         menu |= Menus.Inventory;
+        OnInventoryOpened?.Invoke();
     }
 
     public void CloseInventory()
     {
         InventoryUI.gameObject.SetActive(false);
         menu &= ~Menus.Inventory;
+        OnInventoryClosed?.Invoke();
     }
 
     public bool IsInventoryOpen()
@@ -103,12 +116,14 @@ public class GameManager : MonoBehaviour
     {
         MixingUI.gameObject.SetActive(true);
         menu |= Menus.Mixing;
+        OnMixingOpened?.Invoke();
     }
 
     public void CloseMixing()
     {
         MixingUI.gameObject.SetActive(false);
         menu &= ~Menus.Mixing;
+        OnMixingClosed?.Invoke();
     }
 
     public bool IsMixingOpen()

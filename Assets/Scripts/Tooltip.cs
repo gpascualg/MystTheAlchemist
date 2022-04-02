@@ -11,6 +11,31 @@ public class Tooltip : MonoBehaviour
     public TMP_Text Name;
     public TMP_Text Text;
 
+
+    public void OnEnable()
+    {
+        GameManager.Instance.OnInventoryOpened += InventoryOpened;
+        GameManager.Instance.OnMixingOpened += MixingOpened;
+    }
+
+    public void OnDisable()
+    {
+        GameManager.Instance.OnInventoryOpened -= InventoryOpened;
+        GameManager.Instance.OnMixingOpened -= MixingOpened;
+    }
+
+    private void InventoryOpened()
+    {
+        MixingTooltip.SetActive(false);
+        InventoryTooltip.SetActive(true);
+    }
+
+    private void MixingOpened()
+    {
+        MixingTooltip.SetActive(true);
+        InventoryTooltip.SetActive(false);
+    }
+
     public void Show(Component component)
     {
         Name.text = component.Name;
