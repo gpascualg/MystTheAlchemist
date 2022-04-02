@@ -13,20 +13,29 @@ MonoBehaviour:
   m_Name: New Narrative
   m_EditorClassIdentifier: 
   nodeLinks:
-  - BaseNodeGuid: 65ea0b2f-1250-43b9-9d0f-50b86361c5f1
+  - BaseNodeGuid: 6a31213f-aa9e-4f11-86b3-0d6ae1e4a366
     PortName: Next
-    TargetNodeGuid: 28de6d01-abec-4457-a8b0-8c9dd426e261
-  - BaseNodeGuid: 28de6d01-abec-4457-a8b0-8c9dd426e261
+    TargetNodeGuid: 18b4c10d-9a91-4ae8-9293-2438135f3fb7
+  - BaseNodeGuid: 18b4c10d-9a91-4ae8-9293-2438135f3fb7
     PortName: 'Choice 0 '
-    TargetNodeGuid: 4f06c34e-2daa-4632-a9e8-ea83463a22a7
+    TargetNodeGuid: 46da2a12-f0bc-4703-a620-12574cdc1f4d
+  - BaseNodeGuid: 46da2a12-f0bc-4703-a620-12574cdc1f4d
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 242d3585-b782-4b88-a365-d6a54c1c2a9c
+  - BaseNodeGuid: 30ce78cb-b288-4886-b50d-b8edf5673cc1
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 242d3585-b782-4b88-a365-d6a54c1c2a9c
   nodeData:
-  - Guid: 28de6d01-abec-4457-a8b0-8c9dd426e261
+  - Guid: 18b4c10d-9a91-4ae8-9293-2438135f3fb7
+    DialogueText: Patatas
+    Position: {x: 329, y: 200}
+  - Guid: 46da2a12-f0bc-4703-a620-12574cdc1f4d
     DialogueText: Element node
-    Position: {x: 234, y: 200}
-  - Guid: 4f06c34e-2daa-4632-a9e8-ea83463a22a7
+    Position: {x: 690, y: 200}
+  - Guid: 242d3585-b782-4b88-a365-d6a54c1c2a9c
     DialogueText: Element node
-    Position: {x: 868, y: 200}
-  - Guid: 65dbde46-69b0-4f30-877c-7f40b973e1ab
+    Position: {x: 910, y: 323}
+  - Guid: 30ce78cb-b288-4886-b50d-b8edf5673cc1
     DialogueText: Element node
-    Position: {x: 727, y: 491}
+    Position: {x: 397, y: 444}
   TargetNodeGuid: {x: 0, y: 0}
