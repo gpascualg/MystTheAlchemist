@@ -10,7 +10,14 @@ public class Inventory : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        GameManager.Instance.MainPlayer.OnItemAdd += AddItem;
+        GameManager.Instance.MainPlayer.OnItemRemove += RemoveItem;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.MainPlayer.OnItemAdd -= AddItem;
+        GameManager.Instance.MainPlayer.OnItemRemove -= RemoveItem;
     }
 
     public void AddItem(Component component, int qty)
@@ -58,7 +65,10 @@ public class Inventory : MonoBehaviour
     public void TestAdd()
     {
         Component asset = ScriptableObject.CreateInstance<Component>();
-        AddItem(asset, UnityEngine.Random.Range(1, 10));
+        for (int i = 0, total = UnityEngine.Random.Range(1, 10); i < total; i++)
+        {
+            AddItem(asset, i);
+        }
     }
 
     public void TestRemove()

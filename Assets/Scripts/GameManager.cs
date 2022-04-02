@@ -19,10 +19,14 @@ public class GameManager : MonoBehaviour
     public Status status;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         DontDestroyOnLoad(gameObject);
         Instance = this;
+    }
+
+    void Start()
+    {
         time = 300f;
         //time = 5f;
         EndScreen.SetActive(false);

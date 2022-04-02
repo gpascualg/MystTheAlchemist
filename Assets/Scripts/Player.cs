@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     public List<WorldComponent> NearCandidates = new List<WorldComponent>();
     public SerializedDictionary<Component, int> Inventory = new SerializedDictionary<Component, int>();
-    public Action<Component> OnItemAdd;
+    public Action<Component, int> OnItemAdd;
     public Action<Component, int> OnItemRemove;
 
     // Start is called before the first frame update
