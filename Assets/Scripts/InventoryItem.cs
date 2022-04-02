@@ -66,6 +66,11 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
             // Remove from player and set to mixing
             if (!InMixing)
             {
+                if (!Mixing.Instance.CanAddComponent(AlchemicComponent))
+                {
+                    return;
+                }
+
                 GameManager.Instance.MainPlayer.UseElement(AlchemicComponent);
                 Mixing.Instance.AddComponent(AlchemicComponent);
             }

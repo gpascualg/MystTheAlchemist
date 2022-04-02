@@ -12,27 +12,38 @@ public class Mixing : MonoBehaviour
     private Dictionary<Component, int> qty = new Dictionary<Component, int>();
     private List<GameObject> placeholders = new List<GameObject>();
 
+    private const int MAX_COMPONENTS = 6;
+
     private void Awake()
     {
         Instance = this;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         // Add placeholders
-        for (int i = 0; i < 6; ++i)
+        SpawnPlaceholders();
+    }
+
+    private void SpawnPlaceholders()
+    {
+        for (int i = components.Count + placeholders.Count; i < MAX_COMPONENTS; ++i)
         {
             var go = Instantiate(ItemPrefab, Content);
             go.GetComponent<InventoryItem>().OnAddedAsPlaceholder();
             placeholders.Add(go);
+            go.transform.SetAsLastSibling();
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool CanAddComponent(Component component)
     {
-        
+        if (components.Count < MAX_COMPONENTS)
+        {
+            return true;
+        }
+
+        return components.ContainsKey(component);
     }
 
     public void AddComponent(Component component)
@@ -77,14 +88,36 @@ public class Mixing : MonoBehaviour
             Destroy(item.gameObject);
 
             // Add placeholder
-            var go = Instantiate(ItemPrefab, Content);
-            go.GetComponent<InventoryItem>().OnAddedAsPlaceholder();
-            placeholders.Add(go);
+            SpawnPlaceholders();
         }
         else
         {
             qty[component] -= 1;
             item.UpdateQuantity(qty[component]);
         }
+    }
+
+    public void Mix()
+    {
+        if (components.Count == 0)
+        {
+            return;
+        }
+
+        // Find the receipe that best matches
+        // Consume ethir number of elements
+        foreach (var pair in components)
+        {
+            Destroy(pair.Value.gameObject);
+        }
+        components.Clear();
+        qty.Clear();
+
+        // Add the result
+        Component asset = ScriptableObject.CreateInstance<Component>();
+        GameManager.Instance.MainPlayer.AddComponent(asset);
+
+        // Respawn
+        SpawnPlaceholders();
     }
 }
