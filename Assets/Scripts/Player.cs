@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     public List<WorldComponent> NearCandidates = new List<WorldComponent>();
     public SerializedDictionary<Component, int> Inventory = new SerializedDictionary<Component, int>();
-    public Action<Component> OnItemAdd;
+    public Action<Component, int> OnItemAdd;
     public Action<Component, int> OnItemRemove;
 
     // Start is called before the first frame update
@@ -35,20 +35,50 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void AddComponent(Component AlchemicComponent)
+    {
+        if (Inventory.ContainsKey(AlchemicComponent))
+        {
+            Inventory[AlchemicComponent] += 1;
+        }
+        else
+        {
+            Inventory.Add(AlchemicComponent, 1);
+
+        }
+
+        OnItemAdd?.Invoke(AlchemicComponent, Inventory[AlchemicComponent]);
+    }
+
+    public bool HasElement(Component AlchemicComponent)
+    {
+        return Inventory.ContainsKey(AlchemicComponent);
+    }
+
     public void UseElement(Component AlchemicComponent)
+    {
+        if (AlchemicComponent.RestoresSeconds <= 0)
+        {
+            return;
+        }
+
+        GameManager.Instance.RestoreSeconds(AlchemicComponent.RestoresSeconds);
+        RemoveElement(AlchemicComponent);
+    }
+
+    public void RemoveElement(Component AlchemicComponent)
     {
         if (Inventory.ContainsKey(AlchemicComponent))
         {
             if (Inventory[AlchemicComponent] > 1)
             {
-                OnItemRemove?.Invoke(AlchemicComponent, Inventory[AlchemicComponent]);
                 Inventory[AlchemicComponent] -= 1;
+                OnItemRemove?.Invoke(AlchemicComponent, Inventory[AlchemicComponent]);
             }
             else
             {
-                OnItemRemove?.Invoke(AlchemicComponent, 0);
                 Inventory.Remove(AlchemicComponent);
-
+                OnItemRemove?.Invoke(AlchemicComponent, 0);
             }
         }
     }
