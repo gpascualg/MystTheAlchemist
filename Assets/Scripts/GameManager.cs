@@ -31,13 +31,12 @@ public class GameManager : MonoBehaviour
     public GameObject MixingUI;
     private Menus menu;
 
-    public System.Action<int> OnTimeChange;
+    public Action<int> OnTimeChange;
 
     public Action OnInventoryOpened;
     public Action OnInventoryClosed;
     public Action OnMixingOpened;
     public Action OnMixingClosed;
-
 
     // Start is called before the first frame update
     void Awake()
@@ -49,6 +48,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         time = 300f;
+        OnTimeChange?.Invoke((int)time);
         //time = 5f;
         EndScreen.SetActive(false);
         status = Status.Playing;
@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
     public void RestoreSeconds(int seconds)
     {
         time += seconds;
+        OnTimeChange?.Invoke(seconds);
     }
 
     public void OpenInventory()
