@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc24db33263e2eb4688f1d2841680242, type: 3}
+  m_Name: New Narrative
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - BaseNodeGuid: 5b429bdb-5202-41ed-87ee-b03d670af22f
+    PortName: Next
+    TargetNodeGuid: 61e0424b-28ec-4a2a-9758-8ebba36e2ce3
+  - BaseNodeGuid: 61e0424b-28ec-4a2a-9758-8ebba36e2ce3
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 37302364-5021-4956-9af9-4c6deac93971
+  nodeData:
+  - Guid: 61e0424b-28ec-4a2a-9758-8ebba36e2ce3
+    DialogueText: PATATA
+    Position: {x: 410, y: 180}
+  - Guid: 37302364-5021-4956-9af9-4c6deac93971
+    DialogueText: MONGETA
+    Position: {x: 710, y: 180}
+  TargetNodeGuid: {x: 0, y: 0}
