@@ -9,7 +9,7 @@ public class ProgressBar : MonoBehaviour
     public Slider LifeProgress;
     public TMP_Text TextProgress;
     public float MaxTime;
-    public float ActualTime;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +28,8 @@ public class ProgressBar : MonoBehaviour
 
     public void UpdateTime(int time)
     {
-        ActualTime = GameManager.Instance.getTime() + (float)time;
+        float ActualTime = (GameManager.Instance.getTime() + (float)time);
+        if (ActualTime > MaxTime) MaxTime = ActualTime;
         LifeProgress.value = (ActualTime / MaxTime);
         TextProgress.text = (LifeProgress.value * 100).ToString("0.0") + "%";
     }
