@@ -1,0 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Movement : MonoBehaviour
+{
+    public Rigidbody2D rg;
+    public float Speed = 1.5f;
+    // Start is called before the first frame update
+    void Start()
+    {
+        rg = GetComponent<Rigidbody2D>();
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        Vector2 vel = Vector2.zero;
+        if (Input.GetKey(KeyCode.W)) {
+            vel.y += 1;
+            Debug.Log("W");
+        }
+        if (Input.GetKey(KeyCode.A)) {
+            vel.x -= 1;
+            Debug.Log("A");
+        }
+        if (Input.GetKey(KeyCode.S)) {
+            vel.y -= 1;
+            Debug.Log("S");
+        }
+        if (Input.GetKey(KeyCode.D)) {
+            vel.x += 1;
+            Debug.Log("D");
+        }
+
+        rg.velocity = vel * Speed;
+    }
+}
