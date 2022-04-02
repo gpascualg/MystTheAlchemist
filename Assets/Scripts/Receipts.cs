@@ -33,9 +33,9 @@ public class Receipts : MonoBehaviour
     private List<Receipt> receipts = new List<Receipt>();
     
     [SerializeField]
-    private List<Component> concoctions = new List<Component>();
+    public List<Component> Components = new List<Component>();
 
-    private Dictionary<string, Component> concoctionsByName = new Dictionary<string, Component>();
+    public Dictionary<string, Component> ComponentsByName = new Dictionary<string, Component>();
 
 
     void OnEnable()
@@ -60,12 +60,12 @@ public class Receipts : MonoBehaviour
 
     public void LoadConcoctions()
     {
-        concoctions = Resources.LoadAll<Component>("AlchemicComponents").ToList();
+        Components = Resources.LoadAll<Component>("AlchemicComponents").ToList();
 
-        concoctionsByName.Clear();
-        foreach (var concoction in concoctions)
+        ComponentsByName.Clear();
+        foreach (var concoction in Components)
         {
-            concoctionsByName.Add(concoction.Name, concoction);
+            ComponentsByName.Add(concoction.Name, concoction);
         }
     }
 

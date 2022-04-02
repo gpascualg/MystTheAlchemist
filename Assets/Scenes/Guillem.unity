@@ -443,7 +443,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 265017265}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.961, y: -0.998, z: -10}
+  m_LocalPosition: {x: -5.469, y: -0.998, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -597,7 +597,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 536290630}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.961, y: -0.998, z: -10}
+  m_LocalPosition: {x: -5.469, y: -0.998, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1141,6 +1141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1489072896}
   - component: {fileID: 1489072895}
+  - component: {fileID: 1489072897}
   m_Layer: 0
   m_Name: _
   m_TagString: Untagged
@@ -1182,6 +1183,109 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1489072897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489072894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfa826ee3fa4cd04a85d4a487da26e07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  receipts:
+  - Nodes:
+    - Name: Patatas
+      Guid: 18b4c10d-9a91-4ae8-9293-2438135f3fb7
+      Edges:
+      - target:
+          Name: Element node
+          Guid: 46da2a12-f0bc-4703-a620-12574cdc1f4d
+          Edges:
+          - target:
+              Name: Element node
+              Guid: 242d3585-b782-4b88-a365-d6a54c1c2a9c
+              Edges: []
+            Guid: 242d3585-b782-4b88-a365-d6a54c1c2a9c
+        Guid: 46da2a12-f0bc-4703-a620-12574cdc1f4d
+    - Name: Element node
+      Guid: 46da2a12-f0bc-4703-a620-12574cdc1f4d
+      Edges:
+      - target:
+          Name: Element node
+          Guid: 242d3585-b782-4b88-a365-d6a54c1c2a9c
+          Edges: []
+        Guid: 242d3585-b782-4b88-a365-d6a54c1c2a9c
+    - Name: Element node
+      Guid: 242d3585-b782-4b88-a365-d6a54c1c2a9c
+      Edges: []
+    - Name: Element node
+      Guid: 30ce78cb-b288-4886-b50d-b8edf5673cc1
+      Edges:
+      - target:
+          Name: Element node
+          Guid: 242d3585-b782-4b88-a365-d6a54c1c2a9c
+          Edges: []
+        Guid: 242d3585-b782-4b88-a365-d6a54c1c2a9c
+    First:
+      Name: Patatas
+      Guid: 18b4c10d-9a91-4ae8-9293-2438135f3fb7
+      Edges:
+      - target:
+          Name: Element node
+          Guid: 46da2a12-f0bc-4703-a620-12574cdc1f4d
+          Edges:
+          - target:
+              Name: Element node
+              Guid: 242d3585-b782-4b88-a365-d6a54c1c2a9c
+              Edges: []
+            Guid: 242d3585-b782-4b88-a365-d6a54c1c2a9c
+        Guid: 46da2a12-f0bc-4703-a620-12574cdc1f4d
+  - Nodes:
+    - Name: Hyacinth
+      Guid: 08adc19a-094b-4532-82ef-903a246a1d79
+      Edges:
+      - target:
+          Name: Blue Potion
+          Guid: ddb62fb7-4749-4bb8-92a8-e2b06e8cd2b6
+          Edges: []
+        Guid: ddb62fb7-4749-4bb8-92a8-e2b06e8cd2b6
+    - Name: Water
+      Guid: 695f75d1-0054-47ff-9cec-b8b6c164385e
+      Edges:
+      - target:
+          Name: Hyacinth
+          Guid: 08adc19a-094b-4532-82ef-903a246a1d79
+          Edges:
+          - target:
+              Name: Blue Potion
+              Guid: ddb62fb7-4749-4bb8-92a8-e2b06e8cd2b6
+              Edges: []
+            Guid: ddb62fb7-4749-4bb8-92a8-e2b06e8cd2b6
+        Guid: 08adc19a-094b-4532-82ef-903a246a1d79
+    - Name: Blue Potion
+      Guid: ddb62fb7-4749-4bb8-92a8-e2b06e8cd2b6
+      Edges: []
+    First:
+      Name: Water
+      Guid: 695f75d1-0054-47ff-9cec-b8b6c164385e
+      Edges:
+      - target:
+          Name: Hyacinth
+          Guid: 08adc19a-094b-4532-82ef-903a246a1d79
+          Edges:
+          - target:
+              Name: Blue Potion
+              Guid: ddb62fb7-4749-4bb8-92a8-e2b06e8cd2b6
+              Edges: []
+            Guid: ddb62fb7-4749-4bb8-92a8-e2b06e8cd2b6
+        Guid: 08adc19a-094b-4532-82ef-903a246a1d79
+  Components:
+  - {fileID: 11400000, guid: 82f72cd6b99d0204396787fe6117b6fa, type: 2}
+  - {fileID: 11400000, guid: c38f0db7c5d2762488d215c8762dd8d1, type: 2}
+  - {fileID: 11400000, guid: 2398712563e6f5e49958402976ba1857, type: 2}
 --- !u!1 &1577949601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1347,7 +1451,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590935772}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.961, y: -0.998, z: 0}
+  m_LocalPosition: {x: -5.469, y: -0.998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
