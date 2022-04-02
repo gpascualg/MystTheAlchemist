@@ -825,6 +825,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LifeProgress: {fileID: 1168402295}
   TextProgress: {fileID: 1940731337}
+  MaxTime: 0
+  ActualTime: 0
 --- !u!1 &1227816261
 GameObject:
   m_ObjectHideFlags: 0
