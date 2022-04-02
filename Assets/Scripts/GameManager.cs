@@ -54,8 +54,8 @@ public class GameManager : MonoBehaviour
         status = Status.Playing;
 
         menu = Menus.None;
-        OpenInventory();
-        OpenMixing();
+        //OpenInventory();
+        //OpenMixing();
     }
 
     // Update is called once per frame
