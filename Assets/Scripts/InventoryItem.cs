@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 
 
-public class InventoryItem : MonoBehaviour, IPointerClickHandler
+public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Component AlchemicComponent;
     public Image Sprite;
@@ -48,7 +48,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
 
         return this;
     }
-
+    
     public void OnPointerClick(PointerEventData eventData)
     {
         if (IsPlaceHolder)
@@ -56,13 +56,8 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
             return;
         }
 
-        if (eventData.button == PointerEventData.InputButton.Left)
+        if (GameManager.Instance.IsMixingOpen())
         {
-            if (!GameManager.Instance.IsMixingOpen())
-            {
-                return;
-            }
-
             // Remove from player and set to mixing
             if (!InMixing)
             {
@@ -71,8 +66,22 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
                     return;
                 }
 
-                GameManager.Instance.MainPlayer.UseElement(AlchemicComponent);
-                Mixing.Instance.AddComponent(AlchemicComponent);
+                while (GameManager.Instance.MainPlayer.HasElement(AlchemicComponent))
+                {
+                    GameManager.Instance.MainPlayer.RemoveElement(AlchemicComponent);
+                    Mixing.Instance.AddComponent(AlchemicComponent);
+
+                    // Only once (left / middle), or more?
+                    if (eventData.button != PointerEventData.InputButton.Right)
+                    {
+                        break;
+                    }
+                }
+
+                if (!GameManager.Instance.MainPlayer.HasElement(AlchemicComponent))
+                {
+                    Inventory.Instance.Tooltip.Hide();
+                }
             }
             else
             {
@@ -80,8 +89,30 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler
                 GameManager.Instance.MainPlayer.AddComponent(AlchemicComponent);
             }
         }
-
-        Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.name);
+        else if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            // Use item outside mixing
+            GameManager.Instance.MainPlayer.UseElement(AlchemicComponent);
+        }
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (InMixing)
+        {
+            return;
+        }
+
+        Inventory.Instance.Tooltip.Show(AlchemicComponent);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (InMixing)
+        {
+            return;
+        }
+
+        Inventory.Instance.Tooltip.Hide();
+    }
 }

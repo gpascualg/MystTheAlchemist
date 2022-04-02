@@ -62,6 +62,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RestoreSeconds(int seconds)
+    {
+        time += seconds;
+    }
+
     public void OpenInventory()
     {
         InventoryUI.gameObject.SetActive(true);

@@ -50,7 +50,23 @@ public class Player : MonoBehaviour
         OnItemAdd?.Invoke(AlchemicComponent, Inventory[AlchemicComponent]);
     }
 
+    public bool HasElement(Component AlchemicComponent)
+    {
+        return Inventory.ContainsKey(AlchemicComponent);
+    }
+
     public void UseElement(Component AlchemicComponent)
+    {
+        if (AlchemicComponent.RestoresSeconds <= 0)
+        {
+            return;
+        }
+
+        GameManager.Instance.RestoreSeconds(AlchemicComponent.RestoresSeconds);
+        RemoveElement(AlchemicComponent);
+    }
+
+    public void RemoveElement(Component AlchemicComponent)
     {
         if (Inventory.ContainsKey(AlchemicComponent))
         {

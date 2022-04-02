@@ -7,4 +7,6 @@ public class Component : ScriptableObject
 {
     public string Name;
     public string SpriteName;
+    public string Description;
+    public int RestoresSeconds = 0;
 }
