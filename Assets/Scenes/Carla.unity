@@ -826,7 +826,6 @@ MonoBehaviour:
   LifeProgress: {fileID: 1168402295}
   TextProgress: {fileID: 1940731337}
   MaxTime: 0
-  ActualTime: 0
 --- !u!1 &1227816261
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,6 +951,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1436165255}
   - component: {fileID: 1436165254}
+  - component: {fileID: 1436165256}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -976,6 +976,8 @@ MonoBehaviour:
   status: 0
   InventoryUI: {fileID: 17619310}
   MixingUI: {fileID: 2102074589}
+  OutlineMaterial: {fileID: 0}
+  NormalMaterial: {fileID: 0}
 --- !u!4 &1436165255
 Transform:
   m_ObjectHideFlags: 0
@@ -991,6 +993,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1436165256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436165253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70cadd8939906b544a42ae1e7e3d2b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxY: 0
+  MinY: 0
+  MaxX: 0
+  MinX: 0
+  Reload: 0
+  Hyacinth: {fileID: 265244826232371925, guid: d3a7ba1caf7b77547a98cecbd9310bff, type: 3}
+  Lavender: {fileID: 8255911349349332627, guid: 26764076c6e88804e804455a7bceca0d, type: 3}
 --- !u!1001 &1467423494
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1504,7 +1525,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b9a1025c0d586a49836b5b6ba465255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NearCandidates: []
   Inventory:
     m_Keys: []
     m_Values: 
