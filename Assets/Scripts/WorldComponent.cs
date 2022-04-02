@@ -22,7 +22,14 @@ public class WorldComponent : MonoBehaviour
 
     public void Gather(Player player)
     {
-        player.Inventory.Add(AlchemicComponent);
+        if (player.Inventory.ContainsKey(AlchemicComponent)){
+            player.Inventory[AlchemicComponent] += 1;
+        } else {
+            player.Inventory.Add(AlchemicComponent, 1);
+
+        }
+
+        player.OnItemAdd?.Invoke(AlchemicComponent);
         player.NearCandidates.Remove(this);
         Destroy(gameObject);
     }
