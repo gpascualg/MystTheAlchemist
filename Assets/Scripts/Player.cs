@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class Player : MonoBehaviour
 {
     public List<WorldComponent> NearCandidates = new List<WorldComponent>();
     public SerializedDictionary<Component, int> Inventory = new SerializedDictionary<Component, int>();
+    public Action<Component> OnItemAdd;
+    public Action<Component, int> OnItemRemove;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +48,7 @@ public class Player : MonoBehaviour
                 Inventory.Remove(AlchemicComponent);
 
             }
+            OnItemRemove?.Invoke(AlchemicComponent, Inventory[AlchemicComponent]);
         }
     }
 }
