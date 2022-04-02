@@ -77,6 +77,7 @@ public class GraphSaveUtility
             Debug.Log("deleting node");
             if (node.EntryPoint) continue;
             Edges.Where(x => x.input.node == node).ToList().ForEach(edge => _targetGraphView.RemoveElement(edge));
+            _targetGraphView.RemoveElement(node);
         }
     }
 

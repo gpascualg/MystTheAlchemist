@@ -13,17 +13,20 @@ MonoBehaviour:
   m_Name: New Narrative
   m_EditorClassIdentifier: 
   nodeLinks:
-  - BaseNodeGuid: 5b429bdb-5202-41ed-87ee-b03d670af22f
+  - BaseNodeGuid: 65ea0b2f-1250-43b9-9d0f-50b86361c5f1
     PortName: Next
-    TargetNodeGuid: 61e0424b-28ec-4a2a-9758-8ebba36e2ce3
-  - BaseNodeGuid: 61e0424b-28ec-4a2a-9758-8ebba36e2ce3
+    TargetNodeGuid: 28de6d01-abec-4457-a8b0-8c9dd426e261
+  - BaseNodeGuid: 28de6d01-abec-4457-a8b0-8c9dd426e261
     PortName: 'Choice 0 '
-    TargetNodeGuid: 37302364-5021-4956-9af9-4c6deac93971
+    TargetNodeGuid: 4f06c34e-2daa-4632-a9e8-ea83463a22a7
   nodeData:
-  - Guid: 61e0424b-28ec-4a2a-9758-8ebba36e2ce3
-    DialogueText: PATATA
-    Position: {x: 410, y: 180}
-  - Guid: 37302364-5021-4956-9af9-4c6deac93971
-    DialogueText: MONGETA
-    Position: {x: 710, y: 180}
+  - Guid: 28de6d01-abec-4457-a8b0-8c9dd426e261
+    DialogueText: Element node
+    Position: {x: 234, y: 200}
+  - Guid: 4f06c34e-2daa-4632-a9e8-ea83463a22a7
+    DialogueText: Element node
+    Position: {x: 868, y: 200}
+  - Guid: 65dbde46-69b0-4f30-877c-7f40b973e1ab
+    DialogueText: Element node
+    Position: {x: 727, y: 491}
   TargetNodeGuid: {x: 0, y: 0}
