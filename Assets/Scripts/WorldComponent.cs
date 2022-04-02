@@ -29,7 +29,7 @@ public class WorldComponent : MonoBehaviour
 
         }
 
-        player.Inventory.OnItemAdd?.Invoke(AlchemicComponent);
+        player.OnItemAdd?.Invoke(AlchemicComponent);
         player.NearCandidates.Remove(this);
         Destroy(gameObject);
     }

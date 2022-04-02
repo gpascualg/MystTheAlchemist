@@ -41,14 +41,15 @@ public class Player : MonoBehaviour
         {
             if (Inventory[AlchemicComponent] > 1)
             {
+                OnItemRemove?.Invoke(AlchemicComponent, Inventory[AlchemicComponent]);
                 Inventory[AlchemicComponent] -= 1;
             }
             else
             {
+                OnItemRemove?.Invoke(AlchemicComponent, 0);
                 Inventory.Remove(AlchemicComponent);
 
             }
-            OnItemRemove?.Invoke(AlchemicComponent, Inventory[AlchemicComponent]);
         }
     }
 }
