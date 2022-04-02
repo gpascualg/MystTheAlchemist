@@ -73,6 +73,11 @@ public class Mixing : MonoBehaviour
         }
     }
 
+    public bool HasComponent(Component component)
+    {
+        return components.ContainsKey(component);
+    }
+
     public void RemoveComponent(Component component)
     {
         if (!components.TryGetValue(component, out InventoryItem item))

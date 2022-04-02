@@ -28,6 +28,12 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
         return this;
     }
+    
+    private void ReloadSprite()
+    {
+        Sprite.sprite = AlchemicComponent.Sprite;
+        Sprite.SetNativeSize();
+    }
 
     public InventoryItem OnAddedToInventory(Component component, int qty)
     {
@@ -35,6 +41,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         IsPlaceHolder = false;
         AlchemicComponent = component;
         UpdateQuantity(qty);
+        ReloadSprite();
 
         return this;
     }
@@ -45,6 +52,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         IsPlaceHolder = false;
         AlchemicComponent = component;
         UpdateQuantity(qty);
+        ReloadSprite();
 
         return this;
     }
@@ -85,8 +93,17 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
             }
             else
             {
-                Mixing.Instance.RemoveComponent(AlchemicComponent);
-                GameManager.Instance.MainPlayer.AddComponent(AlchemicComponent);
+                while (Mixing.Instance.HasComponent(AlchemicComponent))
+                {
+                    Mixing.Instance.RemoveComponent(AlchemicComponent);
+                    GameManager.Instance.MainPlayer.AddComponent(AlchemicComponent);
+
+                    // Only once (left / middle), or more?
+                    if (eventData.button != PointerEventData.InputButton.Right)
+                    {
+                        break;
+                    }
+                }
             }
         }
         else if (eventData.button == PointerEventData.InputButton.Right)

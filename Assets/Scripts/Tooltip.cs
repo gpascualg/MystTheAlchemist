@@ -5,6 +5,9 @@ using TMPro;
 
 public class Tooltip : MonoBehaviour
 {
+    public GameObject MixingTooltip;
+    public GameObject InventoryTooltip;
+
     public TMP_Text Name;
     public TMP_Text Text;
 
