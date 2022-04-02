@@ -35,20 +35,34 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void AddComponent(Component AlchemicComponent)
+    {
+        if (Inventory.ContainsKey(AlchemicComponent))
+        {
+            Inventory[AlchemicComponent] += 1;
+        }
+        else
+        {
+            Inventory.Add(AlchemicComponent, 1);
+
+        }
+
+        OnItemAdd?.Invoke(AlchemicComponent, Inventory[AlchemicComponent]);
+    }
+
     public void UseElement(Component AlchemicComponent)
     {
         if (Inventory.ContainsKey(AlchemicComponent))
         {
             if (Inventory[AlchemicComponent] > 1)
             {
-                OnItemRemove?.Invoke(AlchemicComponent, Inventory[AlchemicComponent]);
                 Inventory[AlchemicComponent] -= 1;
+                OnItemRemove?.Invoke(AlchemicComponent, Inventory[AlchemicComponent]);
             }
             else
             {
-                OnItemRemove?.Invoke(AlchemicComponent, 0);
                 Inventory.Remove(AlchemicComponent);
-
+                OnItemRemove?.Invoke(AlchemicComponent, 0);
             }
         }
     }

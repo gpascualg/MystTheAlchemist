@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public static Inventory Instance;
+
     public GameObject ItemPrefab;
     public Transform Content;
     private Dictionary<Component, InventoryItem> components = new Dictionary<Component, InventoryItem>();
+
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void OnEnable()
     {
@@ -29,7 +37,7 @@ public class Inventory : MonoBehaviour
         else
         {
             var go = Instantiate(ItemPrefab, Content);
-            item = go.GetComponent<InventoryItem>().UpdateAll(component, qty);
+            item = go.GetComponent<InventoryItem>().OnAddedToInventory(component, qty);
             components.Add(component, item);
         }
     }
@@ -59,7 +67,9 @@ public class Inventory : MonoBehaviour
             return;
         }
 
-        RemoveItem(Content.GetChild(position).GetComponent<InventoryItem>().AlchemicComponent, 0);
+        var component = Content.GetChild(position).GetComponent<InventoryItem>().AlchemicComponent;
+        //RemoveItem(component, 0);
+        GameManager.Instance.MainPlayer.UseElement(component);
     }
 
     public void TestAdd()
@@ -67,7 +77,7 @@ public class Inventory : MonoBehaviour
         Component asset = ScriptableObject.CreateInstance<Component>();
         for (int i = 0, total = UnityEngine.Random.Range(1, 10); i < total; i++)
         {
-            AddItem(asset, i);
+            GameManager.Instance.MainPlayer.AddComponent(asset);
         }
     }
 

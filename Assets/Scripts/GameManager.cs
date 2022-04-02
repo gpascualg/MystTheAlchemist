@@ -11,12 +11,22 @@ public class GameManager : MonoBehaviour
         Dead = 2
     }
 
+    public enum Menus
+    {
+        Inventory = 1,
+        Mixing = 2,
+    }
+
     public static GameManager Instance;
 
     public Player MainPlayer;
     private float time;
     public GameObject EndScreen;
     public Status status;
+
+    public GameObject InventoryUI;
+    public GameObject MixingUI;
+    private Menus menu;
 
     // Start is called before the first frame update
     void Awake()
@@ -31,6 +41,7 @@ public class GameManager : MonoBehaviour
         //time = 5f;
         EndScreen.SetActive(false);
         status = Status.Playing;
+        menu = Menus.Inventory | Menus.Mixing;
     }
 
     // Update is called once per frame
@@ -48,6 +59,64 @@ public class GameManager : MonoBehaviour
             {
                 time -= Time.deltaTime;
             }
+        }
+    }
+
+    public void OpenInventory()
+    {
+        InventoryUI.gameObject.SetActive(true);
+        menu |= Menus.Inventory;
+    }
+
+    public void CloseInventory()
+    {
+        InventoryUI.gameObject.SetActive(false);
+        menu &= ~Menus.Inventory;
+    }
+
+    public bool IsInventoryOpen()
+    {
+        return (menu & Menus.Inventory) > 0;
+    }
+
+    public void ToggleInventory()
+    {
+        if (IsInventoryOpen())
+        {
+            OpenInventory();
+        }
+        else
+        {
+            CloseInventory();
+        }
+    }
+
+    public void OpenMixing()
+    {
+        MixingUI.gameObject.SetActive(true);
+        menu |= Menus.Mixing;
+    }
+
+    public void CloseMixing()
+    {
+        MixingUI.gameObject.SetActive(false);
+        menu &= ~Menus.Mixing;
+    }
+
+    public bool IsMixingOpen()
+    {
+        return (menu & Menus.Mixing) > 0;
+    }
+
+    public void ToggleMixing()
+    {
+        if (IsMixingOpen())
+        {
+            OpenMixing();
+        }
+        else
+        {
+            CloseMixing();
         }
     }
 }
