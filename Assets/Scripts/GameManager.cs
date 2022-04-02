@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
 
     public Player MainPlayer;
     private float time;
-    //public Canvas EndScreen;
     public GameObject EndScreen;
     public Status status;
 
@@ -24,8 +23,8 @@ public class GameManager : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         Instance = this;
-        //time = 300f;
-        time = 5f;
+        time = 300f;
+        //time = 5f;
         EndScreen.SetActive(false);
         status = Status.Playing;
     }
