@@ -23,7 +23,7 @@ public class WorldComponent : MonoBehaviour
     public void Gather(Player player)
     {
         player.AddComponent(AlchemicComponent);
-        player.NearCandidates.Remove(this);
+        player.RemoveFromNearest(this);
         Destroy(gameObject);
     }
 
@@ -32,7 +32,7 @@ public class WorldComponent : MonoBehaviour
         var player = GameManager.Instance.MainPlayer;
         if (collision.gameObject == player.gameObject)
         {
-            player.NearCandidates.Add(this);
+            player.AddToNearest(this);
         }
     }
 
@@ -41,7 +41,7 @@ public class WorldComponent : MonoBehaviour
         var player = GameManager.Instance.MainPlayer;
         if (collision.gameObject == player.gameObject)
         {
-            player.NearCandidates.Remove(this);
+            player.RemoveFromNearest(this);
         }
     }
 }

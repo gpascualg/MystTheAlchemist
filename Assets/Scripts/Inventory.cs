@@ -23,13 +23,13 @@ public class Inventory : MonoBehaviour
         Tooltip.gameObject.SetActive(false);
     }
 
-    private void OnEnable()
+    public void Subscribe()
     {
         GameManager.Instance.MainPlayer.OnItemAdd += AddItem;
         GameManager.Instance.MainPlayer.OnItemRemove += RemoveItem;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         GameManager.Instance.MainPlayer.OnItemAdd -= AddItem;
         GameManager.Instance.MainPlayer.OnItemRemove -= RemoveItem;

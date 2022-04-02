@@ -6,10 +6,13 @@ using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
-    public List<WorldComponent> NearCandidates = new List<WorldComponent>();
+    private List<WorldComponent> nearCandidates = new List<WorldComponent>();
     public SerializedDictionary<Component, int> Inventory = new SerializedDictionary<Component, int>();
     public Action<Component, int> OnItemAdd;
     public Action<Component, int> OnItemRemove;
+
+    private float nearestComponentDist = float.PositiveInfinity;
+    private WorldComponent nearestComponent;
 
     // Start is called before the first frame update
     void Start()
@@ -22,15 +25,71 @@ public class Player : MonoBehaviour
         return (comp.transform.position - transform.position).sqrMagnitude;
     }
 
+    public void AddToNearest(WorldComponent component)
+    {
+        nearCandidates.Add(component);
+
+        float distance = DistanceTo(component);
+        if (distance < nearestComponentDist)
+        {
+            NormalNearest();
+            nearestComponentDist = distance;
+            nearestComponent = component;
+            HighlightNearest();
+        }
+    }
+
+    public void RemoveFromNearest(WorldComponent component)
+    {
+        nearCandidates.Remove(component);
+
+        if (component == nearestComponent)
+        {
+            NormalNearest();
+            nearestComponent = null;
+            if (nearCandidates.Count > 0)
+            {
+                nearCandidates.Sort((x, y) => DistanceTo(x).CompareTo(DistanceTo(y)));
+                nearestComponentDist = DistanceTo(nearCandidates[0]);
+                nearestComponent = nearCandidates[0];
+                HighlightNearest();
+            }
+        }
+    }
+
+    private void NormalNearest()
+    {
+        if (nearestComponent != null)
+        {
+            nearestComponent.GetComponent<SpriteRenderer>().material = GameManager.Instance.NormalMaterial;
+        }
+    }
+
+    private void HighlightNearest()
+    {
+        nearestComponent.GetComponent<SpriteRenderer>().material = GameManager.Instance.OutlineMaterial;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (NearCandidates.Count > 0)
+            if (nearCandidates.Count > 0)
             {
-                NearCandidates.Sort((x, y) => DistanceTo(x).CompareTo(DistanceTo(y)));
-                NearCandidates[0].Gather(this);
+                nearestComponent.Gather(this);
+            }
+        }
+
+        if (nearCandidates.Count > 0)
+        {
+            nearCandidates.Sort((x, y) => DistanceTo(x).CompareTo(DistanceTo(y)));
+            if (nearCandidates[0] != nearestComponent)
+            {
+                NormalNearest();
+                nearestComponentDist = DistanceTo(nearCandidates[0]);
+                nearestComponent = nearCandidates[0];
+                HighlightNearest();
             }
         }
     }

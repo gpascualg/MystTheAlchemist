@@ -32,11 +32,13 @@ public class GameManager : MonoBehaviour
     private Menus menu;
 
     public Action<int> OnTimeChange;
-
     public Action OnInventoryOpened;
     public Action OnInventoryClosed;
     public Action OnMixingOpened;
     public Action OnMixingClosed;
+
+    public Material OutlineMaterial;
+    public Material NormalMaterial;
 
     // Start is called before the first frame update
     void Awake()
@@ -56,6 +58,9 @@ public class GameManager : MonoBehaviour
         menu = Menus.None;
         //OpenInventory();
         //OpenMixing();
+
+        // Subscribe Inventory
+        InventoryUI.GetComponent<Inventory>().Subscribe();
     }
 
     // Update is called once per frame
