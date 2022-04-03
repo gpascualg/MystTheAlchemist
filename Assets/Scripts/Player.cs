@@ -14,10 +14,16 @@ public class Player : MonoBehaviour
     private float nearestComponentDist = float.PositiveInfinity;
     private WorldComponent nearestComponent;
 
+    private List<ReceiptComponents> learnedReceipts = new List<ReceiptComponents>();
+    private HashSet<string> alreadyKnownReceipts = new HashSet<string>();
+    public Action<ReceiptComponents> OnLearnedReceipt;
+
     // Start is called before the first frame update
     void Start()
     {
-           
+        learnedReceipts.Add(Receipts.Instance.FindReceiptAt(0));
+        alreadyKnownReceipts.Add(Receipts.Instance.FindReceiptAt(0).GUID);
+        OnLearnedReceipt?.Invoke(Receipts.Instance.FindReceiptAt(0));
     }
 
     private float DistanceTo(WorldComponent comp)

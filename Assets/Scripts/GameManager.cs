@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class GameManager : MonoBehaviour
 {
     public enum Status
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject InventoryUI;
     public GameObject MixingUI;
+    public GameObject ReceiptsUI;
     private Menus menu;
 
     public Action<int> OnTimeChange;
@@ -41,6 +43,8 @@ public class GameManager : MonoBehaviour
 
     public Material OutlineMaterial;
     public Material NormalMaterial;
+
+    
 
     // Start is called before the first frame update
     void Awake()
@@ -63,6 +67,7 @@ public class GameManager : MonoBehaviour
 
         // Subscribe Inventory
         InventoryUI.GetComponent<Inventory>().Subscribe();
+        ReceiptsUI.GetComponent<ReceiptsList>().Subscribe();
     }
 
     // Update is called once per frame
@@ -80,6 +85,12 @@ public class GameManager : MonoBehaviour
             {
                 time -= Time.deltaTime;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseInventory();
+            CloseMixing();
         }
     }
 
@@ -123,6 +134,7 @@ public class GameManager : MonoBehaviour
     public void OpenMixing()
     {
         MixingUI.gameObject.SetActive(true);
+        ReceiptsUI.gameObject.SetActive(true);
         menu |= Menus.Mixing;
         OnMixingOpened?.Invoke();
     }
@@ -130,6 +142,7 @@ public class GameManager : MonoBehaviour
     public void CloseMixing()
     {
         MixingUI.gameObject.SetActive(false);
+        ReceiptsUI.gameObject.SetActive(false);
         menu &= ~Menus.Mixing;
         OnMixingClosed?.Invoke();
     }

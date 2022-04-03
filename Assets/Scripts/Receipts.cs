@@ -1,8 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using System.Text;
+using System.Security.Cryptography;
 using UnityEngine;
 
+
+
+[Serializable]
+public class JSONReceipt
+{
+    public string Name;
+    public List<string> Components;
+    public string GUID;
+}
+
+public class ReceiptComponents
+{
+    public Component Final;
+    public List<Component> Components;
+
+    public static string ComponentName(Component component)
+    {
+        return component.Name;
+    }
+
+    public string GUID
+    {
+        get
+        {
+            using (SHA256 mySHA256 = SHA256.Create())
+            {
+                var data = new List<byte>(Final.BinaryGUID);
+                foreach (var component in Components)
+                {
+                    data.AddRange(component.BinaryGUID);
+                }
+
+                var hash = mySHA256.ComputeHash(data.ToArray());
+                return BitConverter.ToString(hash);
+            }
+        }
+    }
+
+    public JSONReceipt Serialize()
+    {
+        return new JSONReceipt()
+        {
+            Name = Final.Name,
+            Components = Components.ConvertAll(new Converter<Component, string>(ComponentName)),
+            GUID = GUID
+        };
+    }
+}
 
 [ExecuteInEditMode]
 public class Receipts : MonoBehaviour
@@ -32,16 +83,15 @@ public class Receipts : MonoBehaviour
 
     public static Receipts Instance;
 
-    [SerializeField]
-    private List<Receipt> receipts = new List<Receipt>();
-
-    private Dictionary<Component, List<Receipt>> receiptsByComponent = new Dictionary<Component, List<Receipt>>();
+    private List<Receipt> receiptsGraph = new List<Receipt>();
+    private Dictionary<Component, List<Receipt>> receiptsGraphByComponent = new Dictionary<Component, List<Receipt>>();
     
-    [SerializeField]
     public List<Component> Components = new List<Component>();
-
     public Dictionary<string, Component> ComponentsByName = new Dictionary<string, Component>();
 
+    private List<ReceiptComponents> receipts = new List<ReceiptComponents>();
+    private Dictionary<string, ReceiptComponents> receiptsByName = new Dictionary<string, ReceiptComponents>();
+    private Dictionary<string, ReceiptComponents> receiptsByGUID = new Dictionary<string, ReceiptComponents>();
 
     private void Awake()
     {
@@ -54,10 +104,24 @@ public class Receipts : MonoBehaviour
         LoadGraphs();
     }
 
+    public ReceiptComponents FindReceipt(string GUID)
+    {
+        return receiptsByGUID.TryGetValue(GUID, out ReceiptComponents receipts) ? receipts : null;
+    }
+
+    public ReceiptComponents FindReceiptAt(int loc)
+    {
+        return receipts[loc];
+    }
+
     public void LoadGraphs()
     {
+        receiptsGraph.Clear();
+        receiptsGraphByComponent.Clear();
+
         receipts.Clear();
-        receiptsByComponent.Clear();
+        receiptsByName.Clear();
+        receiptsByGUID.Clear();
 
         var resources = Resources.LoadAll<ElementContainer>("");
         foreach (var graph in resources)
@@ -68,19 +132,39 @@ public class Receipts : MonoBehaviour
             if (receipt.First.AlchemicComponent == null)
             {
                 Debug.LogError($"Invalid receipt {graph.name}");
-                return;
+                continue;
             }
 
-            receipts.Add(receipt);
-
-            if (receiptsByComponent.ContainsKey(receipt.First.AlchemicComponent))
+            receiptsGraph.Add(receipt);
+            if (receiptsGraphByComponent.ContainsKey(receipt.First.AlchemicComponent))
             {
-                receiptsByComponent[receipt.First.AlchemicComponent].Add(receipt);
+                receiptsGraphByComponent[receipt.First.AlchemicComponent].Add(receipt);
             }
             else
             {
-                receiptsByComponent.Add(receipt.First.AlchemicComponent, new List<Receipt> { receipt });
+                receiptsGraphByComponent.Add(receipt.First.AlchemicComponent, new List<Receipt> { receipt });
             }
+
+            ReceiptComponents receiptComponents = new ReceiptComponents()
+            {
+                Components = new List<Component>()
+            };
+            
+            Node node = receipt.First;
+            Edge edge = receipt.First.Edges[0];
+            while (edge != null)
+            {
+                receiptComponents.Components.Add(node.AlchemicComponent);
+                node = edge.target;
+                edge = node.Edges.FirstOrDefault();
+            }
+            receiptComponents.Final = node.AlchemicComponent;
+
+            receipts.Add(receiptComponents);
+            receiptsByName.Add(receiptComponents.Final.name, receiptComponents);
+            receiptsByGUID.Add(receiptComponents.GUID, receiptComponents);
+
+            Debug.Log($"Loaded receipt {receiptComponents.Final.Name} ({receiptComponents.GUID}) with {receiptComponents.Components.Count} ingredients");
         }
     }
 
