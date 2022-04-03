@@ -111,6 +111,7 @@ public class Receipts : MonoBehaviour
     
     public List<Component> Components = new List<Component>();
     public Dictionary<string, Component> ComponentsByName = new Dictionary<string, Component>();
+    public Dictionary<ComponentType, List<Component>> ComponentsByType = new Dictionary<ComponentType, List<Component>>();
 
     private List<ReceiptComponents> receipts = new List<ReceiptComponents>();
     private Dictionary<string, ReceiptComponents> receiptsByName = new Dictionary<string, ReceiptComponents>();
@@ -135,6 +136,12 @@ public class Receipts : MonoBehaviour
     public ReceiptComponents FindReceiptAt(int loc)
     {
         return receipts[loc];
+    }
+
+    public Component GetRandomComponentOfType(ComponentType type)
+    {
+        var components = ComponentsByType[type];
+        return components[UnityEngine.Random.Range(0, components.Count - 1)];
     }
 
     public void LoadGraphs()
@@ -197,9 +204,16 @@ public class Receipts : MonoBehaviour
         Components = Resources.LoadAll<Component>("AlchemicComponents").ToList();
 
         ComponentsByName.Clear();
+        ComponentsByType.Clear();
+
+        ComponentsByType.Add(ComponentType.Agent, new List<Component>());
+        ComponentsByType.Add(ComponentType.Base, new List<Component>());
+        ComponentsByType.Add(ComponentType.Potion, new List<Component>());
+
         foreach (var concoction in Components)
         {
             ComponentsByName.Add(concoction.Name, concoction);
+            ComponentsByType[concoction.ComponentType].Add(concoction);
         }
     }
 

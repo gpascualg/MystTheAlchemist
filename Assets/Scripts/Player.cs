@@ -53,6 +53,11 @@ public class Player : MonoBehaviour
         return result;
     }
 
+    public bool Knows(ReceiptComponents receipt)
+    {
+        return alreadyKnownReceipts.Contains(receipt.GUID);
+    }
+
     public void AddToNearest(WorldComponent component)
     {
         nearCandidates.Add(component);

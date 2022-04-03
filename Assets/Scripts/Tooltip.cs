@@ -47,8 +47,17 @@ public class Tooltip : MonoBehaviour
 
     public void Show(Component component, bool hideMouseActions = false)
     {
-        Name.text = component.Name;
-        Text.text = component.Description;
+        if (component.ComponentType == ComponentType.Potion && !GameManager.Instance.MainPlayer.Knows(component.ReceiptComponents))
+        {
+            Name.text = "Dubious Concoction";
+            Text.text = "A yet to be drank concoction, one of a kind.";
+        }
+        else
+        {
+            Name.text = component.Name;
+            Text.text = component.Description;
+        }
+
         gameObject.SetActive(true);
 
         if (hideMouseActions)

@@ -40,7 +40,8 @@ public class JSONComponent
 
         Component asset = ScriptableObject.CreateInstance<Component>();
         asset.Name = Name;
-        //asset.Sprite = ;
+        asset.TransmogName = TransmogName;
+        asset.Sprite = Receipts.Instance.ComponentsByName[TransmogName].Sprite;
         asset.ComponentType = (ComponentType)Type;
         asset.ReceiptComponents = Receipt.Deserialize();
         asset.RestoresSeconds = RestoresSeconds;
@@ -75,7 +76,8 @@ public class JSONComponentWithoutReceipt
 
         Component asset = ScriptableObject.CreateInstance<Component>();
         asset.Name = Name;
-        //asset.Sprite = ;
+        asset.TransmogName = TransmogName;
+        asset.Sprite = Receipts.Instance.ComponentsByName[TransmogName].Sprite;
         asset.ComponentType = (ComponentType)Type;
         asset.ReceiptComponents = null;
         asset.RestoresSeconds = RestoresSeconds;
