@@ -37,6 +37,8 @@ public class GameManager : MonoBehaviour
     public Action OnMixingOpened;
     public Action OnMixingClosed;
 
+    public GameObject ETooltip;
+
     public Material OutlineMaterial;
     public Material NormalMaterial;
 
@@ -147,6 +149,20 @@ public class GameManager : MonoBehaviour
         {
             CloseMixing();
         }
+    }
+
+    public void ShowETooltip(Vector3 position, float z = 0.0f)
+    {
+        position.x += 0.1f;
+        position.y += 0.1f;
+        position.z = z - 0.01f;
+        ETooltip.transform.position = position;
+        ETooltip.SetActive(true);
+    }
+
+    public void HideETooltip()
+    {
+        ETooltip.SetActive(false);
     }
 
     public float getTime()

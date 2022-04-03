@@ -62,12 +62,14 @@ public class Player : MonoBehaviour
         if (nearestComponent != null)
         {
             nearestComponent.GetComponent<SpriteRenderer>().material = GameManager.Instance.NormalMaterial;
+            GameManager.Instance.HideETooltip();
         }
     }
 
     private void HighlightNearest()
     {
         nearestComponent.GetComponent<SpriteRenderer>().material = GameManager.Instance.OutlineMaterial;
+        GameManager.Instance.ShowETooltip(nearestComponent.transform.position);
     }
 
     // Update is called once per frame
