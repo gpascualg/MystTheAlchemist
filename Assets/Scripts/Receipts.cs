@@ -12,6 +12,7 @@ public class Receipts : MonoBehaviour
     {
         public string Name;
         public string Guid;
+        public Component AlchemicComponent;
         public List<Edge> Edges;
     }
 
@@ -33,6 +34,8 @@ public class Receipts : MonoBehaviour
 
     [SerializeField]
     private List<Receipt> receipts = new List<Receipt>();
+
+    private Dictionary<Component, List<Receipt>> receiptsByComponent = new Dictionary<Component, List<Receipt>>();
     
     [SerializeField]
     public List<Component> Components = new List<Component>();
@@ -54,6 +57,7 @@ public class Receipts : MonoBehaviour
     public void LoadGraphs()
     {
         receipts.Clear();
+        receiptsByComponent.Clear();
 
         var resources = Resources.LoadAll<ElementContainer>("");
         foreach (var graph in resources)
@@ -61,7 +65,22 @@ public class Receipts : MonoBehaviour
             Receipt receipt = new Receipt();
             CreateNodes(graph, receipt);
             ConnectNodes(graph, receipt);
+            if (receipt.First.AlchemicComponent == null)
+            {
+                Debug.LogError($"Invalid receipt {graph.name}");
+                return;
+            }
+
             receipts.Add(receipt);
+
+            if (receiptsByComponent.ContainsKey(receipt.First.AlchemicComponent))
+            {
+                receiptsByComponent[receipt.First.AlchemicComponent].Add(receipt);
+            }
+            else
+            {
+                receiptsByComponent.Add(receipt.First.AlchemicComponent, new List<Receipt> { receipt });
+            }
         }
     }
 
@@ -81,10 +100,21 @@ public class Receipts : MonoBehaviour
         Debug.Log("creating nodes");
         foreach (var nodeData in container.nodeData)
         {
+            Component alchemicComponent = null;
+            if (ComponentsByName.ContainsKey(nodeData.DialogueText))
+            {
+                alchemicComponent = ComponentsByName[nodeData.DialogueText];
+            }
+            else
+            {
+                Debug.LogError($"Receipt {container.name} has invalid component {nodeData.DialogueText}");
+            }
+
             Debug.Log("adding node");
             receipt.Nodes.Add(new Node()
             {
                 Name = nodeData.DialogueText,
+                AlchemicComponent = alchemicComponent,
                 Guid = nodeData.Guid,
                 Edges = new List<Edge>()
             });
