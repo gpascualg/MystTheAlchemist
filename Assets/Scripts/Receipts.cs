@@ -29,6 +29,8 @@ public class Receipts : MonoBehaviour
         public Node First;
     }
 
+    public static Receipts Instance;
+
     [SerializeField]
     private List<Receipt> receipts = new List<Receipt>();
     
@@ -37,6 +39,11 @@ public class Receipts : MonoBehaviour
 
     public Dictionary<string, Component> ComponentsByName = new Dictionary<string, Component>();
 
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void OnEnable()
     {
