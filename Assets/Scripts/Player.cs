@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     private HashSet<string> alreadyKnownReceipts = new HashSet<string>();
     public Action<ReceiptComponents> OnLearnedReceipt;
 
+    public GameObject FloatingText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -148,5 +150,16 @@ public class Player : MonoBehaviour
                 OnItemRemove?.Invoke(AlchemicComponent, 0);
             }
         }
+    }
+
+     private void OnDisable()
+    {
+        GameManager.Instance.OnTimeChange += FloatingTex;
+    }
+
+    public void FloatingTex(int time)
+    {
+        var t = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
+        t.GetComponent<TextMesh>().text = time.ToString();
     }
 }

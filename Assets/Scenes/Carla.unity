@@ -821,6 +821,7 @@ MonoBehaviour:
   Inventory:
     m_Keys: []
     m_Values: 
+  FloatingText: {fileID: 8229814928045918513, guid: e4dce86a2a564494a820df894eb8487f, type: 3}
 --- !u!212 &927823520
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1025,11 +1026,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfa826ee3fa4cd04a85d4a487da26e07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  receipts: []
   Components:
   - {fileID: 11400000, guid: 82f72cd6b99d0204396787fe6117b6fa, type: 2}
   - {fileID: 11400000, guid: 721338949d8ee8e4991fce91f7abf56c, type: 2}
   - {fileID: 11400000, guid: ea978fc57f4f97f4bbe91bfdfab1217a, type: 2}
+  - {fileID: 11400000, guid: e561885752df8b943924ce2d716e9bb1, type: 2}
 --- !u!114 &1383231702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1047,8 +1048,10 @@ MonoBehaviour:
   status: 0
   InventoryUI: {fileID: 1450887093}
   MixingUI: {fileID: 408133640}
+  ReceiptsUI: {fileID: 0}
   ProgressBar: {fileID: 2039615544}
   InventoryIcon: {fileID: 1904163058}
+  ETooltip: {fileID: 0}
   OutlineMaterial: {fileID: 2100000, guid: 98cc667a80cbe1548b3ca295909824dc, type: 2}
   NormalMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
 --- !u!4 &1383231703
@@ -2156,7 +2159,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.1552346, y: 1}
+    m_SensorSize: {x: 2.1513515, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
