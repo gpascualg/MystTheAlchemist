@@ -73,6 +73,7 @@ public class GenerateMap : MonoBehaviour
                 foreach (var component in Receipts.Instance.Components)
                 {
                     if (component.ComponentType == ComponentType.Potion) continue;
+                    if (component.Prefab == null) continue;
                     if (OpenSimplex2.Noise2(currentSeed, x, y) > component.Threshold){
 
                         float newX = x + OpenSimplex2.Noise2(currentSeed + UnityEngine.Random.Range(100, 300), x, y);

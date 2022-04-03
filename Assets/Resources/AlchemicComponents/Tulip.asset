@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2438ab2419b139478362a8a189cdba3, type: 3}
-  m_Name: DeepRain
+  m_Name: Tulip
   m_EditorClassIdentifier: 
-  Name: Deep Rain
-  Sprite: {fileID: 21300000, guid: 14e211c1159c1a94a992aa266b9a5408, type: 3}
-  Prefab: {fileID: 98341889937692627, guid: 32efdbcb3cc61ac4bb26876e44372883, type: 3}
-  Description: Exumes a clear air
-  RestoresSeconds: 2
+  Name: Tulip
+  Sprite: {fileID: 21300000, guid: b29fb9876dbac2446bd8d4019d2d1412, type: 3}
+  Prefab: {fileID: 0}
+  Description: 
+  RestoresSeconds: 0
   Threshold: 0
-  ComponentType: 2
+  ComponentType: 0
