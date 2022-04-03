@@ -141,7 +141,7 @@ public class Receipts : MonoBehaviour
     public Component GetRandomComponentOfType(ComponentType type)
     {
         var components = ComponentsByType[type];
-        return components[UnityEngine.Random.Range(0, components.Count - 1)];
+        return components[UnityEngine.Random.Range(0, components.Count)];
     }
 
     public void LoadGraphs()
@@ -214,6 +214,7 @@ public class Receipts : MonoBehaviour
         ComponentsByType.Add(ComponentType.Agent, new List<Component>());
         ComponentsByType.Add(ComponentType.Base, new List<Component>());
         ComponentsByType.Add(ComponentType.Potion, new List<Component>());
+        ComponentsByType.Add(ComponentType.Flower, new List<Component>());
 
         foreach (var concoction in Components)
         {

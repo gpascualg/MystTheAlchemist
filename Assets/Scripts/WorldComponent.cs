@@ -7,6 +7,8 @@ using UnityEngine;
 public class WorldComponent : MonoBehaviour
 {
     public Component AlchemicComponent;
+    
+    public int WorldId { get; set; }
 
     // Start is called before the first frame update
     void Start()
