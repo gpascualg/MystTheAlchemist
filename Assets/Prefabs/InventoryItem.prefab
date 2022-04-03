@@ -231,6 +231,8 @@ MonoBehaviour:
   Quantity: {fileID: 2836975441282216712}
   InMixing: 0
   IsPlaceHolder: 0
+  IsReceipt: 0
+  ReceiptGUID: 
 --- !u!1 &7812338028054573602
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 936216e35858359498b2e27992ae8357, type: 2}
+  m_Material: {fileID: 2100000, guid: 95261aa4245e3ae4d93aa2a17b9d8b01, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}

@@ -159,6 +159,7 @@ public class Receipts : MonoBehaviour
                 edge = node.Edges.FirstOrDefault();
             }
             receiptComponents.Final = node.AlchemicComponent;
+            receiptComponents.Final.ReceiptComponents = receiptComponents;
 
             receipts.Add(receiptComponents);
             receiptsByName.Add(receiptComponents.Final.Name, receiptComponents);

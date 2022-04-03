@@ -1,9 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+[System.Serializable]
+public class SaveGame
+{
+    public int Seed;
+    public List<JSONReceipt> Receipts;
+    public List<JSONComponent> Inventory;
+}
+
+[System.Serializable]
+public class JSONComponent
+{
+
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -59,7 +74,7 @@ public class GameManager : MonoBehaviour
     {
         time = 300f;
         OnTimeChange?.Invoke((int)time);
-        time = 30f;
+        //time = 30f;
         EndScreen.SetActive(false);
         status = Status.Playing;
 
@@ -184,5 +199,16 @@ public class GameManager : MonoBehaviour
     public float getTime()
     {
         return this.time;
+    }
+
+    public void SaveGame()
+    {
+        using (StreamWriter outputFile = new StreamWriter(Path.Combine(Application.persistentDataPath, "save.dat")))
+        {
+            outputFile.Write(JsonUtility.ToJson(new SaveGame()
+            {
+                Seed = 0
+            }));
+        }        
     }
 }

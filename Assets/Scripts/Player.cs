@@ -124,13 +124,19 @@ public class Player : MonoBehaviour
 
     public void UseElement(Component AlchemicComponent)
     {
-        if (AlchemicComponent.RestoresSeconds <= 0)
+        if (AlchemicComponent.RestoresSeconds == 0)
         {
             return;
         }
 
         GameManager.Instance.RestoreSeconds(AlchemicComponent.RestoresSeconds);
         RemoveElement(AlchemicComponent);
+
+        if (alreadyKnownReceipts.Add(AlchemicComponent.ReceiptComponents.GUID))
+        {
+            learnedReceipts.Add(AlchemicComponent.ReceiptComponents);
+            OnLearnedReceipt?.Invoke(AlchemicComponent.ReceiptComponents);
+        }
     }
 
     public void RemoveElement(Component AlchemicComponent)
