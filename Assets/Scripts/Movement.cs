@@ -15,20 +15,23 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector2 vel = Vector2.zero;
-        if (Input.GetKey(KeyCode.W)) {
-            vel.y += 1;
-        }
-        if (Input.GetKey(KeyCode.A)) {
-            vel.x -= 1;
-        }
-        if (Input.GetKey(KeyCode.S)) {
-            vel.y -= 1;
-        }
-        if (Input.GetKey(KeyCode.D)) {
-            vel.x += 1;
-        }
+        if(!GameManager.Instance.IsInventoryOpen() && !GameManager.Instance.IsMixingOpen()) 
+        { 
+            Vector2 vel = Vector2.zero;
+            if (Input.GetKey(KeyCode.W)) {
+                vel.y += 1;
+            }
+            if (Input.GetKey(KeyCode.A)) {
+                vel.x -= 1;
+            }
+            if (Input.GetKey(KeyCode.S)) {
+                vel.y -= 1;
+            }
+            if (Input.GetKey(KeyCode.D)) {
+                vel.x += 1;
+            }
 
-        rg.velocity = vel * Speed;
+            rg.velocity = vel * Speed;
+        }
     }
 }
