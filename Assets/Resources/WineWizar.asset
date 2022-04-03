@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc24db33263e2eb4688f1d2841680242, type: 3}
+  m_Name: WineWizar
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - BaseNodeGuid: a29271c0-cf16-4ddd-b022-884d0429b477
+    PortName: Next
+    TargetNodeGuid: d78a9783-3ab5-4644-b47f-bb80bdb71f92
+  - BaseNodeGuid: d78a9783-3ab5-4644-b47f-bb80bdb71f92
+    PortName: 'Choice 0 '
+    TargetNodeGuid: c49b0b24-408c-4a0c-96df-156e8da477e1
+  - BaseNodeGuid: c49b0b24-408c-4a0c-96df-156e8da477e1
+    PortName: 'Choice 0 '
+    TargetNodeGuid: ea509330-3de1-4f47-9660-b97349267abc
+  - BaseNodeGuid: ea509330-3de1-4f47-9660-b97349267abc
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 24807052-2511-4852-9bc4-ac90ac52b667
+  nodeData:
+  - Guid: d78a9783-3ab5-4644-b47f-bb80bdb71f92
+    DialogueText: Water
+    Position: {x: 207, y: 200}
+  - Guid: c49b0b24-408c-4a0c-96df-156e8da477e1
+    DialogueText: Rhodolite
+    Position: {x: 470, y: 200}
+  - Guid: ea509330-3de1-4f47-9660-b97349267abc
+    DialogueText: Cosmos
+    Position: {x: 728, y: 200}
+  - Guid: 24807052-2511-4852-9bc4-ac90ac52b667
+    DialogueText: Wine of Wizardry
+    Position: {x: 996, y: 200}
+  TargetNodeGuid: {x: 0, y: 0}

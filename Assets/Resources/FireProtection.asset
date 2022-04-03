@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc24db33263e2eb4688f1d2841680242, type: 3}
+  m_Name: FireProtection
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - BaseNodeGuid: 77f573e1-dcd6-47fd-9aab-d606866e01a4
+    PortName: Next
+    TargetNodeGuid: 1cd43b61-21b2-47de-ac81-c874cde29b03
+  - BaseNodeGuid: 1cd43b61-21b2-47de-ac81-c874cde29b03
+    PortName: 'Choice 0 '
+    TargetNodeGuid: e90ba033-29d6-4b6a-b954-f1af8a074219
+  - BaseNodeGuid: e90ba033-29d6-4b6a-b954-f1af8a074219
+    PortName: 'Choice 0 '
+    TargetNodeGuid: bafc5ea0-6e57-4f0e-8e77-a6c86de022e7
+  nodeData:
+  - Guid: 1cd43b61-21b2-47de-ac81-c874cde29b03
+    DialogueText: Fire
+    Position: {x: 128, y: 139}
+  - Guid: e90ba033-29d6-4b6a-b954-f1af8a074219
+    DialogueText: Rhodolite
+    Position: {x: 404, y: 139}
+  - Guid: bafc5ea0-6e57-4f0e-8e77-a6c86de022e7
+    DialogueText: Fire Protection
+    Position: {x: 734, y: 139}
+  TargetNodeGuid: {x: 0, y: 0}

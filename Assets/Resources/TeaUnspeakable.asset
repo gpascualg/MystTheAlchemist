@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc24db33263e2eb4688f1d2841680242, type: 3}
+  m_Name: TeaUnspeakable
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - BaseNodeGuid: fb0001f2-b19e-4bbf-8598-a7808fab87e2
+    PortName: Next
+    TargetNodeGuid: 10554c24-157c-46f9-a9fa-69c2f3fb28ab
+  - BaseNodeGuid: 10554c24-157c-46f9-a9fa-69c2f3fb28ab
+    PortName: 'Choice 0 '
+    TargetNodeGuid: cc3bd96d-22ea-4767-92a1-e1a0801c05f0
+  - BaseNodeGuid: cc3bd96d-22ea-4767-92a1-e1a0801c05f0
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 15bfc72c-77d5-4834-a878-a9bf7e8f03b9
+  - BaseNodeGuid: 15bfc72c-77d5-4834-a878-a9bf7e8f03b9
+    PortName: 'Choice 0 '
+    TargetNodeGuid: d3802bee-d254-4449-b64b-f91ad8d1d75e
+  nodeData:
+  - Guid: 10554c24-157c-46f9-a9fa-69c2f3fb28ab
+    DialogueText: Tree Branch
+    Position: {x: 98, y: 200}
+  - Guid: cc3bd96d-22ea-4767-92a1-e1a0801c05f0
+    DialogueText: Brew of Distraction
+    Position: {x: 372, y: 200}
+  - Guid: d3802bee-d254-4449-b64b-f91ad8d1d75e
+    DialogueText: Tea of Unspeakable Terror
+    Position: {x: 931, y: 200}
+  - Guid: 15bfc72c-77d5-4834-a878-a9bf7e8f03b9
+    DialogueText: Topaz
+    Position: {x: 699, y: 325}
+  TargetNodeGuid: {x: 0, y: 0}
