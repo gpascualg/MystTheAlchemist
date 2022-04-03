@@ -18,6 +18,7 @@ public class GenerateMap : MonoBehaviour
     public List<GameObject> JunctionT;
     public List<GameObject> Straight;
     public List<GameObject> Turn;
+    public List<GameObject> Filling;
 
     private bool[,] map;
 
@@ -82,7 +83,7 @@ public class GenerateMap : MonoBehaviour
                         float newY = y + OpenSimplex2.Noise2(Seed + UnityEngine.Random.Range(100, 300), x, y);
                         Vector3 position = new Vector3(newX, newY, -0.25f);
 
-                        Debug.Log(component.Name + " at: (" + newX + ", " + newY + ")");
+                        //Debug.Log(component.Name + " at: (" + newX + ", " + newY + ")");
 
                         GameObject newObject = Instantiate(component.Prefab, position, Quaternion.identity, ComponentsContainer.transform);
 
@@ -201,12 +202,17 @@ public class GenerateMap : MonoBehaviour
                 {
                     continue;
                 }
-
+                
                 bool left = (x > 0) && map[x - 1, y];
                 bool right = (x < width - 1) && map[x + 1, y];
                 bool top = (y < height - 1) && map[x, y + 1];
                 bool bottom = (y > 0) && map[x, y - 1];
 
+                //bool topleft = (y < height - 1) && (x > 0) && map[x - 1, y + 1];
+                //bool bottomleft = (y > 0) && (x > 0) && map[x - 1, y - 1];
+                //bool topright = (y < height - 1) && (x < width - 1) && map[x + 1, y + 1];
+                //bool bottomright = (y > 0) && (x < width - 1) && map[x + 1, y - 1];
+                
                 int numConnections = left.ToInt() + right.ToInt() + top.ToInt() + bottom.ToInt();
                 if (left && right && top && bottom)
                 {
@@ -254,6 +260,24 @@ public class GenerateMap : MonoBehaviour
                     Instantiate(Straight[UnityEngine.Random.Range(0, Straight.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY - 0.2f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), PathsContainer);
                     Instantiate(Straight[UnityEngine.Random.Range(0, Straight.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY + 0.2f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), PathsContainer);
                 }
+
+                //// Filling
+                //if (top && topleft && left)
+                //{
+                //    Instantiate(Filling[UnityEngine.Random.Range(0, Filling.Count - 1)], new Vector3(x * 0.4f + MinX, y * 0.4f + MinY, 0), Quaternion.identity, PathsContainer);
+                //}
+                //if (left && bottomleft && bottom)
+                //{
+                //    Instantiate(Filling[UnityEngine.Random.Range(0, Filling.Count - 1)], new Vector3(x * 0.4f + MinX, y * 0.4f + MinY, 0), Quaternion.identity, PathsContainer);
+                //}
+                //if (bottom && bottomright && right)
+                //{
+                //    Instantiate(Filling[UnityEngine.Random.Range(0, Filling.Count - 1)], new Vector3(x * 0.4f + MinX, y * 0.4f + MinY, 0), Quaternion.identity, PathsContainer);
+                //}
+                //if (right && topright && top)
+                //{
+                //    Instantiate(Filling[UnityEngine.Random.Range(0, Filling.Count - 1)], new Vector3(x * 0.4f + MinX, y * 0.4f + MinY, 0), Quaternion.identity, PathsContainer);
+                //}
             }
         }
     }

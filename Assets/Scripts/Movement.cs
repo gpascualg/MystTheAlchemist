@@ -15,9 +15,9 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        Vector2 vel = Vector2.zero;
         if(!GameManager.Instance.IsInventoryOpen() && !GameManager.Instance.IsMixingOpen()) 
         { 
-            Vector2 vel = Vector2.zero;
             if (Input.GetKey(KeyCode.W)) {
                 vel.y += 1;
             }
@@ -31,6 +31,10 @@ public class Movement : MonoBehaviour
                 vel.x += 1;
             }
 
+            rg.velocity = vel.normalized * Speed;
+        }
+        else
+        {
             rg.velocity = vel.normalized * Speed;
         }
     }
