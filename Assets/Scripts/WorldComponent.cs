@@ -7,7 +7,7 @@ using UnityEngine;
 public class WorldComponent : MonoBehaviour
 {
     public Component AlchemicComponent;
-    
+
     public int WorldId { get; set; }
 
     // Start is called before the first frame update
@@ -24,6 +24,7 @@ public class WorldComponent : MonoBehaviour
 
     public void Gather(Player player)
     {
+        GameManager.Instance.PickupSound.Play();
         player.AddComponent(AlchemicComponent);
         player.RemoveFromNearest(this);
         Destroy(gameObject);

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 
@@ -16,6 +17,8 @@ public class GenerateMap : MonoBehaviour
     public bool Reload = false;
     public Transform ComponentsContainer;
     public Transform PathsContainer;
+
+    public List<GameObject> Prefabs;
 
     public List<GameObject> Junction4;
     public List<GameObject> JunctionT;
@@ -121,8 +124,11 @@ public class GenerateMap : MonoBehaviour
                         float newY = y + OpenSimplex2.Noise2(currentSeed + RandomRange(currentSeed + x * (MaxY - MinY) + y, 100, 300), x, y);
                         Vector3 position = new Vector3(newX, newY, -0.25f);
 
-                        GameObject go = Instantiate(component.Prefab, position, Quaternion.identity, ComponentsContainer.transform);
-                        go.GetComponent<WorldComponent>().WorldId = collectibles.Count;
+                        GameObject go = Instantiate(Prefabs[(int)component.ComponentType], position, Quaternion.identity, ComponentsContainer.transform);
+                        var worldComponent = go.GetComponent<WorldComponent>();
+                        worldComponent.WorldId = collectibles.Count;
+                        worldComponent.AlchemicComponent = component;
+                        go.GetComponent<SpriteRenderer>().sprite = component.Sprite;
                         collectibles.Add(collectibles.Count, go);
                     }
 

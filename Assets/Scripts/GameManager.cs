@@ -83,6 +83,8 @@ public class GameManager : MonoBehaviour
     public GameObject Instructions;
     public float TimeInstructions = 10f;
 
+    public AudioSource PickupSound;
+
     public List<int> CollectedWorldIds = new List<int>();
 
 
