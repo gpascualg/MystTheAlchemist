@@ -491,10 +491,14 @@ MonoBehaviour:
   ComponentsContainer: {fileID: 2085580927}
   PathsContainer: {fileID: 0}
   Seed: 0
-  Junction4: {fileID: 5187940219165411278, guid: 5545efcf2fc58994a8f169e65ed343e1, type: 3}
-  JunctionT: {fileID: 6072106018978784694, guid: 6ad7ff47de9c62d49ac074d2bb9fec16, type: 3}
-  Straight: {fileID: 4741509478815198521, guid: 11e36885f388cc3499a3c9626df4cb6b, type: 3}
-  Turn: {fileID: 1846806641031849445, guid: 005f10e2f7859dd4685108c1ff0f268c, type: 3}
+  Junction4:
+  - {fileID: 5187940219165411278, guid: 5545efcf2fc58994a8f169e65ed343e1, type: 3}
+  JunctionT:
+  - {fileID: 6072106018978784694, guid: 6ad7ff47de9c62d49ac074d2bb9fec16, type: 3}
+  Straight:
+  - {fileID: 4741509478815198521, guid: 11e36885f388cc3499a3c9626df4cb6b, type: 3}
+  Turn:
+  - {fileID: 1846806641031849445, guid: 005f10e2f7859dd4685108c1ff0f268c, type: 3}
 --- !u!114 &1436165257
 MonoBehaviour:
   m_ObjectHideFlags: 0
