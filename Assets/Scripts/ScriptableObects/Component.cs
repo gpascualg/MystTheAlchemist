@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Security.Cryptography;
+using System.Text;
 using UnityEngine;
+
 public enum ComponentType
 {
     Agent = 0,
@@ -18,4 +22,23 @@ public class Component : ScriptableObject
     public int RestoresSeconds = 0;
     public float Threshold;
     public ComponentType ComponentType;
+
+    public string GUID
+    {
+        get
+        {
+            return BitConverter.ToString(BinaryGUID);
+        }
+    }
+
+    public byte[] BinaryGUID
+    {
+        get
+        {
+            using (SHA256 mySHA256 = SHA256.Create())
+            {
+                return mySHA256.ComputeHash(Encoding.ASCII.GetBytes(Name));
+            }
+        }
+    }
 }

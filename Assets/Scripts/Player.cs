@@ -14,10 +14,16 @@ public class Player : MonoBehaviour
     private float nearestComponentDist = float.PositiveInfinity;
     private WorldComponent nearestComponent;
 
+    private List<ReceiptComponents> learnedReceipts = new List<ReceiptComponents>();
+    private HashSet<string> alreadyKnownReceipts = new HashSet<string>();
+    public Action<ReceiptComponents> OnLearnedReceipt;
+
     // Start is called before the first frame update
     void Start()
     {
-           
+        learnedReceipts.Add(Receipts.Instance.FindReceiptAt(0));
+        alreadyKnownReceipts.Add(Receipts.Instance.FindReceiptAt(0).GUID);
+        OnLearnedReceipt?.Invoke(Receipts.Instance.FindReceiptAt(0));
     }
 
     private float DistanceTo(WorldComponent comp)
@@ -62,12 +68,14 @@ public class Player : MonoBehaviour
         if (nearestComponent != null)
         {
             nearestComponent.GetComponent<SpriteRenderer>().material = GameManager.Instance.NormalMaterial;
+            GameManager.Instance.HideETooltip();
         }
     }
 
     private void HighlightNearest()
     {
         nearestComponent.GetComponent<SpriteRenderer>().material = GameManager.Instance.OutlineMaterial;
+        GameManager.Instance.ShowETooltip(nearestComponent.transform.position);
     }
 
     // Update is called once per frame
@@ -75,7 +83,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (nearCandidates.Count > 0)
+            if (nearCandidates.Count > 0 && nearestComponent != null)
             {
                 nearestComponent.Gather(this);
             }

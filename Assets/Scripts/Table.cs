@@ -39,6 +39,7 @@ public class Table : MonoBehaviour
         }
 
         spriteRenderer.material = GameManager.Instance.OutlineMaterial;
+        GameManager.Instance.ShowETooltip(transform.position);
         hasPlayer = true;
     }
 
@@ -49,7 +50,8 @@ public class Table : MonoBehaviour
             return;
         }
 
-        float z = (transform.position.y + 0.15 < GameManager.Instance.MainPlayer.transform.position.y) ? -1 : -0.5f;
+        float z = (transform.position.y + 0.15 < GameManager.Instance.MainPlayer.transform.position.y) ? -1 : -0.4f;
+        GameManager.Instance.ShowETooltip(transform.position, z);
         transform.position = new Vector3(transform.position.x, transform.position.y, z);
     }
 
@@ -62,6 +64,7 @@ public class Table : MonoBehaviour
 
         spriteRenderer.material = GameManager.Instance.NormalMaterial;
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+        GameManager.Instance.HideETooltip();
         hasPlayer = false;
     }
 }

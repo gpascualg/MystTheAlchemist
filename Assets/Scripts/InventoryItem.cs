@@ -13,6 +13,8 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     public TMP_Text Quantity;
     public bool InMixing;
     public bool IsPlaceHolder;
+    public bool IsReceipt;
+    public string ReceiptGUID;
 
     public void UpdateQuantity(int qty)
     {
@@ -25,6 +27,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
         Quantity.gameObject.SetActive(false);
         IsPlaceHolder = true;
         InMixing = true;
+        IsReceipt = false;
 
         return this;
     }
@@ -39,6 +42,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     {
         InMixing = false;
         IsPlaceHolder = false;
+        IsReceipt = false;
         AlchemicComponent = component;
         UpdateQuantity(qty);
         ReloadSprite();
@@ -50,17 +54,45 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     {
         InMixing = true;
         IsPlaceHolder = false;
+        IsReceipt = false;
         AlchemicComponent = component;
         UpdateQuantity(qty);
         ReloadSprite();
 
         return this;
     }
-    
+
+    public InventoryItem OnAddedAsReceipt(Component component)
+    {
+        Quantity.gameObject.SetActive(false);
+        InMixing = false;
+        IsPlaceHolder = false;
+        IsReceipt = true;
+        AlchemicComponent = component;
+        ReloadSprite();
+
+        return this;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if (IsPlaceHolder)
         {
+            return;
+        }
+
+        if (IsReceipt)
+        {
+            var receipt = Receipts.Instance.FindReceipt(ReceiptGUID);
+            foreach (var component in receipt.Components)
+            {
+                if (GameManager.Instance.MainPlayer.HasElement(component))
+                {
+                    GameManager.Instance.MainPlayer.RemoveElement(component);
+                    Mixing.Instance.AddComponent(component);
+                }
+            }
+
             return;
         }
 
@@ -125,7 +157,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
             return;
         }
 
-        Inventory.Instance.Tooltip.Show(AlchemicComponent);
+        Inventory.Instance.Tooltip.Show(AlchemicComponent, IsReceipt);
     }
 
     public void OnPointerExit(PointerEventData eventData)
