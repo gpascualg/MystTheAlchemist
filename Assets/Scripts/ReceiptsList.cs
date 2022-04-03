@@ -16,12 +16,22 @@ public class ReceiptsList : MonoBehaviour
 
     public void Subscribe()
     {
+        GameManager.Instance.BeforeLoadGame += CleanInterface;
         GameManager.Instance.MainPlayer.OnLearnedReceipt += onLearnedReceipt;
     }
 
     private void OnDestroy()
     {
+        GameManager.Instance.BeforeLoadGame -= CleanInterface;
         GameManager.Instance.MainPlayer.OnLearnedReceipt -= onLearnedReceipt;
+    }
+
+    public void CleanInterface()
+    {
+        foreach (Transform child in Content)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     private void onLearnedReceipt(ReceiptComponents receipt)

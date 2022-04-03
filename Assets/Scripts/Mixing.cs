@@ -24,6 +24,26 @@ public class Mixing : MonoBehaviour
         // Add placeholders
         SpawnPlaceholders();
     }
+    public void Subscribe()
+    {
+        GameManager.Instance.BeforeLoadGame += CleanInterface;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.BeforeLoadGame -= CleanInterface;
+    }
+
+    public void CleanInterface()
+    {
+        foreach (var item in components.Values)
+        {
+            Destroy(item.gameObject);
+        }
+        components.Clear();
+        qty.Clear();
+        SpawnPlaceholders();
+    }
 
     private void SpawnPlaceholders()
     {
@@ -151,7 +171,6 @@ public class Mixing : MonoBehaviour
                 Components = receiptComponents
             };
             GameManager.Instance.MainPlayer.AddComponent(asset);
-            GameManager.Instance.MainPlayer.UseElement(asset);
         }
 
         // Respawn

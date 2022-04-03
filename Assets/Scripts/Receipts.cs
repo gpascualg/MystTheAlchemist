@@ -11,9 +11,27 @@ using UnityEngine;
 [Serializable]
 public class JSONReceipt
 {
-    public string Name;
-    public List<string> Components;
+    public JSONComponentWithoutReceipt Final;
+    public List<JSONComponentWithoutReceipt> Components;
     public string GUID;
+
+    public ReceiptComponents Deserialize()
+    {
+        if (Components.Count == 0 || GUID == null || GUID.Length == 0)
+        {
+            return null;
+        }
+
+        Debug.Log($"Deserializing receipt {Final.Name}@{Components.Count} ({GUID})");
+        var receipt = new ReceiptComponents()
+        {
+            Final = Final.Deserialize(GUID),
+            Components = Components.ConvertAll(new Converter<JSONComponentWithoutReceipt, Component>(JSONComponentWithoutReceipt.Deserializer))
+        };
+        receipt.Final.ReceiptComponents = receipt;
+
+        return receipt;
+    }
 }
 
 public class ReceiptComponents
@@ -48,10 +66,15 @@ public class ReceiptComponents
     {
         return new JSONReceipt()
         {
-            Name = Final.Name,
-            Components = Components.ConvertAll(new Converter<Component, string>(ComponentName)),
+            Final = Final.SerializeWithoutReceipt(),
+            Components = Components.ConvertAll(new Converter<Component, JSONComponentWithoutReceipt>(Component.SerializerWithoutReceipt)),
             GUID = GUID
         };
+    }
+
+    public static JSONReceipt Serializer(ReceiptComponents receipt)
+    {
+        return receipt.Serialize();
     }
 }
 

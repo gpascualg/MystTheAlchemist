@@ -15,7 +15,7 @@ public class UIReceiptItem : MonoBehaviour
     {
         Name.text = receipt.Final.Name;
         Final.OnAddedAsReceipt(receipt.Final);
-        Final.ReceiptGUID = receipt.GUID;
+        Final.Receipt = receipt;
         
         for (int i = 0; i < Components.Length; ++i)
         {
@@ -26,7 +26,7 @@ public class UIReceiptItem : MonoBehaviour
             }
 
             Components[i].OnAddedAsReceipt(receipt.Components[i]);
-            Components[i].ReceiptGUID = receipt.GUID;
+            Components[i].Receipt = receipt;
         }
     }
 }
