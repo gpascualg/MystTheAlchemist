@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc24db33263e2eb4688f1d2841680242, type: 3}
+  m_Name: CosmicBrew
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - BaseNodeGuid: 4e912054-9fd8-48ea-b4cc-1568bc545589
+    PortName: Next
+    TargetNodeGuid: 28a38f66-e817-414e-a36a-ba088729440f
+  - BaseNodeGuid: 28a38f66-e817-414e-a36a-ba088729440f
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 60b37432-bcc5-4dbc-8e03-324889b8510d
+  - BaseNodeGuid: 60b37432-bcc5-4dbc-8e03-324889b8510d
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 38f7274a-e0d3-4a8d-9d26-b9aac961a068
+  nodeData:
+  - Guid: 28a38f66-e817-414e-a36a-ba088729440f
+    DialogueText: Cosmos
+    Position: {x: 290, y: 180}
+  - Guid: 60b37432-bcc5-4dbc-8e03-324889b8510d
+    DialogueText: Stone
+    Position: {x: 627, y: 200}
+  - Guid: 38f7274a-e0d3-4a8d-9d26-b9aac961a068
+    DialogueText: Cosmic Brew
+    Position: {x: 702, y: 422}
+  TargetNodeGuid: {x: 0, y: 0}

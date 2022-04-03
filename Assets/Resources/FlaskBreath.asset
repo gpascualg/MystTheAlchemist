@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc24db33263e2eb4688f1d2841680242, type: 3}
+  m_Name: FlaskBreath
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - BaseNodeGuid: 52ef6f14-6c12-482f-84a2-0c7c7293532c
+    PortName: Next
+    TargetNodeGuid: 6c3ae297-f74c-482a-af00-90f8f029e1fc
+  - BaseNodeGuid: 6c3ae297-f74c-482a-af00-90f8f029e1fc
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 9de82b68-4ce2-4dda-bc5d-77bd12eac49f
+  - BaseNodeGuid: 9de82b68-4ce2-4dda-bc5d-77bd12eac49f
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 4e37e1bd-24e1-45ea-8cb2-b37fdc800ce3
+  - BaseNodeGuid: 4e37e1bd-24e1-45ea-8cb2-b37fdc800ce3
+    PortName: 'Choice 0 '
+    TargetNodeGuid: cfec4e5e-3aa9-4891-b039-2469f8278d9c
+  nodeData:
+  - Guid: 6c3ae297-f74c-482a-af00-90f8f029e1fc
+    DialogueText: Air
+    Position: {x: 318, y: 241}
+  - Guid: 9de82b68-4ce2-4dda-bc5d-77bd12eac49f
+    DialogueText: Zaphire
+    Position: {x: 585, y: 241}
+  - Guid: 4e37e1bd-24e1-45ea-8cb2-b37fdc800ce3
+    DialogueText: Lavender
+    Position: {x: 832, y: 364}
+  - Guid: cfec4e5e-3aa9-4891-b039-2469f8278d9c
+    DialogueText: Flask of Breath
+    Position: {x: 850, y: 528}
+  TargetNodeGuid: {x: 0, y: 0}

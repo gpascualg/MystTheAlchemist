@@ -112,10 +112,8 @@ public class GenerateMap : MonoBehaviour
                 int currentSeed = GameManager.Instance.Seed;
                 foreach (var component in Receipts.Instance.Components)
                 {
-                    if (component.ComponentType == ComponentType.Potion)
-                    {
-                        continue;
-                    }
+                    if (component.ComponentType == ComponentType.Potion) continue;
+                    if (component.Prefab == null) continue;
 
                     if (OpenSimplex2.Noise2(currentSeed, x, y) > component.Threshold)
                     {

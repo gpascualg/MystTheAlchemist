@@ -157,7 +157,12 @@ public class Receipts : MonoBehaviour
         foreach (var graph in resources)
         {
             Receipt receipt = new Receipt();
-            CreateNodes(graph, receipt);
+            if (!CreateNodes(graph, receipt))
+            {
+                Debug.LogError($"Invalid receipt {graph.name}");
+                continue;
+            }
+
             ConnectNodes(graph, receipt);
             if (receipt.First.AlchemicComponent == null)
             {
@@ -218,7 +223,7 @@ public class Receipts : MonoBehaviour
         }
     }
 
-    private void CreateNodes(ElementContainer container, Receipt receipt)
+    private bool CreateNodes(ElementContainer container, Receipt receipt)
     {
         foreach (var nodeData in container.nodeData)
         {
@@ -230,6 +235,7 @@ public class Receipts : MonoBehaviour
             else
             {
                 Debug.LogError($"Receipt {container.name} has invalid component {nodeData.DialogueText}");
+                return false;
             }
 
             receipt.Nodes.Add(new Node()
@@ -240,6 +246,8 @@ public class Receipts : MonoBehaviour
                 Edges = new List<Edge>()
             });
         }
+
+        return true;
     }
 
     private void ConnectNodes(ElementContainer container, Receipt receipt)

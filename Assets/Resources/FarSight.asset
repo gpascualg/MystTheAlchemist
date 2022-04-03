@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc24db33263e2eb4688f1d2841680242, type: 3}
+  m_Name: FarSight
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - BaseNodeGuid: b12de1f1-397f-4271-8c2b-867b30d0eeb8
+    PortName: Next
+    TargetNodeGuid: 4ccd6129-82d5-425f-9a31-d86b52244f15
+  - BaseNodeGuid: 4ccd6129-82d5-425f-9a31-d86b52244f15
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 857b5f6d-2406-49b7-b2f3-249c4a47e141
+  - BaseNodeGuid: 857b5f6d-2406-49b7-b2f3-249c4a47e141
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 28d161ca-437e-41b1-9480-7a275fa278ed
+  - BaseNodeGuid: 28d161ca-437e-41b1-9480-7a275fa278ed
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 198a235c-cd5b-4bc4-90e4-adf1ae6647f2
+  nodeData:
+  - Guid: 4ccd6129-82d5-425f-9a31-d86b52244f15
+    DialogueText: Calcite
+    Position: {x: 233, y: 200}
+  - Guid: 857b5f6d-2406-49b7-b2f3-249c4a47e141
+    DialogueText: Tulip
+    Position: {x: 535, y: 200}
+  - Guid: 28d161ca-437e-41b1-9480-7a275fa278ed
+    DialogueText: Water
+    Position: {x: 790, y: 200}
+  - Guid: 198a235c-cd5b-4bc4-90e4-adf1ae6647f2
+    DialogueText: Elixir of Far Sight
+    Position: {x: 820, y: 344}
+  TargetNodeGuid: {x: 0, y: 0}
