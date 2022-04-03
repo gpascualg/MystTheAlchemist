@@ -78,6 +78,9 @@ public class GameManager : MonoBehaviour
     public int WelcomeStep = 1;
     public float WelcomeTime = 5f;
 
+    public GameObject Instructions;
+    public float TimeInstructions = 10f;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -89,7 +92,7 @@ public class GameManager : MonoBehaviour
     {
         time = 300f;
         OnTimeChange?.Invoke((int)time);
-        time = 10f;
+        //time = 10f;
         EndScreen.SetActive(false);
         status = Status.Start;
         //status = Status.Playing;
@@ -180,6 +183,15 @@ public class GameManager : MonoBehaviour
             else
             {
                 time -= Time.deltaTime;
+            }
+
+            if(TimeInstructions <= 0)
+            {
+                Instructions.SetActive(false);
+            }
+            else
+            {
+                TimeInstructions -= Time.deltaTime;
             }
         }
 
