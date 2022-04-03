@@ -1047,6 +1047,7 @@ MonoBehaviour:
   status: 0
   InventoryUI: {fileID: 1450887093}
   MixingUI: {fileID: 408133640}
+  ProgressBar: {fileID: 2039615544}
   OutlineMaterial: {fileID: 2100000, guid: 98cc667a80cbe1548b3ca295909824dc, type: 2}
   NormalMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
 --- !u!4 &1383231703
@@ -1872,6 +1873,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2075877896}
     m_Modifications:
+    - target: {fileID: 6364696484754400026, guid: cec81e83237f0ad4dbfb3c8853cd0336, type: 3}
+      propertyPath: m_Color.b
+      value: 0.40392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364696484754400026, guid: cec81e83237f0ad4dbfb3c8853cd0336, type: 3}
+      propertyPath: m_Color.g
+      value: 0.78610003
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364696484754400026, guid: cec81e83237f0ad4dbfb3c8853cd0336, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8509804
+      objectReference: {fileID: 0}
     - target: {fileID: 6364696484754400027, guid: cec81e83237f0ad4dbfb3c8853cd0336, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1973,6 +1986,11 @@ PrefabInstance:
 --- !u!224 &1988888141 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6364696485705964437, guid: cec81e83237f0ad4dbfb3c8853cd0336, type: 3}
+  m_PrefabInstance: {fileID: 1988888140}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2039615544 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6364696485705964434, guid: cec81e83237f0ad4dbfb3c8853cd0336, type: 3}
   m_PrefabInstance: {fileID: 1988888140}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2075877895
@@ -2126,7 +2144,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.42, y: 1}
+    m_SensorSize: {x: 1.9494585, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

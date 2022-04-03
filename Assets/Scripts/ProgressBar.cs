@@ -13,7 +13,7 @@ public class ProgressBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MaxTime = 300;
+        MaxTime = GameManager.Instance.getTime();
     }
 
     private void OnEnable()
@@ -32,6 +32,7 @@ public class ProgressBar : MonoBehaviour
         if (ActualTime > MaxTime) MaxTime = ActualTime;
         LifeProgress.value = (ActualTime / MaxTime);
         TextProgress.text = (LifeProgress.value * 100).ToString("0.0") + "%";
+        ChangeColor(LifeProgress.value);
     }
 
     // Update is called once per frame
@@ -40,5 +41,59 @@ public class ProgressBar : MonoBehaviour
         float time = GameManager.Instance.getTime();
         LifeProgress.value = (time / MaxTime);
         TextProgress.text = (LifeProgress.value * 100).ToString("0.0") + "%";
+        ChangeColor(LifeProgress.value);
+    }
+
+    public void ChangeColor(float progress)
+    {
+        if (LifeProgress.value < 0.10)
+        {
+            Color color = new Color(253f / 255f, 45f / 255f, 74f / 255f);
+            LifeProgress.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        } else if (LifeProgress.value < 0.15)
+        {
+            Color color = new Color(217f / 255f, 106f / 255f, 55f / 255f);
+            LifeProgress.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        }
+        else if (LifeProgress.value < 0.20)
+        {
+            Color color = new Color(217f / 255f, 174f / 255f, 103f / 255f);
+            LifeProgress.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        }
+        else if (LifeProgress.value < 0.25)
+        {
+            Color color = new Color(217f / 255f, 190f / 255f, 103f / 255f);
+            LifeProgress.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        }
+        else if (LifeProgress.value < 0.30)
+        {
+            Color color = new Color(217f / 255f, 200f / 255f, 103f / 255f);
+            LifeProgress.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        }
+        else if (LifeProgress.value < 0.35)
+        {
+            Color color = new Color(217f / 255f, 216f / 255f, 103f / 255f);
+            LifeProgress.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        }
+        else if (LifeProgress.value < 0.40)
+        {
+            Color color = new Color(210f / 255f, 217f / 255f, 103f / 255f);
+            LifeProgress.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        }
+        else if (LifeProgress.value < 0.50)
+        {
+            Color color = new Color(188f / 255f, 217f / 255f, 103f / 255f);
+            LifeProgress.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        }
+        else if (LifeProgress.value < 0.75)
+        {
+            Color color = new Color(171f / 255f, 217f / 255f, 103f / 255f);
+            LifeProgress.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        }
+        else
+        {
+            Color color = new Color(147f / 255f, 217f / 255f, 103f / 255f);
+            LifeProgress.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = color;
+        }
     }
 }

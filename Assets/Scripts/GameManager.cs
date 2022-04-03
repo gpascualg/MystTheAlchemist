@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     public GameObject MixingUI;
     private Menus menu;
 
+    public GameObject ProgressBar;
+
     public Action<int> OnTimeChange;
     public Action OnInventoryOpened;
     public Action OnInventoryClosed;
@@ -51,7 +53,7 @@ public class GameManager : MonoBehaviour
     {
         time = 300f;
         OnTimeChange?.Invoke((int)time);
-        //time = 5f;
+        time = 30f;
         EndScreen.SetActive(false);
         status = Status.Playing;
 
@@ -71,6 +73,7 @@ public class GameManager : MonoBehaviour
             if (time <= 0)
             {
                 EndScreen.SetActive(true);
+                ProgressBar.SetActive(false);
                 Destroy(MainPlayer.gameObject);
                 status = Status.Dead;
             }
