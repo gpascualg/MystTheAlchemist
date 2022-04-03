@@ -114,4 +114,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6866cc9e9fe9d5943b45bc24449e2b4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AlchemicComponent: {fileID: 11400000, guid: c38f0db7c5d2762488d215c8762dd8d1, type: 2}
+  AlchemicComponent: {fileID: 11400000, guid: 721338949d8ee8e4991fce91f7abf56c, type: 2}

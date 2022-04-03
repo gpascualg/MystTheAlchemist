@@ -49,7 +49,7 @@ public class Table : MonoBehaviour
             return;
         }
 
-        int z = (transform.position.y + 0.15 < GameManager.Instance.MainPlayer.transform.position.y) ? -1 : 0;
+        float z = (transform.position.y + 0.15 < GameManager.Instance.MainPlayer.transform.position.y) ? -1 : -0.5f;
         transform.position = new Vector3(transform.position.x, transform.position.y, z);
     }
 
