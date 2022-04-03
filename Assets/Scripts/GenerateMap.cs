@@ -14,10 +14,10 @@ public class GenerateMap : MonoBehaviour
     public Transform PathsContainer;
     public int Seed;
 
-    public GameObject Junction4;
-    public GameObject JunctionT;
-    public GameObject Straight;
-    public GameObject Turn;
+    public List<GameObject> Junction4;
+    public List<GameObject> JunctionT;
+    public List<GameObject> Straight;
+    public List<GameObject> Turn;
 
     private bool[,] map;
 
@@ -206,49 +206,49 @@ public class GenerateMap : MonoBehaviour
                 int numConnections = left.ToInt() + right.ToInt() + top.ToInt() + bottom.ToInt();
                 if (left && right && top && bottom)
                 {
-                    Instantiate(Junction4, new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.identity, PathsContainer);
+                    Instantiate(Junction4[UnityEngine.Random.Range(0, Junction4.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.identity, PathsContainer);
                 }
                 else if (left && right && top)
                 {
-                    Instantiate(JunctionT, new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), PathsContainer);
+                    Instantiate(JunctionT[UnityEngine.Random.Range(0, JunctionT.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), PathsContainer);
                 }
                 else if (left && right && bottom)
                 {
-                    Instantiate(JunctionT, new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 270)), PathsContainer);
+                    Instantiate(JunctionT[UnityEngine.Random.Range(0, JunctionT.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 270)), PathsContainer);
                 }
                 else if (left && bottom && top)
                 {
-                    Instantiate(JunctionT, new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 180)), PathsContainer);
+                    Instantiate(JunctionT[UnityEngine.Random.Range(0, JunctionT.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 180)), PathsContainer);
                 }
                 else if (top && right && bottom)
                 {
-                    Instantiate(JunctionT, new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.identity, PathsContainer);
+                    Instantiate(JunctionT[UnityEngine.Random.Range(0, JunctionT.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.identity, PathsContainer);
                 }
                 else if (left && bottom)
                 {
-                    Instantiate(Turn, new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 270)), PathsContainer);
+                    Instantiate(Turn[UnityEngine.Random.Range(0, Turn.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 270)), PathsContainer);
                 }
                 else if (left && top)
                 {
-                    Instantiate(Turn, new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 180)), PathsContainer);
+                    Instantiate(Turn[UnityEngine.Random.Range(0, Turn.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 180)), PathsContainer);
                 }
                 else if (right && top)
                 {
-                    Instantiate(Turn, new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), PathsContainer);
+                    Instantiate(Turn[UnityEngine.Random.Range(0, Turn.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), PathsContainer);
                 }
                 else if (right && bottom)
                 {
-                    Instantiate(Turn, new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 0)), PathsContainer);
+                    Instantiate(Turn[UnityEngine.Random.Range(0, Turn.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 0)), PathsContainer);
                 }
                 else if (left || right)
                 {
-                    Instantiate(Straight, new Vector3(x * 0.8f + MinX - 0.2f, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), PathsContainer);
-                    Instantiate(Straight, new Vector3(x * 0.8f + MinX + 0.2f, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), PathsContainer);
+                    Instantiate(Straight[UnityEngine.Random.Range(0, Straight.Count - 1)], new Vector3(x * 0.8f + MinX - 0.2f, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), PathsContainer);
+                    Instantiate(Straight[UnityEngine.Random.Range(0, Straight.Count - 1)], new Vector3(x * 0.8f + MinX + 0.2f, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), PathsContainer);
                 }
                 else if (top || bottom)
                 {
-                    Instantiate(Straight, new Vector3(x * 0.8f + MinX, y * 0.8f + MinY - 0.2f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), PathsContainer);
-                    Instantiate(Straight, new Vector3(x * 0.8f + MinX, y * 0.8f + MinY + 0.2f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), PathsContainer);
+                    Instantiate(Straight[UnityEngine.Random.Range(0, Straight.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY - 0.2f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), PathsContainer);
+                    Instantiate(Straight[UnityEngine.Random.Range(0, Straight.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY + 0.2f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), PathsContainer);
                 }
             }
         }
