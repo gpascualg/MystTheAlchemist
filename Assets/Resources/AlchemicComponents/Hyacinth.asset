@@ -18,4 +18,4 @@ MonoBehaviour:
   Description: As blue as the sky itself, calms the mind and the body
   RestoresSeconds: 0
   Threshold: 0.4
-  ComponentType: 0
+  ComponentType: 3

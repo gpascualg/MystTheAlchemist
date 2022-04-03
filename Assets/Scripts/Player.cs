@@ -14,8 +14,9 @@ public class JSONItem
 
 public class Player : MonoBehaviour
 {
-    private List<WorldComponent> nearCandidates = new List<WorldComponent>();
+    private SortedList<float, WorldComponent> nearCandidates = new SortedList<float, WorldComponent>();
     public SerializedDictionary<Component, int> Inventory = new SerializedDictionary<Component, int>();
+    public Action<int> OnItemCollected;
     public Action<Component, int> OnItemAdd;
     public Action<Component, int> OnItemRemove;
 
@@ -28,9 +29,13 @@ public class Player : MonoBehaviour
 
     public GameObject FloatingText;
 
+    private Rigidbody2D rg;
+
     // Start is called before the first frame update
     void Start()
     {
+        rg = GetComponent<Rigidbody2D>();
+
         LearnedReceipts.Add(Receipts.Instance.FindReceiptAt(0));
         alreadyKnownReceipts.Add(Receipts.Instance.FindReceiptAt(0).GUID);
         OnLearnedReceipt?.Invoke(Receipts.Instance.FindReceiptAt(0));
@@ -62,9 +67,9 @@ public class Player : MonoBehaviour
 
     public void AddToNearest(WorldComponent component)
     {
-        nearCandidates.Add(component);
-
         float distance = DistanceTo(component);
+        nearCandidates.Add(distance, component);
+
         if (distance < nearestComponentDist)
         {
             NormalNearest();
@@ -76,19 +81,26 @@ public class Player : MonoBehaviour
 
     public void RemoveFromNearest(WorldComponent component)
     {
-        nearCandidates.Remove(component);
+        for (int i = 0; i < nearCandidates.Count; i++)
+        {
+            if (nearCandidates.Values[i] == component)
+            {
+                nearCandidates.RemoveAt(i);
+                break;
+            }
+        }
 
         if (component == nearestComponent)
         {
             NormalNearest();
             nearestComponent = null;
-            if (nearCandidates.Count > 0)
-            {
-                nearCandidates.Sort((x, y) => DistanceTo(x).CompareTo(DistanceTo(y)));
-                nearestComponentDist = DistanceTo(nearCandidates[0]);
-                nearestComponent = nearCandidates[0];
-                HighlightNearest();
-            }
+        }
+
+        if (nearCandidates.Count > 0)
+        {
+            nearestComponentDist = nearCandidates.Keys[0];
+            nearestComponent = nearCandidates.Values[0];
+            HighlightNearest();
         }
     }
 
@@ -114,18 +126,25 @@ public class Player : MonoBehaviour
         {
             if (nearCandidates.Count > 0 && nearestComponent != null)
             {
+                OnItemCollected?.Invoke(nearestComponent.WorldId);
                 nearestComponent.Gather(this);
             }
         }
 
-        if (nearCandidates.Count > 0)
+        if (nearCandidates.Count > 0 && rg.velocity.sqrMagnitude > 0)
         {
-            nearCandidates.Sort((x, y) => DistanceTo(x).CompareTo(DistanceTo(y)));
-            if (nearCandidates[0] != nearestComponent)
+            SortedList<float, WorldComponent> resort = new SortedList<float, WorldComponent>(nearCandidates.Count);
+            foreach (var comp in nearCandidates.Values)
+            {
+                resort.Add(DistanceTo(comp), comp);
+            }
+            nearCandidates = resort;
+
+            if (nearCandidates.Values[0] != nearestComponent)
             {
                 NormalNearest();
-                nearestComponentDist = DistanceTo(nearCandidates[0]);
-                nearestComponent = nearCandidates[0];
+                nearestComponentDist = nearCandidates.Keys[0];
+                nearestComponent = nearCandidates.Values[0];
                 HighlightNearest();
             }
         }

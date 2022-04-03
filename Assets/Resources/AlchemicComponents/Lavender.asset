@@ -18,4 +18,4 @@ MonoBehaviour:
   Description: A flower of pure power
   RestoresSeconds: 0
   Threshold: 0.5
-  ComponentType: 0
+  ComponentType: 3

@@ -63,7 +63,7 @@ public class Table : MonoBehaviour
         }
 
         spriteRenderer.material = GameManager.Instance.NormalMaterial;
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+        transform.position = new Vector3(transform.position.x, transform.position.y, -0.4f);
         GameManager.Instance.HideETooltip();
         hasPlayer = false;
     }

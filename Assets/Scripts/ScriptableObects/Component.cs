@@ -9,7 +9,8 @@ public enum ComponentType
 {
     Agent = 0,
     Base = 1,
-    Potion = 2
+    Potion = 2,
+    Flower = 3
 }
 
 

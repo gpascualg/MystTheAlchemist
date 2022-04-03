@@ -12,6 +12,8 @@ public class SaveGame
     public int Seed;
     public List<JSONReceipt> Receipts;
     public List<JSONItem> Inventory;
+    public List<int> CollectedWorldIds;
+    public Vector2 PlayerPosition;
 }
 
 
@@ -63,7 +65,8 @@ public class GameManager : MonoBehaviour
 
     public float StartPage = 2f;
     public GameObject StartUI;
-    
+
+    public List<int> CollectedWorldIds = new List<int>();
 
     // Start is called before the first frame update
     void Awake()
@@ -89,6 +92,16 @@ public class GameManager : MonoBehaviour
         InventoryUI.GetComponent<Inventory>().Subscribe();
         MixingUI.GetComponent<Mixing>().Subscribe();
         ReceiptsUI.GetComponent<ReceiptsList>().Subscribe();
+    }
+
+    private void OnEnable()
+    {
+        MainPlayer.OnItemCollected += OnItemCollected;
+    }
+
+    private void OnItemCollected(int id)
+    {
+        CollectedWorldIds.Add(id);
     }
 
     // Update is called once per frame
@@ -212,7 +225,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ShowETooltip(Vector3 position, float z = 0.0f)
+    public void ShowETooltip(Vector3 position)
+    {
+        ShowETooltip(position, position.z);
+    }
+
+    public void ShowETooltip(Vector3 position, float z)
     {
         position.x += 0.1f;
         position.y += 0.1f;
@@ -240,7 +258,9 @@ public class GameManager : MonoBehaviour
             {
                 Seed = Seed,
                 Receipts = MainPlayer.LearnedReceipts.ConvertAll(new Converter<ReceiptComponents, JSONReceipt>(ReceiptComponents.Serializer)),
-                Inventory = MainPlayer.SerializeInventory()
+                Inventory = MainPlayer.SerializeInventory(),
+                CollectedWorldIds = CollectedWorldIds,
+                PlayerPosition = MainPlayer.transform.position
             }));
         }
     }
@@ -257,9 +277,18 @@ public class GameManager : MonoBehaviour
         using (StreamReader inputFile = new StreamReader(path))
         {
             SaveGame data = JsonUtility.FromJson<SaveGame>(inputFile.ReadToEnd());
-            Seed = data.Seed;
+            Seed = data.Seed - 1000;
             MainPlayer.Deserialize(data.Receipts);
             MainPlayer.Deserialize(data.Inventory);
+            CollectedWorldIds = data.CollectedWorldIds;
+
+            GenerateMap.Instance.GenerateAll();
+            foreach (var id in CollectedWorldIds)
+            {
+                GenerateMap.Instance.DestroyCollected(id);
+            }
+
+            MainPlayer.transform.position = data.PlayerPosition;
         }
         AfterLoadGame?.Invoke();
 
