@@ -109,18 +109,35 @@ public class Mixing : MonoBehaviour
             return;
         }
 
-        // Find the receipe that best matches
-        // Consume ethir number of elements
-        foreach (var pair in components)
+        List<Component> receiptComponents = new List<Component>(components.Keys);
+        var receipt = Receipts.Instance.FindReceiptFromComponents(receiptComponents);
+        Debug.Log($"CREATED {receipt}");
+
+        // Delete as much elements as possible
+        int numComponents = components.Count;
+        int numProducts = 0;
+        while (numComponents == components.Count)
         {
-            Destroy(pair.Value.gameObject);
+            foreach (var component in new List<Component>(components.Keys))
+            {
+                RemoveComponent(component);
+            }
+            ++numProducts;
         }
-        components.Clear();
-        qty.Clear();
 
         // Add the result
-        Component asset = ScriptableObject.CreateInstance<Component>();
-        GameManager.Instance.MainPlayer.AddComponent(asset);
+        if (receipt != null)
+        {
+            for (int i = 0; i < numProducts; ++i)
+            {
+                GameManager.Instance.MainPlayer.AddComponent(receipt.Final);
+            }
+        }
+        else
+        {
+            Component asset = ScriptableObject.CreateInstance<Component>();
+            GameManager.Instance.MainPlayer.AddComponent(asset);
+        }
 
         // Respawn
         SpawnPlaceholders();

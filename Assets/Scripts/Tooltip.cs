@@ -7,6 +7,7 @@ public class Tooltip : MonoBehaviour
 {
     public GameObject MixingTooltip;
     public GameObject InventoryTooltip;
+    public GameObject ReceiptTooltip;
 
     public TMP_Text Name;
     public TMP_Text Text;
@@ -30,6 +31,7 @@ public class Tooltip : MonoBehaviour
     {
         MixingTooltip.SetActive(false);
         InventoryTooltip.SetActive(true);
+        ReceiptTooltip.SetActive(false);
         mixingActive = false;
         inventoryActive = true;
     }
@@ -38,6 +40,7 @@ public class Tooltip : MonoBehaviour
     {
         MixingTooltip.SetActive(true);
         InventoryTooltip.SetActive(false);
+        ReceiptTooltip.SetActive(false);
         mixingActive = true;
         inventoryActive = false;
     }
@@ -52,6 +55,7 @@ public class Tooltip : MonoBehaviour
         {
             MixingTooltip.SetActive(false);
             InventoryTooltip.SetActive(false);
+            ReceiptTooltip.SetActive(true);
         }
     }
 
@@ -60,5 +64,6 @@ public class Tooltip : MonoBehaviour
         gameObject.SetActive(false);
         MixingTooltip.SetActive(mixingActive);
         InventoryTooltip.SetActive(inventoryActive);
+        ReceiptTooltip.SetActive(false);
     }
 }

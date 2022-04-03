@@ -24,7 +24,7 @@ public class GenerateMap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Seed = 0;
+        GenerateAll();
     }
 
     // Update is called once per frame
@@ -33,21 +33,25 @@ public class GenerateMap : MonoBehaviour
         if (Reload)
         {
             Debug.Log("GENERATING");
-
-            int width = (int)Mathf.Ceil((MaxX - MinX) / 0.8f);
-            int height = (int)Mathf.Ceil((MaxY - MinY) / 0.8f);
-            map = new bool[width, height];
-
-            Generate();
-
-            GenerateDrunkardPath(UnityEngine.Random.Range(PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.03f, 0.03f, 0.03f, 0.9f }, map, width, height);
-            GenerateDrunkardPath(UnityEngine.Random.Range(PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.03f, 0.03f, 0.9f, 0.03f }, map, width, height);
-            GenerateDrunkardPath(UnityEngine.Random.Range(PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.03f, 0.9f, 0.03f, 0.03f }, map, width, height);
-            GenerateDrunkardPath(UnityEngine.Random.Range(PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.9f, 0.03f, 0.03f, 0.03f }, map, width, height);
-
-            paintPaths(map, width, height);
+            GenerateAll();
             Reload = false;
         }
+    }
+
+    public void GenerateAll()
+    {
+        int width = (int)Mathf.Ceil((MaxX - MinX) / 0.8f);
+        int height = (int)Mathf.Ceil((MaxY - MinY) / 0.8f);
+        map = new bool[width, height];
+
+        Generate();
+
+        GenerateDrunkardPath(UnityEngine.Random.Range(PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.03f, 0.03f, 0.03f, 0.9f }, map, width, height);
+        GenerateDrunkardPath(UnityEngine.Random.Range(PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.03f, 0.03f, 0.9f, 0.03f }, map, width, height);
+        GenerateDrunkardPath(UnityEngine.Random.Range(PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.03f, 0.9f, 0.03f, 0.03f }, map, width, height);
+        GenerateDrunkardPath(UnityEngine.Random.Range(PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.9f, 0.03f, 0.03f, 0.03f }, map, width, height);
+
+        paintPaths(map, width, height);
     }
 
     public void Generate()

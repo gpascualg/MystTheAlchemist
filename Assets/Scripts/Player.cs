@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (nearCandidates.Count > 0)
+            if (nearCandidates.Count > 0 && nearestComponent != null)
             {
                 nearestComponent.Gather(this);
             }

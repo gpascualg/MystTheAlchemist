@@ -161,7 +161,7 @@ public class Receipts : MonoBehaviour
             receiptComponents.Final = node.AlchemicComponent;
 
             receipts.Add(receiptComponents);
-            receiptsByName.Add(receiptComponents.Final.name, receiptComponents);
+            receiptsByName.Add(receiptComponents.Final.Name, receiptComponents);
             receiptsByGUID.Add(receiptComponents.GUID, receiptComponents);
 
             Debug.Log($"Loaded receipt {receiptComponents.Final.Name} ({receiptComponents.GUID}) with {receiptComponents.Components.Count} ingredients");
@@ -181,7 +181,6 @@ public class Receipts : MonoBehaviour
 
     private void CreateNodes(ElementContainer container, Receipt receipt)
     {
-        Debug.Log("creating nodes");
         foreach (var nodeData in container.nodeData)
         {
             Component alchemicComponent = null;
@@ -194,7 +193,6 @@ public class Receipts : MonoBehaviour
                 Debug.LogError($"Receipt {container.name} has invalid component {nodeData.DialogueText}");
             }
 
-            Debug.Log("adding node");
             receipt.Nodes.Add(new Node()
             {
                 Name = nodeData.DialogueText,
@@ -207,7 +205,6 @@ public class Receipts : MonoBehaviour
 
     private void ConnectNodes(ElementContainer container, Receipt receipt)
     {
-        Debug.Log("creating nodes");
         for (var i = 0; i < receipt.Nodes.Count; i++)
         {
             var conections = container.nodeLinks.Where(x => x.BaseNodeGuid == receipt.Nodes[i].Guid).ToList();
@@ -225,5 +222,52 @@ public class Receipts : MonoBehaviour
 
         var guid = container.nodeLinks.Where(x => x.PortName == "Next").First().TargetNodeGuid;
         receipt.First = receipt.Nodes.First(x => x.Guid == guid);
+    }
+
+    public ReceiptComponents FindReceiptFromComponents(List<Component> components)
+    {
+        foreach (var component in components)
+        {
+            if (!receiptsGraphByComponent.ContainsKey(component))
+            {
+                continue;
+            }
+
+            foreach (var receipt in receiptsGraphByComponent[component])
+            {
+                bool invalid = false;
+                HashSet<Component> usedComponents = new HashSet<Component>();
+
+                Node node = receipt.First;
+                Edge edge = receipt.First.Edges[0];
+                while (edge != null)
+                {
+                    if (!components.Contains(node.AlchemicComponent))
+                    {
+                        invalid = true;
+                        break;
+                    }
+
+                    if (usedComponents.Contains(node.AlchemicComponent))
+                    {
+                        invalid = true;
+                        break;
+                    }
+
+                    usedComponents.Add(node.AlchemicComponent);
+
+                    node = edge.target;
+                    edge = node.Edges.FirstOrDefault();
+                }
+
+                if (!invalid && usedComponents.Count == components.Count)
+                {
+                    // Node is the last element
+                    return receiptsByName[node.AlchemicComponent.Name];
+                }
+            }
+        }
+
+        return null;
     }
 }
