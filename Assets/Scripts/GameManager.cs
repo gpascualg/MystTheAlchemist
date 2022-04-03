@@ -298,6 +298,7 @@ public class GameManager : MonoBehaviour
     public void OpenInventory()
     {
         InventoryUI.gameObject.SetActive(true);
+        ReceiptsUI.gameObject.SetActive(true);
         menu |= Menus.Inventory;
         OnInventoryOpened?.Invoke();
     }
@@ -305,6 +306,7 @@ public class GameManager : MonoBehaviour
     public void CloseInventory()
     {
         InventoryUI.gameObject.SetActive(false);
+        ReceiptsUI.gameObject.SetActive(false);
         menu &= ~Menus.Inventory;
         OnInventoryClosed?.Invoke();
     }
