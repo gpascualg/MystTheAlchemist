@@ -12,13 +12,13 @@ public class Tooltip : MonoBehaviour
     public TMP_Text Text;
 
 
-    public void OnEnable()
+    public void Subscribe()
     {
         GameManager.Instance.OnInventoryOpened += InventoryOpened;
         GameManager.Instance.OnMixingOpened += MixingOpened;
     }
 
-    public void OnDisable()
+    public void OnDestroy()
     {
         GameManager.Instance.OnInventoryOpened -= InventoryOpened;
         GameManager.Instance.OnMixingOpened -= MixingOpened;
