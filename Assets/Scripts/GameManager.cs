@@ -72,6 +72,12 @@ public class GameManager : MonoBehaviour
     public bool GameStarted = false;
     public bool GamePaused = false;
 
+    public GameObject WelcomeText1;
+    public GameObject WelcomeText2;
+    public GameObject WelcomeDialog;
+    public int WelcomeStep = 1;
+    public float WelcomeTime = 5f;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -85,8 +91,8 @@ public class GameManager : MonoBehaviour
         OnTimeChange?.Invoke((int)time);
         //time = 30f;
         EndScreen.SetActive(false);
-        status = Status.Start;
-        //status = Status.Playing;
+        //status = Status.Start;
+        status = Status.Playing;
 
         menu = Menus.None;
         //OpenInventory();
@@ -127,6 +133,28 @@ public class GameManager : MonoBehaviour
 
         if (status == Status.Playing)
         {
+            if(WelcomeStep < 3)
+            {
+                if(WelcomeTime <= 0)
+                {
+                    if(WelcomeStep == 1)
+                    {
+                        WelcomeTime = 10f;
+                        WelcomeText1.SetActive(false);
+                        WelcomeText2.SetActive(true);
+                        WelcomeStep = 2;
+                    } else if(WelcomeStep == 2)
+                    {
+                        WelcomeText2.SetActive(false);
+                        WelcomeStep = 3;
+                        WelcomeDialog.SetActive(false);
+                    }
+                }
+                else
+                {
+                    WelcomeTime -= Time.deltaTime;
+                }
+            }
             if (Input.GetKeyDown(KeyCode.I))
             {
                 if (IsInventoryOpen())
