@@ -76,7 +76,7 @@ public class GenerateMap : MonoBehaviour
 
                         float newX = x + OpenSimplex2.Noise2(Seed + UnityEngine.Random.Range(100, 300), x, y);
                         float newY = y + OpenSimplex2.Noise2(Seed + UnityEngine.Random.Range(100, 300), x, y);
-                        Vector3 position = new Vector3(newX, newY, 0);
+                        Vector3 position = new Vector3(newX, newY, -0.25f);
 
                         Debug.Log(component.Name + " at: (" + newX + ", " + newY + ")");
 

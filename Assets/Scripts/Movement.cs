@@ -29,6 +29,6 @@ public class Movement : MonoBehaviour
             vel.x += 1;
         }
 
-        rg.velocity = vel * Speed;
+        rg.velocity = vel.normalized * Speed;
     }
 }
