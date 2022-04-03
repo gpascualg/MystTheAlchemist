@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc24db33263e2eb4688f1d2841680242, type: 3}
+  m_Name: ManaInfusion
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - BaseNodeGuid: 80cb0f53-adcb-4316-8cfc-e011a74bda18
+    PortName: Next
+    TargetNodeGuid: f0eb132c-b8b4-4f8f-a525-3da2866f40ea
+  - BaseNodeGuid: f0eb132c-b8b4-4f8f-a525-3da2866f40ea
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 39ef7ce4-3439-42d0-bd26-baa620ff107e
+  - BaseNodeGuid: 39ef7ce4-3439-42d0-bd26-baa620ff107e
+    PortName: 'Choice 0 '
+    TargetNodeGuid: d7b8c96e-ba4e-4e01-b7f8-2b4d7bb16ff8
+  nodeData:
+  - Guid: d7b8c96e-ba4e-4e01-b7f8-2b4d7bb16ff8
+    DialogueText: Potion of Mana Infusion
+    Position: {x: 628, y: 180}
+  - Guid: 39ef7ce4-3439-42d0-bd26-baa620ff107e
+    DialogueText: Leaf
+    Position: {x: 314, y: 200}
+  - Guid: f0eb132c-b8b4-4f8f-a525-3da2866f40ea
+    DialogueText: Water
+    Position: {x: 52, y: 200}
+  TargetNodeGuid: {x: 0, y: 0}

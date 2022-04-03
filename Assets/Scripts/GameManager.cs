@@ -21,9 +21,10 @@ public class GameManager : MonoBehaviour
 {
     public enum Status
     {
-        Menu = 0,
-        Playing = 1,
-        Dead = 2
+        Start = 0,
+        Menu = 1,
+        Playing = 2,
+        Dead = 3
     }
 
     public enum Menus
@@ -65,8 +66,25 @@ public class GameManager : MonoBehaviour
 
     public float StartPage = 2f;
     public GameObject StartUI;
+    
+    public GameObject MenuUI;
+    public GameObject NewGameButton;
+    public GameObject ContinueUI;
+
+    public bool GameStarted = false;
+    public bool GamePaused = false;
+
+    public GameObject WelcomeText1;
+    public GameObject WelcomeText2;
+    public GameObject WelcomeDialog;
+    public int WelcomeStep = 1;
+    public float WelcomeTime = 5f;
+
+    public GameObject Instructions;
+    public float TimeInstructions = 10f;
 
     public List<int> CollectedWorldIds = new List<int>();
+
 
     // Start is called before the first frame update
     void Awake()
@@ -79,9 +97,9 @@ public class GameManager : MonoBehaviour
     {
         time = 300f;
         OnTimeChange?.Invoke((int)time);
-        //time = 30f;
+        //time = 10f;
         EndScreen.SetActive(false);
-        //status = Status.Menu;
+        //status = Status.Start;
         status = Status.Playing;
 
         menu = Menus.None;
@@ -107,21 +125,55 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (status == Status.Menu)
+        if (status == Status.Start)
         {
             if (StartPage <= 0)
             {
                 StartUI.SetActive(false);
-                ProgressBar.SetActive(true);
-                status = Status.Playing;
+                MenuUI.SetActive(true);
+                status = Status.Menu;
+                if(SavedGame() || GamePaused)
+                {
+                    NewGameButton.SetActive(false);
+                    ContinueUI.SetActive(true);
+                }
+                else
+                {
+                    NewGameButton.SetActive(true);
+                    ContinueUI.SetActive(false);
+                }
             }
             else
             {
                 StartPage -= Time.deltaTime;
             }
         }
+
         if (status == Status.Playing)
         {
+            if(WelcomeStep < 3)
+            {
+                if(WelcomeTime <= 0)
+                {
+                    if(WelcomeStep == 1)
+                    {
+                        WelcomeTime = 10f;
+                        WelcomeText1.SetActive(false);
+                        WelcomeText2.SetActive(true);
+                        WelcomeStep = 2;
+                    } else if(WelcomeStep == 2)
+                    {
+                        WelcomeText2.SetActive(false);
+                        WelcomeStep = 3;
+                        WelcomeDialog.SetActive(false);
+                    }
+                }
+                else
+                {
+                    WelcomeTime -= Time.deltaTime;
+                }
+            }
+            
             if (Input.GetKeyDown(KeyCode.I))
             {
                 if (IsInventoryOpen())
@@ -139,20 +191,100 @@ public class GameManager : MonoBehaviour
                 EndScreen.SetActive(true);
                 ProgressBar.SetActive(false);
                 InventoryIcon.SetActive(false);
-                Destroy(MainPlayer.gameObject);
+                InventoryIcon.SetActive(false);
+                //Destroy(MainPlayer.gameObject);
                 status = Status.Dead;
             }
             else
             {
                 time -= Time.deltaTime;
             }
+
+            if(TimeInstructions <= 0)
+            {
+                Instructions.SetActive(false);
+            }
+            else
+            {
+                TimeInstructions -= Time.deltaTime;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            CloseInventory();
-            CloseMixing();
+            if (IsInventoryOpen() || IsMixingOpen())
+            {
+                CloseInventory();
+                CloseMixing();
+            }
+            else
+            {
+                if (GamePaused)
+                {
+                    ProgressBar.SetActive(true);
+                    InventoryIcon.SetActive(true);
+                    MenuUI.SetActive(false);
+                    status = Status.Playing;
+                    GamePaused = false;
+                    NewGameButton.SetActive(false);
+                    ContinueUI.SetActive(true);
+                }
+                else
+                {
+                    ProgressBar.SetActive(false);
+                    InventoryIcon.SetActive(false);
+                    MenuUI.SetActive(true);
+                    status = Status.Menu;
+                    GamePaused = true;
+                }
+            }
         }
+    }
+
+    public void NewGame()
+    {
+        ProgressBar.SetActive(true);
+        InventoryIcon.SetActive(true);
+        MenuUI.SetActive(false);
+        status = Status.Playing;
+        GameStarted = true;
+        NewGameButton.SetActive(false);
+        ContinueUI.SetActive(true);
+    }
+
+    public void Continue()
+    {
+        if (!GameStarted)
+        {
+            //LoadGame();
+
+            GameStarted = true;
+        }
+
+        MenuUI.SetActive(false);
+        status = Status.Playing;
+        ProgressBar.SetActive(true);
+        InventoryIcon.SetActive(true);
+        GamePaused = false;
+    }
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    public void PlayAgain()
+    {
+        time = 300f;
+        OnTimeChange?.Invoke((int)time);
+
+        ProgressBar.SetActive(true);
+        InventoryIcon.SetActive(true);
+        EndScreen.SetActive(false);
+
+        status = Status.Playing;
+        GameStarted = true;
+
+        MainPlayer.transform.position = Vector3.zero;
     }
 
     public void RestoreSeconds(int seconds)
@@ -297,5 +429,10 @@ public class GameManager : MonoBehaviour
     public void LoadGameUnconditional()
     {
         LoadGame();
+    }
+
+    public bool SavedGame()
+    {
+        return false;
     }
 }
