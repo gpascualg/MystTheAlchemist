@@ -24,6 +24,26 @@ public class Mixing : MonoBehaviour
         // Add placeholders
         SpawnPlaceholders();
     }
+    public void Subscribe()
+    {
+        GameManager.Instance.BeforeLoadGame += CleanInterface;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.BeforeLoadGame -= CleanInterface;
+    }
+
+    public void CleanInterface()
+    {
+        foreach (var item in components.Values)
+        {
+            Destroy(item.gameObject);
+        }
+        components.Clear();
+        qty.Clear();
+        SpawnPlaceholders();
+    }
 
     private void SpawnPlaceholders()
     {
@@ -135,13 +155,16 @@ public class Mixing : MonoBehaviour
         }
         else
         {
+            var transmog = Receipts.Instance.GetRandomComponentOfType(ComponentType.Potion);
             Component asset = ScriptableObject.CreateInstance<Component>();
             asset.Name = "Dubious Concoction";
-            //asset.Sprite = ;
+            asset.Sprite = transmog.Sprite;
+            asset.TransmogName = transmog.Name;
             asset.RestoresSeconds = 0;
+            asset.ComponentType = ComponentType.Potion;
             foreach (var component in components.Keys)
             {
-                asset.RestoresSeconds += -(int)Mathf.Abs(component.RestoresSeconds);
+                asset.RestoresSeconds += -Mathf.Abs(component.RestoresSeconds);
             }
             asset.RestoresSeconds -= UnityEngine.Random.Range(1, 10);
 
@@ -151,7 +174,6 @@ public class Mixing : MonoBehaviour
                 Components = receiptComponents
             };
             GameManager.Instance.MainPlayer.AddComponent(asset);
-            GameManager.Instance.MainPlayer.UseElement(asset);
         }
 
         // Respawn

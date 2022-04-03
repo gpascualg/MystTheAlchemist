@@ -12,7 +12,6 @@ public class GenerateMap : MonoBehaviour
     public bool Reload = false;
     public Transform ComponentsContainer;
     public Transform PathsContainer;
-    public int Seed;
 
     public List<GameObject> Junction4;
     public List<GameObject> JunctionT;
@@ -66,32 +65,28 @@ public class GenerateMap : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        int currentSeed = Seed;
-
         for(int x = MinX; x < MaxX; x++)
         {
             for(int y = MinY; y < MaxY; y++)
             {
-                Debug.Log(Seed);
-                Seed = currentSeed;
+                int currentSeed = GameManager.Instance.Seed;
                 foreach (var component in Receipts.Instance.Components)
                 {
                     if (component.ComponentType == ComponentType.Potion) continue;
-                    if (OpenSimplex2.Noise2(Seed, x, y) > component.Threshold){
+                    if (OpenSimplex2.Noise2(currentSeed, x, y) > component.Threshold){
 
-                        float newX = x + OpenSimplex2.Noise2(Seed + UnityEngine.Random.Range(100, 300), x, y);
-                        float newY = y + OpenSimplex2.Noise2(Seed + UnityEngine.Random.Range(100, 300), x, y);
+                        float newX = x + OpenSimplex2.Noise2(currentSeed + UnityEngine.Random.Range(100, 300), x, y);
+                        float newY = y + OpenSimplex2.Noise2(currentSeed + UnityEngine.Random.Range(100, 300), x, y);
                         Vector3 position = new Vector3(newX, newY, -0.25f);
 
-                        //Debug.Log(component.Name + " at: (" + newX + ", " + newY + ")");
-
                         GameObject newObject = Instantiate(component.Prefab, position, Quaternion.identity, ComponentsContainer.transform);
-
-                        Seed += 1;
+                        ++currentSeed;
                     }
                 }
             }
         }
+
+        GameManager.Instance.Seed += 1000;
     }
 
     private void GeneratePath(int totalSteps, int x, int y, bool[,] map, int width, int height)

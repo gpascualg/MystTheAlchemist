@@ -4,6 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+
+[System.Serializable]
+public class JSONItem
+{
+    public JSONComponent Component;
+    public int Quantity;
+}
+
 public class Player : MonoBehaviour
 {
     private List<WorldComponent> nearCandidates = new List<WorldComponent>();
@@ -14,7 +22,7 @@ public class Player : MonoBehaviour
     private float nearestComponentDist = float.PositiveInfinity;
     private WorldComponent nearestComponent;
 
-    private List<ReceiptComponents> learnedReceipts = new List<ReceiptComponents>();
+    public List<ReceiptComponents> LearnedReceipts = new List<ReceiptComponents>();
     private HashSet<string> alreadyKnownReceipts = new HashSet<string>();
     public Action<ReceiptComponents> OnLearnedReceipt;
 
@@ -23,7 +31,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        learnedReceipts.Add(Receipts.Instance.FindReceiptAt(0));
+        LearnedReceipts.Add(Receipts.Instance.FindReceiptAt(0));
         alreadyKnownReceipts.Add(Receipts.Instance.FindReceiptAt(0).GUID);
         OnLearnedReceipt?.Invoke(Receipts.Instance.FindReceiptAt(0));
     }
@@ -31,6 +39,25 @@ public class Player : MonoBehaviour
     private float DistanceTo(WorldComponent comp)
     {
         return (comp.transform.position - transform.position).sqrMagnitude;
+    }
+
+    public List<JSONItem> SerializeInventory()
+    {
+        List<JSONItem> result = new List<JSONItem>();
+        foreach (var pair in Inventory)
+        {
+            result.Add(new JSONItem()
+            {
+                Component = pair.Key.Serialize(),
+                Quantity = pair.Value
+            });
+        }
+        return result;
+    }
+
+    public bool Knows(ReceiptComponents receipt)
+    {
+        return alreadyKnownReceipts.Contains(receipt.GUID);
     }
 
     public void AddToNearest(WorldComponent component)
@@ -136,8 +163,36 @@ public class Player : MonoBehaviour
 
         if (alreadyKnownReceipts.Add(AlchemicComponent.ReceiptComponents.GUID))
         {
-            learnedReceipts.Add(AlchemicComponent.ReceiptComponents);
+            LearnedReceipts.Add(AlchemicComponent.ReceiptComponents);
             OnLearnedReceipt?.Invoke(AlchemicComponent.ReceiptComponents);
+        }
+    }
+
+    public void Deserialize(List<JSONReceipt> receipts)
+    {
+        LearnedReceipts.Clear();
+        alreadyKnownReceipts.Clear();
+
+        foreach (var receiptData in receipts)
+        {
+            var receipt = receiptData.Deserialize();
+
+            if (alreadyKnownReceipts.Add(receipt.GUID))
+            {
+                LearnedReceipts.Add(receipt);
+                OnLearnedReceipt?.Invoke(receipt);
+            }
+        }
+    }
+
+    public void Deserialize(List<JSONItem> items)
+    {
+        Inventory.Clear();
+        foreach (var itemData in items)
+        {
+            var item = itemData.Component.Deserialize();
+            Inventory.Add(item, itemData.Quantity);
+            OnItemAdd?.Invoke(item, itemData.Quantity);
         }
     }
 

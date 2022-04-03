@@ -11,14 +11,9 @@ public class SaveGame
 {
     public int Seed;
     public List<JSONReceipt> Receipts;
-    public List<JSONComponent> Inventory;
+    public List<JSONItem> Inventory;
 }
 
-[System.Serializable]
-public class JSONComponent
-{
-
-}
 
 public class GameManager : MonoBehaviour
 {
@@ -57,11 +52,15 @@ public class GameManager : MonoBehaviour
     public Action OnInventoryClosed;
     public Action OnMixingOpened;
     public Action OnMixingClosed;
+    public Action BeforeLoadGame;
+    public Action AfterLoadGame;
 
     public GameObject ETooltip;
 
     public Material OutlineMaterial;
     public Material NormalMaterial;
+
+    public int Seed;
 
     public float StartPage = 2f;
     public GameObject StartUI;
@@ -95,6 +94,7 @@ public class GameManager : MonoBehaviour
 
         // Subscribe Inventory
         InventoryUI.GetComponent<Inventory>().Subscribe();
+        MixingUI.GetComponent<Mixing>().Subscribe();
         ReceiptsUI.GetComponent<ReceiptsList>().Subscribe();
     }
 
@@ -307,13 +307,41 @@ public class GameManager : MonoBehaviour
 
     public void SaveGame()
     {
-        using (StreamWriter outputFile = new StreamWriter(Path.Combine(Application.persistentDataPath, "save.dat")))
+        var path = Path.Combine(Application.persistentDataPath, "player.dat");
+        using (StreamWriter outputFile = new StreamWriter(path))
         {
             outputFile.Write(JsonUtility.ToJson(new SaveGame()
             {
-                Seed = 0
+                Seed = Seed,
+                Receipts = MainPlayer.LearnedReceipts.ConvertAll(new Converter<ReceiptComponents, JSONReceipt>(ReceiptComponents.Serializer)),
+                Inventory = MainPlayer.SerializeInventory()
             }));
-        }        
+        }
+    }
+
+    public bool LoadGame()
+    {
+        var path = Path.Combine(Application.persistentDataPath, "player.dat");
+        if (!File.Exists(path))
+        {
+            return false;
+        }
+
+        BeforeLoadGame?.Invoke();
+        using (StreamReader inputFile = new StreamReader(path))
+        {
+            SaveGame data = JsonUtility.FromJson<SaveGame>(inputFile.ReadToEnd());
+            Seed = data.Seed;
+            MainPlayer.Deserialize(data.Receipts);
+            MainPlayer.Deserialize(data.Inventory);
+        }
+        AfterLoadGame?.Invoke();
+
+        return true;
+    }
+    public void LoadGameUnconditional()
+    {
+        LoadGame();
     }
 
     public bool SavedGame()

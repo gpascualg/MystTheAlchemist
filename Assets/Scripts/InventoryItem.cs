@@ -14,7 +14,7 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     public bool InMixing;
     public bool IsPlaceHolder;
     public bool IsReceipt;
-    public string ReceiptGUID;
+    public ReceiptComponents Receipt;
 
     public void UpdateQuantity(int qty)
     {
@@ -81,10 +81,9 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
             return;
         }
 
-        if (IsReceipt)
+        if (IsReceipt && Receipt != null)
         {
-            var receipt = Receipts.Instance.FindReceipt(ReceiptGUID);
-            foreach (var component in receipt.Components)
+            foreach (var component in Receipt.Components)
             {
                 if (GameManager.Instance.MainPlayer.HasElement(component))
                 {

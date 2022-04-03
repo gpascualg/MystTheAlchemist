@@ -25,6 +25,7 @@ public class Inventory : MonoBehaviour
 
     public void Subscribe()
     {
+        GameManager.Instance.BeforeLoadGame += CleanInterface;
         GameManager.Instance.MainPlayer.OnItemAdd += AddItem;
         GameManager.Instance.MainPlayer.OnItemRemove += RemoveItem;
         Tooltip.Subscribe();
@@ -32,8 +33,18 @@ public class Inventory : MonoBehaviour
 
     private void OnDestroy()
     {
+        GameManager.Instance.BeforeLoadGame -= CleanInterface;
         GameManager.Instance.MainPlayer.OnItemAdd -= AddItem;
         GameManager.Instance.MainPlayer.OnItemRemove -= RemoveItem;
+    }
+
+    public void CleanInterface()
+    {
+        foreach (var item in components.Values)
+        {
+            Destroy(item.gameObject);
+        }
+        components.Clear();
     }
 
     public void AddItem(Component component, int qty)
