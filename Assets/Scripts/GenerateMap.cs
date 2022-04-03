@@ -6,12 +6,9 @@ public class GenerateMap : MonoBehaviour
 {
     public int MaxY, MinY, MaxX, MinX;
     public bool Reload = false;
-    private float hyacinthThreshold = 0.8f;
-    private long hyacinthSeed = 1000;
-    public GameObject Hyacinth;
-    private float lavenderThreshold = 0.9f;
-    private long lavenderSeed = 3000;
-    public GameObject Lavender;
+    public Transform ComponentsContainer;
+    public int Seed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +16,7 @@ public class GenerateMap : MonoBehaviour
         MinY = -100;
         MaxX = 100;
         MinX = -100;
+        Seed = 0;
     }
 
     // Update is called once per frame
@@ -27,6 +25,7 @@ public class GenerateMap : MonoBehaviour
         if (Reload)
         {
             Debug.Log("GENERATING");
+            
             Generate();
             Reload = false;
         }
@@ -34,29 +33,35 @@ public class GenerateMap : MonoBehaviour
 
     public void Generate()
     {
-        Debug.Log("In generate");
+        foreach (Transform child in ComponentsContainer.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        int currentSeed = Seed;
+
         for(int x = MinX; x < MaxX; x++)
         {
-            Debug.Log(x);
             for(int y = MinY; y < MaxY; y++)
             {
-                Debug.Log(y);
-                if(OpenSimplex2.Noise2(hyacinthSeed, x, y) > hyacinthThreshold)
+                Debug.Log(Seed);
+                Seed = currentSeed;
+                foreach (var component in Receipts.Instance.Components)
                 {
-                    float newX = x + OpenSimplex2.Noise2(hyacinthSeed + 100, x, y);
-                    float newY = y + OpenSimplex2.Noise2(hyacinthSeed + 50, x, y);
-                    Vector3 position = new Vector3(newX, newY, 0);
-                    Debug.Log("Hyacinth at: (" + newX + ", " + newY + ")");
-                    GameObject newObject = Instantiate(Hyacinth, position, Quaternion.identity);
-                };
-                if (OpenSimplex2.Noise2(lavenderSeed, x, y) > lavenderThreshold)
-                {
-                    float newX = x + OpenSimplex2.Noise2(lavenderSeed + 30, x, y);
-                    float newY = y + OpenSimplex2.Noise2(lavenderSeed + 200, x, y);
-                    Vector3 position = new Vector3(newX, newY, 0);
-                    Debug.Log("Lavender at: (" + newX + ", " + newY + ")");
-                    GameObject newObject = Instantiate(Lavender, position, Quaternion.identity);
-                };
+                    if (component.ComponentType == ComponentType.Potion) continue;
+                    if (OpenSimplex2.Noise2(Seed, x, y) > component.Threshold){
+
+                        float newX = x + OpenSimplex2.Noise2(Seed + UnityEngine.Random.Range(100, 300), x, y);
+                        float newY = y + OpenSimplex2.Noise2(Seed + UnityEngine.Random.Range(100, 300), x, y);
+                        Vector3 position = new Vector3(newX, newY, 0);
+
+                        Debug.Log(component.Name + " at: (" + newX + ", " + newY + ")");
+
+                        GameObject newObject = Instantiate(component.Prefab, position, Quaternion.identity, ComponentsContainer.transform);
+
+                        Seed += 1;
+                    }
+                }
             }
         }
     }

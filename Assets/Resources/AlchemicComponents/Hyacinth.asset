@@ -17,3 +17,4 @@ MonoBehaviour:
   Prefab: {fileID: 265244826232371925, guid: d3a7ba1caf7b77547a98cecbd9310bff, type: 3}
   Description: As blue as the sky itself, calms the mind and the body
   RestoresSeconds: 0
+  Threshold: 0.8

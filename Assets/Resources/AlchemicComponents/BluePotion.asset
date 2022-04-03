@@ -17,3 +17,5 @@ MonoBehaviour:
   Prefab: {fileID: 98341889937692627, guid: 32efdbcb3cc61ac4bb26876e44372883, type: 3}
   Description: Exumes a clear air
   RestoresSeconds: 2
+  Threshold: 0
+  ComponentType: 2
