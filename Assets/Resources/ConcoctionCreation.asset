@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc24db33263e2eb4688f1d2841680242, type: 3}
+  m_Name: ConcoctionCreation
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - BaseNodeGuid: c80241e6-a7d4-4ca0-ad18-740611bc3fc5
+    PortName: Next
+    TargetNodeGuid: 20d8db6e-5af2-47d7-b99a-6512aa0aa0d4
+  - BaseNodeGuid: 20d8db6e-5af2-47d7-b99a-6512aa0aa0d4
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 971c0b41-77aa-4c01-a665-bce79135bd5c
+  - BaseNodeGuid: 971c0b41-77aa-4c01-a665-bce79135bd5c
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 077902f3-2b62-4822-aa3d-364fa72b5318
+  nodeData:
+  - Guid: 20d8db6e-5af2-47d7-b99a-6512aa0aa0d4
+    DialogueText: Blood
+    Position: {x: 220, y: 200}
+  - Guid: 971c0b41-77aa-4c01-a665-bce79135bd5c
+    DialogueText: Wine of Wizardry
+    Position: {x: 477, y: 200}
+  - Guid: 077902f3-2b62-4822-aa3d-364fa72b5318
+    DialogueText: Concoction of Creation
+    Position: {x: 820, y: 334}
+  TargetNodeGuid: {x: 0, y: 0}

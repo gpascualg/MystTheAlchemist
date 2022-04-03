@@ -16,12 +16,12 @@ MonoBehaviour:
   - BaseNodeGuid: 8b596b63-d28e-4a2a-8a64-ae21d5ead87a
     PortName: Next
     TargetNodeGuid: 695f75d1-0054-47ff-9cec-b8b6c164385e
-  - BaseNodeGuid: 695f75d1-0054-47ff-9cec-b8b6c164385e
-    PortName: 'Choice 0 '
-    TargetNodeGuid: 08adc19a-094b-4532-82ef-903a246a1d79
   - BaseNodeGuid: 08adc19a-094b-4532-82ef-903a246a1d79
     PortName: 'Choice 0 '
     TargetNodeGuid: ddb62fb7-4749-4bb8-92a8-e2b06e8cd2b6
+  - BaseNodeGuid: 695f75d1-0054-47ff-9cec-b8b6c164385e
+    PortName: 'Choice 0 '
+    TargetNodeGuid: 08adc19a-094b-4532-82ef-903a246a1d79
   nodeData:
   - Guid: 08adc19a-094b-4532-82ef-903a246a1d79
     DialogueText: Hyacinth
@@ -30,6 +30,6 @@ MonoBehaviour:
     DialogueText: Water
     Position: {x: 227, y: 200}
   - Guid: ddb62fb7-4749-4bb8-92a8-e2b06e8cd2b6
-    DialogueText: Blue Potion
+    DialogueText: Deep Rain
     Position: {x: 820, y: 200}
   TargetNodeGuid: {x: 0, y: 0}
