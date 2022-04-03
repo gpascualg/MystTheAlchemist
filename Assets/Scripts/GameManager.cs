@@ -59,12 +59,10 @@ public class GameManager : MonoBehaviour
     public Material OutlineMaterial;
     public Material NormalMaterial;
 
-<<<<<<< HEAD
     public int Seed;
-=======
+
     public float StartPage = 2f;
     public GameObject StartUI;
->>>>>>> d719050d40e6c32aec53266eda1d1c63b6953fd7
     
 
     // Start is called before the first frame update
