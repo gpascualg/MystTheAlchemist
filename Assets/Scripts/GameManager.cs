@@ -89,10 +89,10 @@ public class GameManager : MonoBehaviour
     {
         time = 300f;
         OnTimeChange?.Invoke((int)time);
-        //time = 30f;
+        time = 10f;
         EndScreen.SetActive(false);
-        //status = Status.Start;
-        status = Status.Playing;
+        status = Status.Start;
+        //status = Status.Playing;
 
         menu = Menus.None;
         //OpenInventory();
@@ -155,6 +155,7 @@ public class GameManager : MonoBehaviour
                     WelcomeTime -= Time.deltaTime;
                 }
             }
+            
             if (Input.GetKeyDown(KeyCode.I))
             {
                 if (IsInventoryOpen())
@@ -173,7 +174,7 @@ public class GameManager : MonoBehaviour
                 ProgressBar.SetActive(false);
                 InventoryIcon.SetActive(false);
                 InventoryIcon.SetActive(false);
-                Destroy(MainPlayer.gameObject);
+                //Destroy(MainPlayer.gameObject);
                 status = Status.Dead;
             }
             else
@@ -242,6 +243,21 @@ public class GameManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void PlayAgain()
+    {
+        time = 300f;
+        OnTimeChange?.Invoke((int)time);
+
+        ProgressBar.SetActive(true);
+        InventoryIcon.SetActive(true);
+        EndScreen.SetActive(false);
+
+        status = Status.Playing;
+        GameStarted = true;
+
+        MainPlayer.transform.position = Vector3.zero;
     }
 
     public void RestoreSeconds(int seconds)
