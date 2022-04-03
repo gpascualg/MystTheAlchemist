@@ -27,6 +27,7 @@ public class Inventory : MonoBehaviour
     {
         GameManager.Instance.MainPlayer.OnItemAdd += AddItem;
         GameManager.Instance.MainPlayer.OnItemRemove += RemoveItem;
+        Tooltip.Subscribe();
     }
 
     private void OnDestroy()

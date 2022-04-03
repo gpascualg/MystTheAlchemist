@@ -17,5 +17,5 @@ MonoBehaviour:
   Prefab: {fileID: 8255911349349332627, guid: 26764076c6e88804e804455a7bceca0d, type: 3}
   Description: A flower of pure power
   RestoresSeconds: 0
-  Threshold: 0.8
+  Threshold: 0.5
   ComponentType: 0
