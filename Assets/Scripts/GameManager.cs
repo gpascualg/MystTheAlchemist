@@ -24,9 +24,10 @@ public class GameManager : MonoBehaviour
 {
     public enum Status
     {
-        Menu = 0,
-        Playing = 1,
-        Dead = 2
+        Start = 0,
+        Menu = 1,
+        Playing = 2,
+        Dead = 3
     }
 
     public enum Menus
@@ -65,6 +66,12 @@ public class GameManager : MonoBehaviour
     public float StartPage = 2f;
     public GameObject StartUI;
     
+    public GameObject MenuUI;
+    public GameObject NewGameButton;
+    public GameObject ContinueUI;
+
+    public bool GameStarted = false;
+    public bool GamePaused = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -79,8 +86,8 @@ public class GameManager : MonoBehaviour
         OnTimeChange?.Invoke((int)time);
         //time = 30f;
         EndScreen.SetActive(false);
-        //status = Status.Menu;
-        status = Status.Playing;
+        status = Status.Start;
+        //status = Status.Playing;
 
         menu = Menus.None;
         //OpenInventory();
@@ -94,19 +101,30 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (status == Status.Menu)
+        if (status == Status.Start)
         {
             if (StartPage <= 0)
             {
                 StartUI.SetActive(false);
-                ProgressBar.SetActive(true);
-                status = Status.Playing;
+                MenuUI.SetActive(true);
+                status = Status.Menu;
+                if(SavedGame() || GamePaused)
+                {
+                    NewGameButton.SetActive(false);
+                    ContinueUI.SetActive(true);
+                }
+                else
+                {
+                    NewGameButton.SetActive(true);
+                    ContinueUI.SetActive(false);
+                }
             }
             else
             {
                 StartPage -= Time.deltaTime;
             }
         }
+
         if (status == Status.Playing)
         {
             if (Input.GetKeyDown(KeyCode.I))
@@ -126,6 +144,7 @@ public class GameManager : MonoBehaviour
                 EndScreen.SetActive(true);
                 ProgressBar.SetActive(false);
                 InventoryIcon.SetActive(false);
+                InventoryIcon.SetActive(false);
                 Destroy(MainPlayer.gameObject);
                 status = Status.Dead;
             }
@@ -137,9 +156,64 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            CloseInventory();
-            CloseMixing();
+            if (IsInventoryOpen() || IsMixingOpen())
+            {
+                CloseInventory();
+                CloseMixing();
+            }
+            else
+            {
+                if (GamePaused)
+                {
+                    ProgressBar.SetActive(true);
+                    InventoryIcon.SetActive(true);
+                    MenuUI.SetActive(false);
+                    status = Status.Playing;
+                    GamePaused = false;
+                    NewGameButton.SetActive(false);
+                    ContinueUI.SetActive(true);
+                }
+                else
+                {
+                    ProgressBar.SetActive(false);
+                    InventoryIcon.SetActive(false);
+                    MenuUI.SetActive(true);
+                    status = Status.Menu;
+                    GamePaused = true;
+                }
+            }
         }
+    }
+
+    public void NewGame()
+    {
+        ProgressBar.SetActive(true);
+        InventoryIcon.SetActive(true);
+        MenuUI.SetActive(false);
+        status = Status.Playing;
+        GameStarted = true;
+        NewGameButton.SetActive(false);
+        ContinueUI.SetActive(true);
+    }
+
+    public void Continue()
+    {
+        if (!GameStarted)
+        {
+            //LoadGame();
+
+            GameStarted = true;
+        }
+
+        MenuUI.SetActive(false);
+        status = Status.Playing;
+        ProgressBar.SetActive(true);
+        InventoryIcon.SetActive(true);
+        GamePaused = false;
+    }
+    public void Quit()
+    {
+        Application.Quit();
     }
 
     public void RestoreSeconds(int seconds)
@@ -240,5 +314,10 @@ public class GameManager : MonoBehaviour
                 Seed = 0
             }));
         }        
+    }
+
+    public bool SavedGame()
+    {
+        return false;
     }
 }
