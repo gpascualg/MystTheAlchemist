@@ -136,7 +136,22 @@ public class Mixing : MonoBehaviour
         else
         {
             Component asset = ScriptableObject.CreateInstance<Component>();
+            asset.Name = "Dubious Concoction";
+            //asset.Sprite = ;
+            asset.RestoresSeconds = 0;
+            foreach (var component in components.Keys)
+            {
+                asset.RestoresSeconds += -(int)Mathf.Abs(component.RestoresSeconds);
+            }
+            asset.RestoresSeconds -= UnityEngine.Random.Range(1, 10);
+
+            asset.ReceiptComponents = new ReceiptComponents()
+            {
+                Final = asset,
+                Components = receiptComponents
+            };
             GameManager.Instance.MainPlayer.AddComponent(asset);
+            GameManager.Instance.MainPlayer.UseElement(asset);
         }
 
         // Respawn

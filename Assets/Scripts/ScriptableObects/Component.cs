@@ -23,6 +23,8 @@ public class Component : ScriptableObject
     public float Threshold;
     public ComponentType ComponentType;
 
+    public ReceiptComponents ReceiptComponents { get; set; }
+
     public string GUID
     {
         get
