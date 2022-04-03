@@ -158,14 +158,18 @@ public class Player : MonoBehaviour
         }
     }
 
-     private void OnDisable()
+    private void OnEnable()
     {
         GameManager.Instance.OnTimeChange += FloatingTex;
+    }
+    private void OnDisable()
+    {
+        GameManager.Instance.OnTimeChange -= FloatingTex;
     }
 
     public void FloatingTex(int time)
     {
-        var t = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
-        t.GetComponent<TextMesh>().text = time.ToString();
+        var t = Instantiate(FloatingText, transform.position, Quaternion.identity);
+        t.GetComponent<TextMesh>().text = time.ToString("+0");
     }
 }

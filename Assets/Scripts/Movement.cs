@@ -16,7 +16,7 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 vel = Vector2.zero;
-        if(!GameManager.Instance.IsInventoryOpen() && !GameManager.Instance.IsMixingOpen()) 
+        if(!GameManager.Instance.IsMixingOpen()) 
         { 
             if (Input.GetKey(KeyCode.W)) {
                 vel.y += 1;

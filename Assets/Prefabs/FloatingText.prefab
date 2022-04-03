@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7429538760573575216}
   - component: {fileID: 1927127851361076424}
   - component: {fileID: 1767300709}
+  - component: {fileID: 1835898327220650845}
   m_Layer: 0
   m_Name: FloatingText
   m_TagString: Untagged
@@ -91,7 +92,7 @@ TextMesh:
   m_Anchor: 0
   m_Alignment: 0
   m_TabSize: 4
-  m_FontSize: 0
+  m_FontSize: 25
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 0}
@@ -118,3 +119,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1835898327220650845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8229814928045918513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4094f7b13b6e47442a97563b3876f590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DestroyTime: 1
+  Offset: {x: 0, y: 0.5, z: 0}

@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         time = 300f;
-        OnTimeChange?.Invoke((int)time);
+        //OnTimeChange?.Invoke((int)time);
         //time = 30f;
         EndScreen.SetActive(false);
         status = Status.Playing;
