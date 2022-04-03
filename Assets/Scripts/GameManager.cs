@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     private Menus menu;
 
     public GameObject ProgressBar;
+    public GameObject InventoryIcon;
 
     public Action<int> OnTimeChange;
     public Action OnInventoryOpened;
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour
     {
         time = 300f;
         OnTimeChange?.Invoke((int)time);
-        time = 30f;
+        //time = 30f;
         EndScreen.SetActive(false);
         status = Status.Playing;
 
@@ -70,10 +71,23 @@ public class GameManager : MonoBehaviour
     {
         if (status == Status.Playing)
         {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                if (IsInventoryOpen())
+                {
+                    CloseInventory();
+                }
+                else
+                {
+                    OpenInventory();
+                }
+            }
+
             if (time <= 0)
             {
                 EndScreen.SetActive(true);
                 ProgressBar.SetActive(false);
+                InventoryIcon.SetActive(false);
                 Destroy(MainPlayer.gameObject);
                 status = Status.Dead;
             }
