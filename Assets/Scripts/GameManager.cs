@@ -59,7 +59,12 @@ public class GameManager : MonoBehaviour
     public Material OutlineMaterial;
     public Material NormalMaterial;
 
+<<<<<<< HEAD
     public int Seed;
+=======
+    public float StartPage = 2f;
+    public GameObject StartUI;
+>>>>>>> d719050d40e6c32aec53266eda1d1c63b6953fd7
     
 
     // Start is called before the first frame update
@@ -75,6 +80,7 @@ public class GameManager : MonoBehaviour
         OnTimeChange?.Invoke((int)time);
         //time = 30f;
         EndScreen.SetActive(false);
+        //status = Status.Menu;
         status = Status.Playing;
 
         menu = Menus.None;
@@ -90,6 +96,19 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (status == Status.Menu)
+        {
+            if (StartPage <= 0)
+            {
+                StartUI.SetActive(false);
+                ProgressBar.SetActive(true);
+                status = Status.Playing;
+            }
+            else
+            {
+                StartPage -= Time.deltaTime;
+            }
+        }
         if (status == Status.Playing)
         {
             if (Input.GetKeyDown(KeyCode.I))
