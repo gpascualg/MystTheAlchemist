@@ -102,7 +102,8 @@ public class GameManager : MonoBehaviour
         //time = 10f;
         EndScreen.SetActive(false);
         status = Status.Start;
-        //status = Status.Playing;
+        status = Status.Playing;
+
 
         menu = Menus.None;
         //OpenInventory();

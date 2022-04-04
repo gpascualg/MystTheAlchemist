@@ -113,13 +113,11 @@ public class GenerateMap : MonoBehaviour
                 foreach (var component in Receipts.Instance.Components)
                 {
                     if (component.ComponentType == ComponentType.Potion) continue;
-                    if (component.Prefab == null) continue;
 
-                    if (OpenSimplex2.Noise2(currentSeed, x, y) > component.Threshold)
+                    if (RandomProb(currentSeed, x, y) > component.Threshold)
                     {
-
-                        float newX = x + OpenSimplex2.Noise2(currentSeed + RandomRange(currentSeed + x * (MaxY - MinY) + y, 100, 300), x, y);
-                        float newY = y + OpenSimplex2.Noise2(currentSeed + RandomRange(currentSeed + x * (MaxY - MinY) + y, 100, 300), x, y);
+                        float newX = x + (RandomProb(currentSeed * 100 + x + y, x, y) - 0.5f) * 2.0f;
+                        float newY = y + (RandomProb(currentSeed * 200 + x + y, x, y) - 0.5f) * 2.0f;
                         Vector3 position = new Vector3(newX, newY, -0.25f);
 
                         GameObject go = Instantiate(Prefabs[(int)component.ComponentType], position, Quaternion.identity, ComponentsContainer.transform);

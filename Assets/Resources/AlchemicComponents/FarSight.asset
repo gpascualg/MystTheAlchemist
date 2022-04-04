@@ -18,4 +18,4 @@ MonoBehaviour:
   Description: 
   RestoresSeconds: 8
   Threshold: 0
-  ComponentType: 0
+  ComponentType: 2
