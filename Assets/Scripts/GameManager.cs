@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     public GameObject WelcomeText2;
     public GameObject WelcomeDialog;
     public int WelcomeStep = 1;
-    public float WelcomeTime = 5f;
+    public float WelcomeTime = 10f;
 
     public GameObject Instructions;
     public float TimeInstructions = 10f;
@@ -101,10 +101,10 @@ public class GameManager : MonoBehaviour
     {
         time = 300f;
         OnTimeChange?.Invoke((int)time);
-        //time = 10f;
+        time = 10f;
         EndScreen.SetActive(false);
         status = Status.Start;
-        status = Status.Playing;
+        //status = Status.Playing;
 
 
         menu = Menus.None;
@@ -197,6 +197,8 @@ public class GameManager : MonoBehaviour
                 ProgressBar.SetActive(false);
                 InventoryIcon.SetActive(false);
                 InventoryIcon.SetActive(false);
+                CloseInventory();
+                CloseMixing();
                 //Destroy(MainPlayer.gameObject);
                 status = Status.Dead;
             }
