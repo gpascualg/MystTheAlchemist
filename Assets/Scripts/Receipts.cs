@@ -22,7 +22,6 @@ public class JSONReceipt
             return null;
         }
 
-        Debug.Log($"Deserializing receipt {Final.Name}@{Components.Count} ({GUID})");
         var receipt = new ReceiptComponents()
         {
             Final = Final.Deserialize(GUID),
@@ -159,14 +158,18 @@ public class Receipts : MonoBehaviour
             Receipt receipt = new Receipt();
             if (!CreateNodes(graph, receipt))
             {
+#if UNITY_EDITOR
                 Debug.LogError($"Invalid receipt {graph.name}");
+#endif
                 continue;
             }
 
             ConnectNodes(graph, receipt);
             if (receipt.First.AlchemicComponent == null)
             {
+#if UNITY_EDITOR
                 Debug.LogError($"Invalid receipt {graph.name}");
+#endif
                 continue;
             }
 
@@ -234,7 +237,9 @@ public class Receipts : MonoBehaviour
             }
             else
             {
+#if UNITY_EDITOR
                 Debug.LogError($"Receipt {container.name} has invalid component {nodeData.DialogueText}");
+#endif
                 return false;
             }
 

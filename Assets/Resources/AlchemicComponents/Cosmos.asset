@@ -19,4 +19,4 @@ MonoBehaviour:
   Description: The legends says my petals look like stars... Do you agree?
   RestoresSeconds: 0
   Threshold: 0.8
-  ComponentType: 0
+  ComponentType: 3

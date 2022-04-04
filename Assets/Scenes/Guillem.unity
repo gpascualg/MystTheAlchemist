@@ -2415,13 +2415,41 @@ MonoBehaviour:
   - {fileID: 7350236533148280250, guid: 2f0d64ba38d39cb46be224b956455fbd, type: 3}
   - {fileID: 4286291412393495762, guid: aedffce7046f20041b0b2eeec8272e73, type: 3}
   Junction4:
-  - {fileID: 5187940219165411278, guid: 5545efcf2fc58994a8f169e65ed343e1, type: 3}
+    StonePrefabs:
+    - {fileID: 5827460318807463077, guid: 546bcbaf7fb776642abdd8090705bc69, type: 3}
+    SandPrefabs:
+    - {fileID: 5187940219165411278, guid: 5545efcf2fc58994a8f169e65ed343e1, type: 3}
+    - {fileID: 7009983490305137165, guid: 975d50695db8c7e43bf0a60752ee4b90, type: 3}
+    RiverPrefabs: []
   JunctionT:
-  - {fileID: 6072106018978784694, guid: 6ad7ff47de9c62d49ac074d2bb9fec16, type: 3}
+    StonePrefabs:
+    - {fileID: 6497180465673043675, guid: 9643ceabfd1a70a4a8492f69a584bd40, type: 3}
+    SandPrefabs:
+    - {fileID: 5384112455685787080, guid: 708c76fa300cc354a824fc2c4042c982, type: 3}
+    - {fileID: 6072106018978784694, guid: 6ad7ff47de9c62d49ac074d2bb9fec16, type: 3}
+    RiverPrefabs: []
   Straight:
-  - {fileID: 4741509478815198521, guid: 11e36885f388cc3499a3c9626df4cb6b, type: 3}
+    StonePrefabs:
+    - {fileID: 687325733180337077, guid: ad095fa4e771bde4cb4751732589ed23, type: 3}
+    - {fileID: 8006279002764225469, guid: 49bad8951422e104bbcf3f2aaffbfec3, type: 3}
+    SandPrefabs:
+    - {fileID: 3868512863210503331, guid: b2c01ea6062a9e44faf0afb178470653, type: 3}
+    - {fileID: 3804320693267908565, guid: c361ff1aa36acb4449540653ff268f9d, type: 3}
+    - {fileID: 4741509478815198521, guid: 11e36885f388cc3499a3c9626df4cb6b, type: 3}
+    RiverPrefabs:
+    - {fileID: 5298671287537070787, guid: 81fe5e668967b4a48982df5ad4d9739d, type: 3}
+    - {fileID: 3063654572239398227, guid: 65eb37be86b87734686f8b7dd6917ad3, type: 3}
+    - {fileID: 2739891654630669894, guid: 787a28d0aa4bc8a44b47f9f65872567b, type: 3}
+    - {fileID: 1542584214543555965, guid: fcf695c496363ac4eb17d3a809a0d729, type: 3}
   Turn:
-  - {fileID: 1846806641031849445, guid: 005f10e2f7859dd4685108c1ff0f268c, type: 3}
+    StonePrefabs:
+    - {fileID: 519439806589796077, guid: 46d076bc5e57edd48a0d3e2d5796ff14, type: 3}
+    SandPrefabs:
+    - {fileID: 1846806641031849445, guid: 005f10e2f7859dd4685108c1ff0f268c, type: 3}
+    - {fileID: 5728646485548133994, guid: 9aa4844c218e4fc49847018eee9d7899, type: 3}
+    RiverPrefabs:
+    - {fileID: 3187897846216446586, guid: b215ba81c19571342aff14006d29c0f2, type: 3}
+    - {fileID: 1421505504267396201, guid: 0984f0638de0b7c4e87179649526b6bd, type: 3}
   Filling:
   - {fileID: 2810936934798024134, guid: 3cf8f96002b07bd448afed58e0d4d70d, type: 3}
   - {fileID: 5205127554938915604, guid: 9b45835658712dd479563999a680af54, type: 3}

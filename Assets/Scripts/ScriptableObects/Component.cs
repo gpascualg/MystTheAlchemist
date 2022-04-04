@@ -65,8 +65,6 @@ public class JSONComponentWithoutReceipt
 
     public Component Deserialize(string receiptGuid = "")
     {
-        Debug.Log($"Deserializing component {Name}");
-
         var components = Receipts.Instance.ComponentsByName;
         if (components.ContainsKey(Name))
         {

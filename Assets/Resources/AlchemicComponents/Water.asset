@@ -18,5 +18,5 @@ MonoBehaviour:
   Prefab: {fileID: 6161113411659506147, guid: c274e5db6cc5db84585327e30b97d529, type: 3}
   Description: Pure water, nothing else, nothing more
   RestoresSeconds: 0
-  Threshold: 0.2
+  Threshold: 0.1
   ComponentType: 1

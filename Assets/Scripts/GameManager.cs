@@ -268,6 +268,7 @@ public class GameManager : MonoBehaviour
         NewGameButton.SetActive(false);
         ContinueUI.SetActive(true);
 
+        CollectedWorldIds.Clear();
         GenerateMap.Instance.GenerateAll();
         MainPlayer.transform.position = new Vector3(0, 0, -0.5f);
 
@@ -307,6 +308,7 @@ public class GameManager : MonoBehaviour
 
         status = Status.Playing;
         GameStarted = true;
+        CollectedWorldIds.Clear();
         GenerateMap.Instance.GenerateAll();
 
         MainPlayer.transform.position = new Vector3(0, 0, -0.5f);

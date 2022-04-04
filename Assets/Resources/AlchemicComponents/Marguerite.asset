@@ -19,4 +19,4 @@ MonoBehaviour:
   Description: Loves me... Loves me not
   RestoresSeconds: 0
   Threshold: 0.4
-  ComponentType: 0
+  ComponentType: 3

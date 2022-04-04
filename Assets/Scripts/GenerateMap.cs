@@ -6,6 +6,33 @@ using UnityEngine.Rendering;
 
 
 
+public enum TileType
+{
+    Empty,
+    Stone,
+    Sand,
+    River
+}
+
+[System.Serializable]
+public class PerTypePrefabs
+{
+    public List<GameObject> StonePrefabs;
+    public List<GameObject> SandPrefabs;
+    public List<GameObject> RiverPrefabs;
+
+    public List<GameObject> this[int key]
+    {
+        get 
+        {
+            if (key == (int)TileType.Stone) return StonePrefabs;
+            if (key == (int)TileType.Sand) return SandPrefabs;
+            if (key == (int)TileType.River) return RiverPrefabs;
+            return null;
+        }
+    }
+}
+
 public class GenerateMap : MonoBehaviour
 {
     public static GenerateMap Instance;
@@ -25,13 +52,13 @@ public class GenerateMap : MonoBehaviour
     public List<GameObject> Prefabs;
     public List<GameObject> GrassFiller;
 
-    public List<GameObject> Junction4;
-    public List<GameObject> JunctionT;
-    public List<GameObject> Straight;
-    public List<GameObject> Turn;
+    public PerTypePrefabs Junction4;
+    public PerTypePrefabs JunctionT;
+    public PerTypePrefabs Straight;
+    public PerTypePrefabs Turn;
     public List<GameObject> Filling;
 
-    private bool[,] map;
+    private TileType[,] map;
     private HashSet<Vector2> flowerSpots;
 
     private Dictionary<int, GameObject> collectibles;
@@ -76,31 +103,7 @@ public class GenerateMap : MonoBehaviour
 
     public void GenerateAll()
     {
-        int width = (int)Mathf.Ceil((MaxX - MinX) / 0.8f);
-        int height = (int)Mathf.Ceil((MaxY - MinY) / 0.8f);
-        map = new bool[width, height];
-        flowerSpots = new HashSet<Vector2>();
-        collectibles = new Dictionary<int, GameObject>();
-        objectCount = 0;
-
-        Generate();
-
-        int seed = GameManager.Instance.Seed;
-        for (int i = 0; i < NumPaths; ++i)
-        {
-            GenerateDrunkardPath(seed, RandomRange(seed++, PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.03f, 0.03f, 0.03f, 0.9f }, map, width, height);
-            GenerateDrunkardPath(seed, RandomRange(seed++, PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.03f, 0.03f, 0.9f, 0.03f }, map, width, height);
-            GenerateDrunkardPath(seed, RandomRange(seed++, PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.03f, 0.9f, 0.03f, 0.03f }, map, width, height);
-            GenerateDrunkardPath(seed, RandomRange(seed++, PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.9f, 0.03f, 0.03f, 0.03f }, map, width, height);
-        }
-
-        paintPaths(map, width, height);
-
-        GameManager.Instance.Seed += 1000;
-    }
-
-    public void Generate()
-    {
+        // CONTAINERS
         if (RealComponentsContainer != null)
         {
             Destroy(RealComponentsContainer);
@@ -117,38 +120,85 @@ public class GenerateMap : MonoBehaviour
         RealPathsContainer = new GameObject("Container");
         RealPathsContainer.transform.parent = PathsContainer;
 
-        for (int x = MinX; x < MaxX; x++)
+        // MAP
+        int width = (int)Mathf.Ceil((MaxX - MinX) / 0.8f);
+        int height = (int)Mathf.Ceil((MaxY - MinY) / 0.8f);
+        map = new TileType[width, height];
+        flowerSpots = new HashSet<Vector2>();
+        collectibles = new Dictionary<int, GameObject>();
+        objectCount = 0;
+
+        int seed = GameManager.Instance.Seed;
+        for (int i = 0; i < NumPaths; ++i)
         {
-            for(int y = MinY; y < MaxY; y++)
+            GenerateDrunkardPath(seed, RandomRange(seed++, PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.03f, 0.03f, 0.03f, 0.9f }, map, width, height, TileType.Stone);
+            GenerateDrunkardPath(seed, RandomRange(seed++, PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.03f, 0.03f, 0.9f, 0.03f }, map, width, height);
+            GenerateDrunkardPath(seed, RandomRange(seed++, PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.03f, 0.9f, 0.03f, 0.03f }, map, width, height);
+            GenerateDrunkardPath(seed, RandomRange(seed++, PathMinSteps, PathMaxSteps), -MinX, -MinY, new float[] { 0.9f, 0.03f, 0.03f, 0.03f }, map, width, height);
+        }
+
+        var riverProb = new float[] { 0.0f, 1.0f, 0.0f, 0.0f };
+        GenerateDrunkardPath(seed, RandomRange(seed++, PathMinSteps, PathMaxSteps), RandomRange(seed, MinX, MaxX) - MinX, MaxY - 1, riverProb, map, width, height, TileType.River, 0.99f);
+
+        paintPaths(map, width, height);
+
+        // OBJECTS
+        Generate(map, width, height);
+
+        GameManager.Instance.Seed += 1000;
+    }
+
+    public void Generate(TileType[,] map, int width, int height)
+    {
+        for (int x = 0; x < width; ++x)
+        {
+            for (int y = 0; y < height; ++y)
             {
                 int currentSeed = GameManager.Instance.Seed;
 
-                // Filler grass
-                int fillerSeed = currentSeed + x * (MaxY - MinY) + y;
-                for (int n = 0, nTotal = RandomRange(fillerSeed, 0, 15); n < nTotal; ++n)
+                if (map[x, y] != TileType.River)
                 {
-                    float newX = x + (RandomProb(currentSeed * 300 + x + n, x, y) - 0.5f) * 2.0f;
-                    float newY = y + (RandomProb(currentSeed * 400 + y + n, x, y) - 0.5f) * 2.0f;
-                    Vector3 position = new Vector3(newX, newY, 0.25f);
-                    Instantiate(GrassFiller[RandomRange(fillerSeed + n, 0, GrassFiller.Count)], position, Quaternion.identity, RealComponentsContainer.transform);
+                    // Filler grass
+                    int fillerSeed = currentSeed + x * (MaxY - MinY) + y;
+                    for (int n = 0, nTotal = RandomRange(fillerSeed, 0, 15); n < nTotal; ++n)
+                    {
+                        float newX = x + (RandomProb(currentSeed * 300 + x + n, x, y) - 0.5f) * 2.0f;
+                        float newY = y + (RandomProb(currentSeed * 400 + y + n, x, y) - 0.5f) * 2.0f;
+                        Vector3 position = new Vector3(newX, newY, 0.25f);
+                        Instantiate(GrassFiller[RandomRange(fillerSeed + n, 0, GrassFiller.Count)], position, Quaternion.identity, RealComponentsContainer.transform);
+                    }
                 }
 
                 // Actual objects
                 foreach (var component in Receipts.Instance.Components)
                 {
                     if (component.ComponentType == ComponentType.Potion) continue;
+                    if (component.Name == "Water" && map[x, y] != TileType.River) continue;
+                    if (map[x, y] == TileType.River && component.Name != "Water") continue;
+                    if (component.Name == "Stone" && map[x, y] != TileType.Stone) continue;
+                    if (map[x, y] == TileType.Stone && component.Name != "Stone") continue;
+                    if (map[x, y] == TileType.Sand) continue;
 
-                    if (RandomProb(currentSeed, x, y) > component.Threshold)
+                    float realX = x * 0.8f + MinX;
+                    float realY = y * 0.8f + MinY;
+
+                    int n = 0;
+                    while (RandomProb(currentSeed + n, x, y) > component.Threshold && n < 10)
                     {
                         if (GameManager.Instance.CollectedWorldIds.Contains(objectCount))
                         {
                             ++objectCount;
-                            ++currentSeed;
+                            ++n;
+                            if (component.Name != "Water" && component.Name != "Stone")
+                            {
+                                break;
+                            }
+                            
                             continue;
                         }
 
-                        float newX = x + (RandomProb(currentSeed * 100 + x + y, x, y) - 0.5f) * 2.0f;
-                        float newY = y + (RandomProb(currentSeed * 200 + x + y, x, y) - 0.5f) * 2.0f;
+                        float newX = realX + (RandomProb(currentSeed * 100 + x + y + n, x, y) - 0.5f) * 1.0f;
+                        float newY = realY + (RandomProb(currentSeed * 200 + x + y + n, x, y) - 0.5f) * 1.0f;
                         Vector3 position = new Vector3(newX, newY, -0.25f);
 
                         GameObject go = Instantiate(Prefabs[(int)component.ComponentType], position, Quaternion.identity, RealComponentsContainer.transform);
@@ -158,6 +208,11 @@ public class GenerateMap : MonoBehaviour
                         go.GetComponent<SpriteRenderer>().sprite = component.Sprite;
                         collectibles.Add(objectCount, go);
                         ++objectCount;
+                        ++n;
+                        if (component.Name != "Water" && component.Name != "Stone")
+                        {
+                            break;
+                        }
                     }
 
                     ++currentSeed;
@@ -202,7 +257,7 @@ public class GenerateMap : MonoBehaviour
         }
     }
 
-    private void GenerateDrunkardPath(int seed, int totalSteps, int x, int y, float[] prob, bool[,] map, int width, int height, float nextProb = 0.85f)
+    private void GenerateDrunkardPath(int seed, int totalSteps, int x, int y, float[] prob, TileType[,] map, int width, int height, TileType type = TileType.Sand, float nextProb = 0.85f)
     {
         int[] idx = new int[] { 0, 1, 2, 3 };
         int[] originalIdx = new int[4];
@@ -215,7 +270,7 @@ public class GenerateMap : MonoBehaviour
 
         for (int i = 0; i < totalSteps; ++i)
         {
-            map[x, y] = true;
+            map[x, y] = type;
 
             prob[0] = prob[0] * (y < height - 1).ToInt();
             prob[1] = prob[1] * (y > 0).ToInt();
@@ -273,74 +328,81 @@ public class GenerateMap : MonoBehaviour
         }
     }
 
-    private void paintPaths(bool[,] map, int width, int height)
+    private void paintPaths(TileType[,] map, int width, int height)
     {
         for (int x = 0; x < width; ++x)
         {
             for (int y = 0; y < height; ++y)
             {
-                if (!map[x, y])
+                if (map[x, y] == TileType.Empty)
                 {
                     continue;
                 }
-                
-                bool left = (x > 0) && map[x - 1, y];
-                bool right = (x < width - 1) && map[x + 1, y];
-                bool top = (y < height - 1) && map[x, y + 1];
-                bool bottom = (y > 0) && map[x, y - 1];
-                
-                int numConnections = left.ToInt() + right.ToInt() + top.ToInt() + bottom.ToInt();
+
+                var type = map[x, y];
+                int typeIdx = (int)type;
+
+                bool left = (x > 0) && map[x - 1, y] != TileType.Empty && (type != TileType.River || map[x - 1, y] == type);
+                bool right = (x < width - 1) && map[x + 1, y] != TileType.Empty && (type != TileType.River || map[x + 1, y] == type);
+                bool top = (y < height - 1) && map[x, y + 1] != TileType.Empty && (type != TileType.River || map[x, y + 1] == type);
+                bool bottom = (y > 0) && map[x, y - 1] != TileType.Empty && (type != TileType.River || map[x, y - 1] == type);
+
                 if (left && right && top && bottom)
                 {
-                    Instantiate(Junction4[RandomRange(x * height + y, 0, Junction4.Count)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.identity, RealPathsContainer.transform);
+                    if (type == TileType.River) continue;
+                    Instantiate(Junction4[typeIdx][RandomRange(x * height + y, 0, Junction4[typeIdx].Count)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.identity, RealPathsContainer.transform);
                 }
                 else if (left && right && top)
                 {
-                    Instantiate(JunctionT[RandomRange(x * height + y, 0, JunctionT.Count)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), RealPathsContainer.transform);
+                    if (type == TileType.River) continue;
+                    Instantiate(JunctionT[typeIdx][RandomRange(x * height + y, 0, JunctionT[typeIdx].Count)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), RealPathsContainer.transform);
                 }
                 else if (left && right && bottom)
                 {
-                    Instantiate(JunctionT[RandomRange(x * height + y, 0, JunctionT.Count)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 270)), RealPathsContainer.transform);
+                    if (type == TileType.River) continue;
+                    Instantiate(JunctionT[typeIdx][RandomRange(x * height + y, 0, JunctionT[typeIdx].Count)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 270)), RealPathsContainer.transform);
                 }
                 else if (left && bottom && top)
                 {
-                    Instantiate(JunctionT[RandomRange(x * height + y, 0, JunctionT.Count)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 180)), RealPathsContainer.transform);
+                    if (type == TileType.River) continue;
+                    Instantiate(JunctionT[typeIdx][RandomRange(x * height + y, 0, JunctionT[typeIdx].Count)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 180)), RealPathsContainer.transform);
                 }
                 else if (top && right && bottom)
                 {
-                    Instantiate(JunctionT[RandomRange(x * height + y, 0, JunctionT.Count)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.identity, RealPathsContainer.transform);
+                    if (type == TileType.River) continue;
+                    Instantiate(JunctionT[typeIdx][RandomRange(x * height + y, 0, JunctionT[typeIdx].Count)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.identity, RealPathsContainer.transform);
                 }
                 else if (left && bottom)
                 {
-                    Instantiate(Turn[RandomRange(x * height + y, 0, Turn.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 270)), RealPathsContainer.transform);
+                    Instantiate(Turn[typeIdx][RandomRange(x * height + y, 0, Turn[typeIdx].Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 270)), RealPathsContainer.transform);
                 }
                 else if (left && top)
                 {
-                    Instantiate(Turn[RandomRange(x * height + y, 0, Turn.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 180)), RealPathsContainer.transform);
+                    Instantiate(Turn[typeIdx][RandomRange(x * height + y, 0, Turn[typeIdx].Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 180)), RealPathsContainer.transform);
                 }
                 else if (right && top)
                 {
-                    Instantiate(Turn[RandomRange(x * height + y, 0, Turn.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), RealPathsContainer.transform);
+                    Instantiate(Turn[typeIdx][RandomRange(x * height + y, 0, Turn[typeIdx].Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), RealPathsContainer.transform);
                 }
                 else if (right && bottom)
                 {
-                    Instantiate(Turn[RandomRange(x * height + y, 0, Turn.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 0)), RealPathsContainer.transform);
+                    Instantiate(Turn[typeIdx][RandomRange(x * height + y, 0, Turn[typeIdx].Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 0)), RealPathsContainer.transform);
                 }
                 else if (left || right)
                 {
-                    Instantiate(Straight[RandomRange(x * height + y, 0, Straight.Count - 1)], new Vector3(x * 0.8f + MinX - 0.2f, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), RealPathsContainer.transform);
-                    Instantiate(Straight[RandomRange(x * height + y, 0, Straight.Count - 1)], new Vector3(x * 0.8f + MinX + 0.2f, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), RealPathsContainer.transform);
+                    Instantiate(Straight[typeIdx][RandomRange(x * height + y, 0, Straight[typeIdx].Count - 1)], new Vector3(x * 0.8f + MinX - 0.2f, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), RealPathsContainer.transform);
+                    Instantiate(Straight[typeIdx][RandomRange(x * height + y, 0, Straight[typeIdx].Count - 1)], new Vector3(x * 0.8f + MinX + 0.2f, y * 0.8f + MinY, 0), Quaternion.Euler(new Vector3(0, 0, 90)), RealPathsContainer.transform);
                 }
                 else if (top || bottom)
                 {
-                    Instantiate(Straight[RandomRange(x * height + y, 0, Straight.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY - 0.2f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), RealPathsContainer.transform);
-                    Instantiate(Straight[RandomRange(x * height + y, 0, Straight.Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY + 0.2f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), RealPathsContainer.transform);
+                    Instantiate(Straight[typeIdx][RandomRange(x * height + y, 0, Straight[typeIdx].Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY - 0.2f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), RealPathsContainer.transform);
+                    Instantiate(Straight[typeIdx][RandomRange(x * height + y, 0, Straight[typeIdx].Count - 1)], new Vector3(x * 0.8f + MinX, y * 0.8f + MinY + 0.2f, 0), Quaternion.Euler(new Vector3(0, 0, 0)), RealPathsContainer.transform);
                 }
 
-                bool topLeft = (y < height - 1) && (x > 0) && map[x - 1, y + 1];
-                bool bottomLeft = (y > 0) && (x > 0) && map[x - 1, y - 1];
-                bool topRight = (y < height - 1) && (x < width - 1) && map[x + 1, y + 1];
-                bool bottomRight = (y > 0) && (x < width - 1) && map[x + 1, y - 1];
+                bool topLeft = (y < height - 1) && (x > 0) && map[x - 1, y + 1] == map[x, y];
+                bool bottomLeft = (y > 0) && (x > 0) && map[x - 1, y - 1] == map[x, y];
+                bool topRight = (y < height - 1) && (x < width - 1) && map[x + 1, y + 1] == map[x, y];
+                bool bottomRight = (y > 0) && (x < width - 1) && map[x + 1, y - 1] == map[x, y];
 
                 // Filling
                 if (top && topLeft && left)
@@ -433,8 +495,13 @@ public class GenerateMap : MonoBehaviour
                 var y = (i - 1.5f) * FlowerYSpacing;
                 var nx = OpenSimplex2S.Noise2(i * 5 + j, center.x, center.y) * FlowerNudge;
                 var ny = OpenSimplex2S.Noise2(i * 5 + j + 100, center.x, center.y) * FlowerNudge;
-                var go = Instantiate(component.Prefab, new Vector3(center.x + x + nx, center.y + y + ny, -0.1f), Quaternion.identity, RealPathsContainer.transform);
-                go.GetComponent<WorldComponent>().WorldId = objectCount;
+
+                GameObject go = Instantiate(Prefabs[(int)component.ComponentType], new Vector3(center.x + x + nx, center.y + y + ny, -0.1f), Quaternion.identity, RealComponentsContainer.transform);
+                var worldComponent = go.GetComponent<WorldComponent>();
+                worldComponent.WorldId = objectCount;
+                worldComponent.AlchemicComponent = component;
+                go.GetComponent<SpriteRenderer>().sprite = component.Sprite;
+
                 collectibles.Add(objectCount, go);
                 ++objectCount;
             }

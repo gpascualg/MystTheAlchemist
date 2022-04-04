@@ -19,4 +19,4 @@ MonoBehaviour:
   Description: From Holand to your eternal life elixir
   RestoresSeconds: 0
   Threshold: 0.2
-  ComponentType: 0
+  ComponentType: 3
