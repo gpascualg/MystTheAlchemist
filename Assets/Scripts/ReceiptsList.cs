@@ -38,6 +38,11 @@ public class ReceiptsList : MonoBehaviour
     {
         var go = Instantiate(ReceiptListPrefab, Content);
         go.GetComponent<UIReceiptItem>().WithReceipt(receipt);
+
+        if (receipt.Final.RestoresSeconds > 0)
+        {
+            go.transform.SetAsFirstSibling();
+        }
     }
 
     // Update is called once per frame

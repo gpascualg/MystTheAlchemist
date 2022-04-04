@@ -122,6 +122,17 @@ public class Mixing : MonoBehaviour
         }
     }
 
+    public void SendAllToInventory()
+    {
+        while (components.Count > 0)
+        {
+            foreach (var component in new List<Component>(components.Keys))
+            {
+                RemoveComponent(component);
+            }
+        }
+    }
+
     public void Mix()
     {
         if (components.Count == 0)

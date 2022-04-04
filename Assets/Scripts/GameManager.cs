@@ -505,6 +505,7 @@ public class GameManager : MonoBehaviour
 
     public void CloseMixing()
     {
+        Mixing.Instance.SendAllToInventory();
         MixingUI.gameObject.SetActive(false);
         ReceiptsUI.gameObject.SetActive(false);
         menu &= ~Menus.Mixing;
@@ -585,8 +586,6 @@ public class GameManager : MonoBehaviour
             SaveGame data = JsonUtility.FromJson<SaveGame>(inputFile.ReadToEnd());
             return data.TotalTime;
         }
-
-        return 0.0f;
     }
 
     public bool LoadGame()
@@ -608,10 +607,6 @@ public class GameManager : MonoBehaviour
             CollectedWorldIds = data.CollectedWorldIds;
 
             GenerateMap.Instance.GenerateAll();
-            //foreach (var id in CollectedWorldIds)
-            //{
-            //    GenerateMap.Instance.DestroyCollected(id);
-            //}
 
             MainPlayer.transform.position = MainPlayer.transform.position = new Vector3(data.PlayerPosition.x, data.PlayerPosition.y, -0.5f);
             time = 0.0f;

@@ -197,7 +197,14 @@ public class Player : MonoBehaviour
 
         if (alreadyKnownReceipts.Add(AlchemicComponent.ReceiptComponents.GUID))
         {
-            LearnedReceipts.Add(AlchemicComponent.ReceiptComponents);
+            if (AlchemicComponent.RestoresSeconds > 0)
+            {
+                LearnedReceipts.Insert(0, AlchemicComponent.ReceiptComponents);
+            }
+            else
+            {
+                LearnedReceipts.Add(AlchemicComponent.ReceiptComponents);
+            }
             OnLearnedReceipt?.Invoke(AlchemicComponent.ReceiptComponents);
         }
 
