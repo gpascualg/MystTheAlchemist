@@ -16,7 +16,7 @@ public class Table : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hasPlayer && Input.GetKeyDown(KeyCode.E))
+        if (hasPlayer && (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space)))
         {
             if (GameManager.Instance.IsMixingOpen())
             {

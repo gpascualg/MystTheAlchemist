@@ -26,21 +26,21 @@ public class Movement : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 vel = Vector2.zero;
-        if(!GameManager.Instance.IsMixingOpen()) 
-        { 
-            if (Input.GetKey(KeyCode.W)) {
+        if (!GameManager.Instance.IsMixingOpen())
+        {
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.RightArrow)) {
                 vel.y += 1;
                 sr.sprite = MoveUp;
             }
-            if (Input.GetKey(KeyCode.A)) {
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) {
                 vel.x -= 1;
                 sr.sprite = MoveLeft;
             }
-            if (Input.GetKey(KeyCode.S)) {
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) {
                 vel.y -= 1;
                 sr.sprite = MoveDown;
             }
-            if (Input.GetKey(KeyCode.D)) {
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.UpArrow)) {
                 vel.x += 1;
                 sr.sprite = MoveRight;
             }

@@ -158,6 +158,7 @@ public class Mixing : MonoBehaviour
             var transmog = Receipts.Instance.GetRandomComponentOfType(ComponentType.Potion);
             Component asset = ScriptableObject.CreateInstance<Component>();
             asset.Name = "Dubious Concoction";
+            asset.NameSprite = GameManager.Instance.DubiousSprite;
             asset.Sprite = transmog.Sprite;
             asset.TransmogName = transmog.Name;
             asset.RestoresSeconds = 0;

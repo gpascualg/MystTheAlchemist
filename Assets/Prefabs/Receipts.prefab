@@ -137,13 +137,14 @@ GameObject:
   m_Component:
   - component: {fileID: 123686865849433592}
   - component: {fileID: 4925871100831183744}
+  - component: {fileID: 126789109}
   m_Layer: 5
   m_Name: Receipts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &123686865849433592
 RectTransform:
   m_ObjectHideFlags: 0
@@ -173,6 +174,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 164964514430990246}
   m_CullTransparentMesh: 1
+--- !u!114 &126789109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164964514430990246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3dd1a70620de504f9dbaa64004670e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Content: {fileID: 263044983192858103}
+  ReceiptListPrefab: {fileID: 7188254447177064604, guid: 9cc99238f98d18d418594d376a075170, type: 3}
 --- !u!1 &1456671724195112039
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,7 +197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6364717227735201721}
-  - component: {fileID: 6409690447238663842}
+  - component: {fileID: 6369282480362053517}
   m_Layer: 5
   m_Name: Viewport
   m_TagString: Untagged
@@ -211,7 +226,7 @@ RectTransform:
   m_AnchoredPosition: {x: -10.000061, y: -25.173}
   m_SizeDelta: {x: -20, y: -50.345}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6409690447238663842
+--- !u!114 &6369282480362053517
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -220,10 +235,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1456671724195112039}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &2479465468382473120
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,7 +389,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -46.089844, y: 25}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &4502145536758311558
 MonoBehaviour:
@@ -557,7 +573,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}

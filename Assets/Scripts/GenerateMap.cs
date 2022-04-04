@@ -19,6 +19,7 @@ public class GenerateMap : MonoBehaviour
     public Transform PathsContainer;
 
     public List<GameObject> Prefabs;
+    public List<GameObject> GrassFiller;
 
     public List<GameObject> Junction4;
     public List<GameObject> JunctionT;
@@ -110,6 +111,18 @@ public class GenerateMap : MonoBehaviour
             for(int y = MinY; y < MaxY; y++)
             {
                 int currentSeed = GameManager.Instance.Seed;
+
+                // Filler grass
+                int fillerSeed = currentSeed + x * (MaxY - MinY) + y;
+                for (int n = 0, nTotal = RandomRange(fillerSeed, 0, 15); n < nTotal; ++n)
+                {
+                    float newX = x + (RandomProb(currentSeed * 300 + x + n, x, y) - 0.5f) * 2.0f;
+                    float newY = y + (RandomProb(currentSeed * 400 + y + n, x, y) - 0.5f) * 2.0f;
+                    Vector3 position = new Vector3(newX, newY, 0.25f);
+                    Instantiate(GrassFiller[RandomRange(fillerSeed + n, 0, GrassFiller.Count)], position, Quaternion.identity, ComponentsContainer);
+                }
+
+                // Actual objects
                 foreach (var component in Receipts.Instance.Components)
                 {
                     if (component.ComponentType == ComponentType.Potion) continue;
@@ -120,7 +133,7 @@ public class GenerateMap : MonoBehaviour
                         float newY = y + (RandomProb(currentSeed * 200 + x + y, x, y) - 0.5f) * 2.0f;
                         Vector3 position = new Vector3(newX, newY, -0.25f);
 
-                        GameObject go = Instantiate(Prefabs[(int)component.ComponentType], position, Quaternion.identity, ComponentsContainer.transform);
+                        GameObject go = Instantiate(Prefabs[(int)component.ComponentType], position, Quaternion.identity, ComponentsContainer);
                         var worldComponent = go.GetComponent<WorldComponent>();
                         worldComponent.WorldId = collectibles.Count;
                         worldComponent.AlchemicComponent = component;

@@ -78,6 +78,7 @@ public class JSONComponentWithoutReceipt
         Component asset = ScriptableObject.CreateInstance<Component>();
         asset.Name = Name;
         asset.TransmogName = TransmogName;
+        asset.NameSprite = GameManager.Instance.DubiousSprite;
         asset.Sprite = Receipts.Instance.ComponentsByName[TransmogName].Sprite;
         asset.ComponentType = (ComponentType)Type;
         asset.ReceiptComponents = null;
