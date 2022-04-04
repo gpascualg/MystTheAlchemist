@@ -45,6 +45,11 @@ public class Movement : MonoBehaviour
                 sr.sprite = MoveRight;
             }
 
+            if (rg.velocity.sqrMagnitude > 1e-6f && vel.sqrMagnitude < 1e-6f)
+            {
+                GameManager.Instance.SaveGame();
+            }
+
             rg.velocity = vel.normalized * Speed;
         }
         else

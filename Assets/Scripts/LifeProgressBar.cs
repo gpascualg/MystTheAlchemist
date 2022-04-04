@@ -4,11 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ProgressBar : MonoBehaviour
+public class LifeProgressBar : MonoBehaviour
 {
+    public static LifeProgressBar Instance;
+
     public Slider LifeProgress;
     public TMP_Text TextProgress;
     public float MaxTime;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -16,14 +23,21 @@ public class ProgressBar : MonoBehaviour
         MaxTime = GameManager.Instance.getTime();
     }
 
-    private void OnEnable()
+    public void Subscribe()
     {
+        GameManager.Instance.OnTimeReset += ResetTime;
         GameManager.Instance.OnTimeChange += UpdateTime;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
+        GameManager.Instance.OnTimeReset -= ResetTime;
         GameManager.Instance.OnTimeChange -= UpdateTime;
+    }
+
+    public void ResetTime(float time)
+    {
+        MaxTime = time;
     }
 
     public void UpdateTime(int time)

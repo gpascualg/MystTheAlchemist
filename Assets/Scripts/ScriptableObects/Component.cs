@@ -31,8 +31,6 @@ public class JSONComponent
 
     public Component Deserialize(string receiptGuid = "")
     {
-        Debug.Log($"Deserializing component {Name}");
-
         var components = Receipts.Instance.ComponentsByName;
         if (components.ContainsKey(Name))
         {

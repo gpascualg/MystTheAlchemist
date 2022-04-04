@@ -15,6 +15,7 @@ public class SaveGame
     public List<int> CollectedWorldIds;
     public Vector2 PlayerPosition;
     public float TimeLeft;
+    public float MaxTime;
 }
 
 
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
     public GameObject InventoryIcon;
 
     public Action<int> OnTimeChange;
+    public Action<float> OnTimeReset;
     public Action OnInventoryOpened;
     public Action OnInventoryClosed;
     public Action OnMixingOpened;
@@ -89,6 +91,7 @@ public class GameManager : MonoBehaviour
 
     public List<int> CollectedWorldIds = new List<int>();
 
+    public const float INITIAL_TIME = 300.0f;
 
     // Start is called before the first frame update
     void Awake()
@@ -99,9 +102,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        time = 300f;
-        OnTimeChange?.Invoke((int)time);
-        time = 10f;
+        time = 0.0f;
+        OnTimeReset?.Invoke(INITIAL_TIME);
+        OnTimeChange?.Invoke((int)INITIAL_TIME);
+        time = INITIAL_TIME;
         EndScreen.SetActive(false);
 
         menu = Menus.None;
@@ -121,6 +125,7 @@ public class GameManager : MonoBehaviour
         InventoryUI.GetComponent<Inventory>().Subscribe();
         MixingUI.GetComponent<Mixing>().Subscribe();
         ReceiptsUI.GetComponent<ReceiptsList>().Subscribe();
+        ProgressBar.GetComponentInChildren<LifeProgressBar>().Subscribe();
     }
 
     private void OnEnable()
@@ -291,8 +296,10 @@ public class GameManager : MonoBehaviour
 
     public void PlayAgain()
     {
-        time = 300f;
-        OnTimeChange?.Invoke((int)time);
+        time = 0.0f;
+        OnTimeReset?.Invoke(INITIAL_TIME);
+        OnTimeChange?.Invoke((int)INITIAL_TIME);
+        time = INITIAL_TIME;
 
         ProgressBar.SetActive(true);
         InventoryIcon.SetActive(true);
@@ -309,8 +316,8 @@ public class GameManager : MonoBehaviour
 
     public void RestoreSeconds(int seconds)
     {
-        time += seconds;
         OnTimeChange?.Invoke(seconds);
+        time += seconds;
     }
 
     public void OpenInventory()
@@ -415,7 +422,8 @@ public class GameManager : MonoBehaviour
                 Inventory = MainPlayer.SerializeItemsInventory(),
                 CollectedWorldIds = CollectedWorldIds,
                 PlayerPosition = MainPlayer.transform.position,
-                TimeLeft = time
+                TimeLeft = time,
+                MaxTime = LifeProgressBar.Instance.MaxTime
             }));
         }
     }
@@ -438,12 +446,15 @@ public class GameManager : MonoBehaviour
             CollectedWorldIds = data.CollectedWorldIds;
 
             GenerateMap.Instance.GenerateAll();
-            foreach (var id in CollectedWorldIds)
-            {
-                GenerateMap.Instance.DestroyCollected(id);
-            }
+            //foreach (var id in CollectedWorldIds)
+            //{
+            //    GenerateMap.Instance.DestroyCollected(id);
+            //}
 
             MainPlayer.transform.position = MainPlayer.transform.position = new Vector3(data.PlayerPosition.x, data.PlayerPosition.y, -0.5f);
+            time = 0.0f;
+            OnTimeReset?.Invoke(data.MaxTime);
+            OnTimeChange?.Invoke((int)data.TimeLeft);
             time = data.TimeLeft;
         }
         AfterLoadGame?.Invoke();
