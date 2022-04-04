@@ -170,8 +170,18 @@ public class GenerateMap : MonoBehaviour
                         float newX = realX + (RandomProb(currentSeed * 300 + x + n, x, y) - 0.5f) * 1.0f;
                         float newY = realY + (RandomProb(currentSeed * 400 + y + n, x, y) - 0.5f) * 1.0f;
                         Vector3 position = new Vector3(newX, newY, 0.25f);
-                        Instantiate(GrassFiller[RandomRange(fillerSeed + n, 0, GrassFiller.Count)], position, Quaternion.identity, RealComponentsContainer.transform);
+                        var go = Instantiate(GrassFiller[RandomRange(fillerSeed + n, 0, GrassFiller.Count)], position, Quaternion.identity, RealComponentsContainer.transform);
+
+                        if (RandomProb(fillerSeed + n, x, y) > 0.5f)
+                        {
+                            go.transform.localScale = new Vector3(-1, 1, 1);
+                        }
                     }
+                }
+
+                if (realX * realX + realY * realY < 1.5f)
+                {
+                    continue;
                 }
 
                 // Actual objects

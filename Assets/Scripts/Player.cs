@@ -52,10 +52,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         rg = GetComponent<Rigidbody2D>();
-
-        LearnedReceipts.Add(Receipts.Instance.FindReceiptAt(0));
-        alreadyKnownReceipts.Add(Receipts.Instance.FindReceiptAt(0).GUID);
-        OnLearnedReceipt?.Invoke(Receipts.Instance.FindReceiptAt(0));
     }
 
     private float DistanceTo(WorldComponent comp)

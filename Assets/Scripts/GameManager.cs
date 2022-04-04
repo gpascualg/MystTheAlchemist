@@ -275,7 +275,10 @@ public class GameManager : MonoBehaviour
                 FXSound.gameObject.SetActive(true);
                 CloseInventory();
                 CloseMixing();
+                MainPlayer.ItemsInventory.Clear();
+                Inventory.Instance.CleanInterface();
                 status = Status.Dead;
+                SaveGame();
             }
             else
             {
