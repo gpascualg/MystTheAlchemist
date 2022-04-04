@@ -6,14 +6,15 @@ using TMPro;
 
 public class UIReceiptItem : MonoBehaviour
 {
-    public TMP_Text Name;
+    public Image Name;
     public InventoryItem Final;
     public InventoryItem[] Components;
 
 
     public void WithReceipt(ReceiptComponents receipt)
     {
-        Name.text = receipt.Final.Name;
+        Name.sprite = receipt.Final.NameSprite;
+        Name.SetNativeSize();
         Final.OnAddedAsReceipt(receipt.Final);
         Final.Receipt = receipt;
         
