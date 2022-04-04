@@ -103,13 +103,19 @@ public class GameManager : MonoBehaviour
         OnTimeChange?.Invoke((int)time);
         time = 10f;
         EndScreen.SetActive(false);
+
+        menu = Menus.None;
         status = Status.Start;
         //status = Status.Playing;
 
+#if !UNITY_EDITOR
+        status = Status.Start;
+#endif
 
-        menu = Menus.None;
-        //OpenInventory();
-        //OpenMixing();
+        if (status == Status.Start)
+        {
+            StartUI.SetActive(true);
+        }
 
         // Subscribe Inventory
         InventoryUI.GetComponent<Inventory>().Subscribe();
@@ -199,7 +205,6 @@ public class GameManager : MonoBehaviour
                 InventoryIcon.SetActive(false);
                 CloseInventory();
                 CloseMixing();
-                //Destroy(MainPlayer.gameObject);
                 status = Status.Dead;
             }
             else
@@ -257,7 +262,11 @@ public class GameManager : MonoBehaviour
         GameStarted = true;
         NewGameButton.SetActive(false);
         ContinueUI.SetActive(true);
+
         GenerateMap.Instance.GenerateAll();
+        MainPlayer.transform.position = new Vector3(0, 0, -0.5f);
+
+        SaveGame();
     }
 
     public void Continue()
@@ -294,6 +303,8 @@ public class GameManager : MonoBehaviour
         GenerateMap.Instance.GenerateAll();
 
         MainPlayer.transform.position = new Vector3(0, 0, -0.5f);
+
+        SaveGame();
     }
 
     public void RestoreSeconds(int seconds)

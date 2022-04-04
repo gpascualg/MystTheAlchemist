@@ -145,6 +145,7 @@ public class Player : MonoBehaviour
             {
                 OnItemCollected?.Invoke(nearestComponent.WorldId);
                 nearestComponent.Gather(this);
+                GameManager.Instance.SaveGame();
             }
         }
 
@@ -207,6 +208,8 @@ public class Player : MonoBehaviour
         {
             Inventory.Instance.Tooltip.Hide();
         }
+
+        GameManager.Instance.SaveGame();
     }
 
     public void Deserialize(List<JSONReceipt> receipts)
@@ -266,6 +269,6 @@ public class Player : MonoBehaviour
     public void FloatingTex(int time)
     {
         var t = Instantiate(FloatingText, transform.position, Quaternion.identity);
-        t.GetComponent<TextMesh>().text = time.ToString("+0");
+        t.GetComponent<TextMesh>().text = time.ToString("+#;-#;0");
     }
 }

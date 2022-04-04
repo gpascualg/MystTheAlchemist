@@ -43,18 +43,6 @@ public class Table : MonoBehaviour
         hasPlayer = true;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject != GameManager.Instance.MainPlayer.gameObject)
-        {
-            return;
-        }
-
-        float z = (transform.position.y + 0.15 < GameManager.Instance.MainPlayer.transform.position.y) ? -1 : -0.4f;
-        GameManager.Instance.ShowETooltip(transform.position, z);
-        transform.position = new Vector3(transform.position.x, transform.position.y, z);
-    }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject != GameManager.Instance.MainPlayer.gameObject)
