@@ -93,6 +93,7 @@ public class Component : ScriptableObject
 {
     public string Name;
     public Sprite Sprite;
+    public Sprite NameSprite;
     public GameObject Prefab;
     public string Description;
     public int RestoresSeconds = 0;
