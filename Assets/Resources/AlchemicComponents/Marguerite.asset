@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Marguerite
   Sprite: {fileID: 21300000, guid: b6220a3f045d2df4ea8fff3470696dc3, type: 3}
+  NameSprite: {fileID: 21300000, guid: 148a20ed543cf414c9cbb3bc278f08f0, type: 3}
   Prefab: {fileID: 0}
   Description: 
   RestoresSeconds: 0

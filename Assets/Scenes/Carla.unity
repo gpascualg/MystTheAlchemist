@@ -252,6 +252,7 @@ MonoBehaviour:
   Reload: 0
   ComponentsContainer: {fileID: 557263891}
   PathsContainer: {fileID: 1965615831}
+  Prefabs: []
   Junction4:
   - {fileID: 5187940219165411278, guid: 5545efcf2fc58994a8f169e65ed343e1, type: 3}
   JunctionT:
@@ -344,6 +345,7 @@ MonoBehaviour:
   WelcomeTime: 15
   Instructions: {fileID: 358124382}
   TimeInstructions: 10
+  PickupSound: {fileID: 0}
   CollectedWorldIds: 
 --- !u!4 &75532968
 Transform:
@@ -1191,7 +1193,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rg: {fileID: 1241455093}
+  sr: {fileID: 0}
   Speed: 1.5
+  MoveUp: {fileID: 0}
+  MoveDown: {fileID: 0}
+  MoveRight: {fileID: 0}
+  MoveLeft: {fileID: 0}
 --- !u!61 &1241455092
 BoxCollider2D:
   m_ObjectHideFlags: 0

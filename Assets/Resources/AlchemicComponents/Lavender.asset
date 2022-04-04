@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Lavender
   Sprite: {fileID: 21300000, guid: 866cfec15e32ed94c843b2be53dbb6e1, type: 3}
+  NameSprite: {fileID: 21300000, guid: 4b3a241e68923884cac67482ca28f643, type: 3}
   Prefab: {fileID: 8255911349349332627, guid: 26764076c6e88804e804455a7bceca0d, type: 3}
   Description: A flower of pure power
   RestoresSeconds: 0

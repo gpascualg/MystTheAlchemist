@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Elixir of Far Sight
   Sprite: {fileID: 21300000, guid: e5d2d0dffda89a64eaa60267aa8140fa, type: 3}
+  NameSprite: {fileID: 21300000, guid: 30370313490a9174384972dd1975e698, type: 3}
   Prefab: {fileID: 0}
   Description: 
   RestoresSeconds: 8

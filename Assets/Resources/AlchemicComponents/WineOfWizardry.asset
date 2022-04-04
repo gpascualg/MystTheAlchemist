@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Wine of Wizardry
   Sprite: {fileID: 21300000, guid: a98aabd682351b149b40097e4e20b424, type: 3}
+  NameSprite: {fileID: 21300000, guid: da21a3c882647994d9cd2878c8ec7afe, type: 3}
   Prefab: {fileID: 0}
   Description: 
   RestoresSeconds: 30
