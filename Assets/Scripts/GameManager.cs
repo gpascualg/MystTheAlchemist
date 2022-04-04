@@ -16,6 +16,7 @@ public class SaveGame
     public Vector2 PlayerPosition;
     public float TimeLeft;
     public float MaxTime;
+    public float TotalTime;
 }
 
 
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     public Player MainPlayer;
     private float time;
+    private float totalTime;
     public GameObject EndScreen;
     public Status status;
 
@@ -86,6 +88,10 @@ public class GameManager : MonoBehaviour
     public GameObject Instructions;
     public GameObject TextInstructions;
     public float TimeInstructions = 10f;
+
+    public TMPro.TMP_Text MenuInfoText;
+    public TMPro.TMP_Text EndScoreText;
+    public TMPro.TMP_Text EndHighScoreText;
 
     public Sprite DubiousSprite;
     public AudioSource PickupSound;
@@ -153,6 +159,9 @@ public class GameManager : MonoBehaviour
         isFXSoundOn = !(!PlayerPrefs.HasKey("FXSound") || PlayerPrefs.GetInt("FXSound") == 1);
         ToggleBGSound();
         ToggleFXSound();
+
+        // Menu
+        MenuInfoText.text = $"Highscore: {(int)PlayerPrefs.GetFloat("HighScore")}";
     }
 
     private void OnEnable()
@@ -237,11 +246,13 @@ public class GameManager : MonoBehaviour
                 status = Status.Menu;
                 if (HasSavedGame() || GamePaused)
                 {
+                    MenuInfoText.text = $"Seconds: {(int)SavedGameSeconds()}\nHighscore: {(int)PlayerPrefs.GetFloat("HighScore")}";
                     NewGameButton.SetActive(false);
                     ContinueUI.SetActive(true);
                 }
                 else
                 {
+                    MenuInfoText.text = $"Highscore: {(int)PlayerPrefs.GetFloat("HighScore")}";
                     NewGameButton.SetActive(true);
                     ContinueUI.SetActive(false);
                 }
@@ -251,8 +262,7 @@ public class GameManager : MonoBehaviour
                 StartPage -= Time.deltaTime;
             }
         }
-
-        if (status == Status.Playing)
+        else if (status == Status.Playing)
         {
             if(WelcomeStep < 3)
             {
@@ -289,6 +299,7 @@ public class GameManager : MonoBehaviour
                 }
             }
 
+            totalTime += Time.deltaTime;
             untilNextAutosave -= Time.deltaTime;
             if (untilNextAutosave <= 0)
             {
@@ -298,6 +309,12 @@ public class GameManager : MonoBehaviour
 
             if (time <= 0)
             {
+                var highscore = Mathf.Max(PlayerPrefs.GetFloat("HighScore", 0.0f), totalTime);
+                PlayerPrefs.SetFloat("HighScore", highscore);
+                PlayerPrefs.Save();
+                EndScoreText.text = $"Seconds: {(int)totalTime}";
+                EndHighScoreText.text = $"Highscore: {(int)highscore}";
+
                 EndScreen.SetActive(true);
                 ProgressBar.SetActive(false);
                 InventoryIcon.SetActive(false);
@@ -306,9 +323,10 @@ public class GameManager : MonoBehaviour
                 CloseInventory();
                 CloseMixing();
                 MainPlayer.ItemsInventory.Clear();
-                Inventory.Instance.CleanInterface();
                 status = Status.Dead;
+                Inventory.Instance?.CleanInterface();
                 SaveGame();
+                return;
             }
             else
             {
@@ -326,7 +344,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if ((status == Status.Playing || status == Status.Menu) && Input.GetKeyDown(KeyCode.Escape))
         {
             if (IsInventoryOpen() || IsMixingOpen())
             {
@@ -349,6 +367,8 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
+                    MenuInfoText.text = $"Seconds: {(int)totalTime}\nHighscore: {(int)PlayerPrefs.GetFloat("HighScore")}";
+
                     ProgressBar.SetActive(false);
                     InventoryIcon.SetActive(false);
                     MenuUI.SetActive(true);
@@ -372,6 +392,7 @@ public class GameManager : MonoBehaviour
         GameStarted = true;
         NewGameButton.SetActive(false);
         ContinueUI.SetActive(true);
+        totalTime = 0.0f;
 
         CollectedWorldIds.Clear();
         GenerateMap.Instance.GenerateAll();
@@ -405,6 +426,7 @@ public class GameManager : MonoBehaviour
     public void PlayAgain()
     {
         time = 0.0f;
+        totalTime = 0.0f;
         OnTimeReset?.Invoke(INITIAL_TIME);
         OnTimeChange?.Invoke((int)INITIAL_TIME);
         time = INITIAL_TIME;
@@ -543,14 +565,34 @@ public class GameManager : MonoBehaviour
                 CollectedWorldIds = CollectedWorldIds,
                 PlayerPosition = MainPlayer.transform.position,
                 TimeLeft = time,
-                MaxTime = LifeProgressBar.Instance.MaxTime
+                MaxTime = LifeProgressBar.Instance.MaxTime,
+                TotalTime = totalTime
             }));
         }
+    }
+
+    public float SavedGameSeconds()
+    {
+        var path = Path.Combine(Application.persistentDataPath, "player.dat");
+        if (!File.Exists(path))
+        {
+            return 0.0f;
+        }
+
+        BeforeLoadGame?.Invoke();
+        using (StreamReader inputFile = new StreamReader(path))
+        {
+            SaveGame data = JsonUtility.FromJson<SaveGame>(inputFile.ReadToEnd());
+            return data.TotalTime;
+        }
+
+        return 0.0f;
     }
 
     public bool LoadGame()
     {
         var path = Path.Combine(Application.persistentDataPath, "player.dat");
+        Debug.Log($"Load from {path}");
         if (!File.Exists(path))
         {
             return false;
@@ -576,6 +618,7 @@ public class GameManager : MonoBehaviour
             OnTimeReset?.Invoke(data.MaxTime);
             OnTimeChange?.Invoke((int)data.TimeLeft);
             time = data.TimeLeft;
+            totalTime = data.TotalTime;
         }
         AfterLoadGame?.Invoke();
 

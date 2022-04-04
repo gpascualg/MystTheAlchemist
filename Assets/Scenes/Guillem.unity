@@ -187,6 +187,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: End
       objectReference: {fileID: 0}
+    - target: {fileID: 5822538510332840396, guid: 302d104cc03e4c54b8db6001b82a346c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5822538510332840397, guid: 302d104cc03e4c54b8db6001b82a346c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -991,6 +995,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 811332371790641883, guid: 657d06c9fb14d404e847400eb1065452, type: 3}
   m_PrefabInstance: {fileID: 811332372311373838}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &666537640 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6334697362572047447, guid: 302d104cc03e4c54b8db6001b82a346c, type: 3}
+  m_PrefabInstance: {fileID: 191764133}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &716587393
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,6 +1317,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &792514020 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6763709456327624324, guid: 99a5f213c99ddfb4e94646b1c69939c0, type: 3}
+  m_PrefabInstance: {fileID: 2042271093}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &809398861
 GameObject:
   m_ObjectHideFlags: 0
@@ -2295,6 +2321,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowETooltip: 1
+--- !u!114 &1461704443 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1995280642419943927, guid: 302d104cc03e4c54b8db6001b82a346c, type: 3}
+  m_PrefabInstance: {fileID: 191764133}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1473383795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2458,6 +2495,9 @@ MonoBehaviour:
   Instructions: {fileID: 228629637}
   TextInstructions: {fileID: 2040263490}
   TimeInstructions: 10
+  MenuInfoText: {fileID: 792514020}
+  EndScoreText: {fileID: 1461704443}
+  EndHighScoreText: {fileID: 666537640}
   DubiousSprite: {fileID: 21300000, guid: 2e3940f3e67bb89409551edabff5a20c, type: 3}
   PickupSound: {fileID: 809398863}
   CreateSound: {fileID: 378821160}
@@ -3184,6 +3224,10 @@ PrefabInstance:
     - target: {fileID: 432812457365145658, guid: 99a5f213c99ddfb4e94646b1c69939c0, type: 3}
       propertyPath: m_Name
       value: Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 432812457365145658, guid: 99a5f213c99ddfb4e94646b1c69939c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 432812457365145659, guid: 99a5f213c99ddfb4e94646b1c69939c0, type: 3}
       propertyPath: m_Pivot.x
