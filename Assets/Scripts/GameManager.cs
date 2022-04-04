@@ -14,6 +14,7 @@ public class SaveGame
     public List<JSONItem> Inventory;
     public List<int> CollectedWorldIds;
     public Vector2 PlayerPosition;
+    public float TimeLeft;
 }
 
 
@@ -136,7 +137,7 @@ public class GameManager : MonoBehaviour
                 StartUI.SetActive(false);
                 MenuUI.SetActive(true);
                 status = Status.Menu;
-                if(SavedGame() || GamePaused)
+                if (HasSavedGame() || GamePaused)
                 {
                     NewGameButton.SetActive(false);
                     ContinueUI.SetActive(true);
@@ -204,7 +205,7 @@ public class GameManager : MonoBehaviour
                 time -= Time.deltaTime;
             }
 
-            if(TimeInstructions <= 0)
+            if (TimeInstructions <= 0)
             {
                 Instructions.SetActive(false);
             }
@@ -254,14 +255,14 @@ public class GameManager : MonoBehaviour
         GameStarted = true;
         NewGameButton.SetActive(false);
         ContinueUI.SetActive(true);
+        GenerateMap.Instance.GenerateAll();
     }
 
     public void Continue()
     {
         if (!GameStarted)
         {
-            //LoadGame();
-
+            LoadGame();
             GameStarted = true;
         }
 
@@ -271,6 +272,7 @@ public class GameManager : MonoBehaviour
         InventoryIcon.SetActive(true);
         GamePaused = false;
     }
+
     public void Quit()
     {
         Application.Quit();
@@ -287,8 +289,9 @@ public class GameManager : MonoBehaviour
 
         status = Status.Playing;
         GameStarted = true;
+        GenerateMap.Instance.GenerateAll();
 
-        MainPlayer.transform.position = Vector3.zero;
+        MainPlayer.transform.position = new Vector3(0, 0, -0.5f);
     }
 
     public void RestoreSeconds(int seconds)
@@ -398,7 +401,8 @@ public class GameManager : MonoBehaviour
                 Receipts = MainPlayer.LearnedReceipts.ConvertAll(new Converter<ReceiptComponents, JSONReceipt>(ReceiptComponents.Serializer)),
                 Inventory = MainPlayer.SerializeItemsInventory(),
                 CollectedWorldIds = CollectedWorldIds,
-                PlayerPosition = MainPlayer.transform.position
+                PlayerPosition = MainPlayer.transform.position,
+                TimeLeft = time
             }));
         }
     }
@@ -426,7 +430,8 @@ public class GameManager : MonoBehaviour
                 GenerateMap.Instance.DestroyCollected(id);
             }
 
-            MainPlayer.transform.position = data.PlayerPosition;
+            MainPlayer.transform.position = MainPlayer.transform.position = new Vector3(data.PlayerPosition.x, data.PlayerPosition.y, -0.5f);
+            time = data.TimeLeft;
         }
         AfterLoadGame?.Invoke();
 
@@ -437,8 +442,9 @@ public class GameManager : MonoBehaviour
         LoadGame();
     }
 
-    public bool SavedGame()
+    public bool HasSavedGame()
     {
-        return false;
+        var path = Path.Combine(Application.persistentDataPath, "player.dat");
+        return File.Exists(path);
     }
 }
