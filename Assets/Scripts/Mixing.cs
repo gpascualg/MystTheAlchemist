@@ -126,6 +126,7 @@ public class Mixing : MonoBehaviour
     {
         if (components.Count == 0)
         {
+            GameManager.Instance.PlayFX(GameManager.Instance.ErrorSound);
             return;
         }
 
@@ -146,36 +147,39 @@ public class Mixing : MonoBehaviour
         }
 
         // Add the result
-        if (receipt != null)
+        for (int i = 0; i < numProducts; ++i)
         {
-            for (int i = 0; i < numProducts; ++i)
+            if (receipt != null)
             {
                 GameManager.Instance.MainPlayer.AddComponent(receipt.Final);
             }
-        }
-        else
-        {
-            var transmog = Receipts.Instance.GetRandomComponentOfType(ComponentType.Potion);
-            Component asset = ScriptableObject.CreateInstance<Component>();
-            asset.Name = "Dubious Concoction";
-            asset.NameSprite = GameManager.Instance.DubiousSprite;
-            asset.Sprite = transmog.Sprite;
-            asset.TransmogName = transmog.Name;
-            asset.RestoresSeconds = 0;
-            asset.ComponentType = ComponentType.Potion;
-            foreach (var component in components.Keys)
+            else
             {
-                asset.RestoresSeconds += -Mathf.Abs(component.RestoresSeconds);
-            }
-            asset.RestoresSeconds -= UnityEngine.Random.Range(1, 10);
+                var transmog = Receipts.Instance.GetRandomComponentOfType(ComponentType.Potion);
+                Component asset = ScriptableObject.CreateInstance<Component>();
+                asset.Name = "Dubious Concoction";
+                asset.NameSprite = GameManager.Instance.DubiousSprite;
+                asset.Sprite = transmog.Sprite;
+                asset.TransmogName = transmog.Name;
+                asset.RestoresSeconds = 0;
+                asset.ComponentType = ComponentType.Potion;
+                foreach (var component in components.Keys)
+                {
+                    asset.RestoresSeconds += -Mathf.Abs(component.RestoresSeconds);
+                }
+                asset.RestoresSeconds -= UnityEngine.Random.Range(1, 10);
 
-            asset.ReceiptComponents = new ReceiptComponents()
-            {
-                Final = asset,
-                Components = receiptComponents
-            };
-            GameManager.Instance.MainPlayer.AddComponent(asset);
+                asset.ReceiptComponents = new ReceiptComponents()
+                {
+                    Final = asset,
+                    Components = receiptComponents
+                };
+                GameManager.Instance.MainPlayer.AddComponent(asset);
+            }
         }
+
+        // FX
+        GameManager.Instance.PlayFX(GameManager.Instance.CreateSound);
 
         // Respawn
         SpawnPlaceholders();

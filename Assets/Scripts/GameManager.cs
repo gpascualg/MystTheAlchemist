@@ -88,6 +88,10 @@ public class GameManager : MonoBehaviour
 
     public Sprite DubiousSprite;
     public AudioSource PickupSound;
+    public AudioSource CreateSound;
+    public AudioSource CureSound;
+    public AudioSource PoisonSound;
+    public AudioSource ErrorSound;
 
     public Image BGSound;
     public Sprite BGSoundOn;
@@ -389,6 +393,15 @@ public class GameManager : MonoBehaviour
 
     public void RestoreSeconds(int seconds)
     {
+        if (seconds > 0)
+        {
+            GameManager.Instance.PlayFX(GameManager.Instance.CureSound);
+        }
+        else
+        {
+            GameManager.Instance.PlayFX(GameManager.Instance.PoisonSound);
+        }
+
         OnTimeChange?.Invoke(seconds);
         time += seconds;
     }

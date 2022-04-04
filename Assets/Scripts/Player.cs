@@ -192,6 +192,7 @@ public class Player : MonoBehaviour
     {
         if (AlchemicComponent.RestoresSeconds == 0)
         {
+            GameManager.Instance.PlayFX(GameManager.Instance.ErrorSound);
             return;
         }
 
