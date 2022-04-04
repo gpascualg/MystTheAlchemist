@@ -89,6 +89,16 @@ public class GameManager : MonoBehaviour
     public Sprite DubiousSprite;
     public AudioSource PickupSound;
 
+    public Image BGSound;
+    public Sprite BGSoundOn;
+    public Sprite BGSoundOff;
+    private bool isBGSoundOn;
+
+    public Image FXSound;
+    public Sprite FXSoundOn;
+    public Sprite FXSoundOff;
+    private bool isFXSoundOn;
+
     public List<int> CollectedWorldIds = new List<int>();
 
     public const float INITIAL_TIME = 300.0f;
@@ -126,6 +136,12 @@ public class GameManager : MonoBehaviour
         MixingUI.GetComponent<Mixing>().Subscribe();
         ReceiptsUI.GetComponent<ReceiptsList>().Subscribe();
         ProgressBar.GetComponentInChildren<LifeProgressBar>().Subscribe();
+
+        // Sound
+        isBGSoundOn = !(!PlayerPrefs.HasKey("BGSound") || PlayerPrefs.GetInt("BGSound") == 1);
+        isFXSoundOn = !(!PlayerPrefs.HasKey("FXSound") || PlayerPrefs.GetInt("FXSound") == 1);
+        ToggleBGSound();
+        ToggleFXSound();
     }
 
     private void OnEnable()
@@ -136,6 +152,50 @@ public class GameManager : MonoBehaviour
     private void OnItemCollected(int id)
     {
         CollectedWorldIds.Add(id);
+    }
+
+    public void ToggleBGSound()
+    {
+        if (isBGSoundOn)
+        {
+            BGSound.sprite = BGSoundOff;
+            isBGSoundOn = false;
+            Camera.main.GetComponent<AudioSource>().Stop();
+        }
+        else
+        {
+            BGSound.sprite = BGSoundOn;
+            isBGSoundOn = true;
+            Camera.main.GetComponent<AudioSource>().Play();
+        }
+
+        PlayerPrefs.SetInt("BGSound", isBGSoundOn.ToInt());
+    }
+
+    public void ToggleFXSound()
+    {
+        if (isFXSoundOn)
+        {
+            FXSound.sprite = FXSoundOff;
+            isFXSoundOn = false;
+        }
+        else
+        {
+            FXSound.sprite = FXSoundOn;
+            isFXSoundOn = true;
+        }
+
+        PlayerPrefs.SetInt("FXSound", isBGSoundOn.ToInt());
+    }
+
+    public void PlayFX(AudioSource source)
+    {
+        if (!isFXSoundOn)
+        {
+            return;
+        }
+
+        source.Play();
     }
 
     // Update is called once per frame
@@ -207,7 +267,8 @@ public class GameManager : MonoBehaviour
                 EndScreen.SetActive(true);
                 ProgressBar.SetActive(false);
                 InventoryIcon.SetActive(false);
-                InventoryIcon.SetActive(false);
+                BGSound.gameObject.SetActive(true);
+                FXSound.gameObject.SetActive(true);
                 CloseInventory();
                 CloseMixing();
                 status = Status.Dead;
@@ -245,12 +306,16 @@ public class GameManager : MonoBehaviour
                     GamePaused = false;
                     NewGameButton.SetActive(false);
                     ContinueUI.SetActive(true);
+                    BGSound.gameObject.SetActive(false);
+                    FXSound.gameObject.SetActive(false);
                 }
                 else
                 {
                     ProgressBar.SetActive(false);
                     InventoryIcon.SetActive(false);
                     MenuUI.SetActive(true);
+                    BGSound.gameObject.SetActive(true);
+                    FXSound.gameObject.SetActive(true);
                     status = Status.Menu;
                     GamePaused = true;
                 }
@@ -262,6 +327,8 @@ public class GameManager : MonoBehaviour
     {
         ProgressBar.SetActive(true);
         InventoryIcon.SetActive(true);
+        BGSound.gameObject.SetActive(false);
+        FXSound.gameObject.SetActive(false);
         MenuUI.SetActive(false);
         status = Status.Playing;
         GameStarted = true;
@@ -287,6 +354,8 @@ public class GameManager : MonoBehaviour
         status = Status.Playing;
         ProgressBar.SetActive(true);
         InventoryIcon.SetActive(true);
+        BGSound.gameObject.SetActive(false);
+        FXSound.gameObject.SetActive(false);
         GamePaused = false;
     }
 
@@ -304,6 +373,8 @@ public class GameManager : MonoBehaviour
 
         ProgressBar.SetActive(true);
         InventoryIcon.SetActive(true);
+        BGSound.gameObject.SetActive(false);
+        FXSound.gameObject.SetActive(false);
         EndScreen.SetActive(false);
 
         status = Status.Playing;

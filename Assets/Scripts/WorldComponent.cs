@@ -24,7 +24,7 @@ public class WorldComponent : MonoBehaviour
 
     public void Gather(Player player)
     {
-        GameManager.Instance.PickupSound.Play();
+        GameManager.Instance.PlayFX(GameManager.Instance.PickupSound);
         player.AddComponent(AlchemicComponent);
         player.RemoveFromNearest(this);
         Destroy(gameObject);
