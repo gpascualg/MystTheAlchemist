@@ -16,7 +16,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 094095fd3bb7a60428c758f008cde82c, type: 3}
   NameSprite: {fileID: 21300000, guid: 654145ae76ed1d145bf4d6233150c820, type: 3}
   Prefab: {fileID: 0}
-  Description: 
+  Description: Do you wanna se the stars?
   RestoresSeconds: 5
   Threshold: 0
   ComponentType: 2

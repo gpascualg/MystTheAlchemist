@@ -16,7 +16,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: b45969a2df8fe2f4e8aeeaa79acfce6e, type: 3}
   NameSprite: {fileID: 21300000, guid: 8111bfc4c96137c43a14d6784d7ddf19, type: 3}
   Prefab: {fileID: 0}
-  Description: 
+  Description: The mother of everything
   RestoresSeconds: 60
   Threshold: 0
   ComponentType: 2

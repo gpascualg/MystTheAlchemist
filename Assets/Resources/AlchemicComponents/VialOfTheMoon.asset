@@ -16,7 +16,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 58078a7da870df741837f69a8c404f53, type: 3}
   NameSprite: {fileID: 21300000, guid: cca028c0624887c4b84bc5b99786e168, type: 3}
   Prefab: {fileID: 0}
-  Description: 
+  Description: From the dark side of the moon. Will you trust me?
   RestoresSeconds: 20
   Threshold: 0
   ComponentType: 2
