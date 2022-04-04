@@ -154,7 +154,12 @@ public class GenerateMap : MonoBehaviour
         {
             for (int y = 0; y < height; ++y)
             {
+                if (map[x, y] == TileType.Sand) continue;
+
                 int currentSeed = GameManager.Instance.Seed;
+
+                float realX = x * 0.8f + MinX;
+                float realY = y * 0.8f + MinY;
 
                 if (map[x, y] != TileType.River)
                 {
@@ -162,8 +167,8 @@ public class GenerateMap : MonoBehaviour
                     int fillerSeed = currentSeed + x * (MaxY - MinY) + y;
                     for (int n = 0, nTotal = RandomRange(fillerSeed, 0, 15); n < nTotal; ++n)
                     {
-                        float newX = x + (RandomProb(currentSeed * 300 + x + n, x, y) - 0.5f) * 2.0f;
-                        float newY = y + (RandomProb(currentSeed * 400 + y + n, x, y) - 0.5f) * 2.0f;
+                        float newX = realX + (RandomProb(currentSeed * 300 + x + n, x, y) - 0.5f) * 1.0f;
+                        float newY = realY + (RandomProb(currentSeed * 400 + y + n, x, y) - 0.5f) * 1.0f;
                         Vector3 position = new Vector3(newX, newY, 0.25f);
                         Instantiate(GrassFiller[RandomRange(fillerSeed + n, 0, GrassFiller.Count)], position, Quaternion.identity, RealComponentsContainer.transform);
                     }
@@ -177,10 +182,6 @@ public class GenerateMap : MonoBehaviour
                     if (map[x, y] == TileType.River && component.Name != "Water") continue;
                     if (component.Name == "Stone" && map[x, y] != TileType.Stone) continue;
                     if (map[x, y] == TileType.Stone && component.Name != "Stone") continue;
-                    if (map[x, y] == TileType.Sand) continue;
-
-                    float realX = x * 0.8f + MinX;
-                    float realY = y * 0.8f + MinY;
 
                     int n = 0;
                     while (RandomProb(currentSeed + n, x, y) > component.Threshold && n < 10)
