@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour
     public float WelcomeTime = 10f;
 
     public GameObject Instructions;
+    public GameObject TextInstructions;
     public float TimeInstructions = 10f;
 
     public Sprite DubiousSprite;
@@ -109,6 +110,9 @@ public class GameManager : MonoBehaviour
 
     private int numButterflies = 0;
     public GameObject ButterflyPrefab;
+
+    private const float AUTOSAVE_INTERVAL = 2.0f;
+    private float untilNextAutosave = AUTOSAVE_INTERVAL;
 
     // Start is called before the first frame update
     void Awake()
@@ -285,6 +289,13 @@ public class GameManager : MonoBehaviour
                 }
             }
 
+            untilNextAutosave -= Time.deltaTime;
+            if (untilNextAutosave <= 0)
+            {
+                untilNextAutosave = AUTOSAVE_INTERVAL;
+                SaveGame();
+            }
+
             if (time <= 0)
             {
                 EndScreen.SetActive(true);
@@ -307,6 +318,7 @@ public class GameManager : MonoBehaviour
             if (TimeInstructions <= 0)
             {
                 Instructions.SetActive(false);
+                TextInstructions.SetActive(false);
             }
             else
             {
