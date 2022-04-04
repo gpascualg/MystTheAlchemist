@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
     private HashSet<string> alreadyKnownReceipts = new HashSet<string>();
     public Action<ReceiptComponents> OnLearnedReceipt;
 
+    public SerializedDictionary<string, int> PotionResistance = new SerializedDictionary<string, int>();
+
     public GameObject FloatingText;
 
     private Rigidbody2D rg;
@@ -192,7 +194,17 @@ public class Player : MonoBehaviour
             return;
         }
 
-        GameManager.Instance.RestoreSeconds(AlchemicComponent.RestoresSeconds);
+        var seconds = AlchemicComponent.RestoresSeconds;
+        if (seconds > 0)
+        {
+            var resistance = PotionResistance.GetValueOrDefault(AlchemicComponent.GUID, 0) + 1;
+            PotionResistance[AlchemicComponent.GUID] = resistance;
+
+            float afterResistances = Mathf.Pow((float)seconds, 1.0f / (1.0f + (float)resistance / 100.0f));
+            seconds = Mathf.Max(1, (int)afterResistances);
+        }
+
+        GameManager.Instance.RestoreSeconds(seconds);
         RemoveElement(AlchemicComponent);
 
         if (alreadyKnownReceipts.Add(AlchemicComponent.ReceiptComponents.GUID))

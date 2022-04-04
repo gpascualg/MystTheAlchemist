@@ -17,6 +17,6 @@ MonoBehaviour:
   NameSprite: {fileID: 21300000, guid: 30370313490a9174384972dd1975e698, type: 3}
   Prefab: {fileID: 0}
   Description: If you are shortsighted, now you are not
-  RestoresSeconds: 8
+  RestoresSeconds: 25
   Threshold: 0
   ComponentType: 2

@@ -17,6 +17,6 @@ MonoBehaviour:
   NameSprite: {fileID: 21300000, guid: cca028c0624887c4b84bc5b99786e168, type: 3}
   Prefab: {fileID: 0}
   Description: From the dark side of the moon. Will you trust me?
-  RestoresSeconds: 20
+  RestoresSeconds: 80
   Threshold: 0
   ComponentType: 2

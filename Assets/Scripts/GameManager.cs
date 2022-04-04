@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 
@@ -13,6 +14,7 @@ public class SaveGame
     public List<JSONReceipt> Receipts;
     public List<JSONItem> Inventory;
     public List<int> CollectedWorldIds;
+    public SerializedDictionary<string, int> PotionResistance;
     public Vector2 PlayerPosition;
     public float TimeLeft;
     public float MaxTime;
@@ -396,6 +398,7 @@ public class GameManager : MonoBehaviour
 
         CollectedWorldIds.Clear();
         GenerateMap.Instance.GenerateAll();
+        MainPlayer.PotionResistance.Clear();
         MainPlayer.transform.position = new Vector3(0, 0, -0.5f);
 
         SaveGame();
@@ -442,6 +445,7 @@ public class GameManager : MonoBehaviour
         CollectedWorldIds.Clear();
         GenerateMap.Instance.GenerateAll();
 
+        MainPlayer.PotionResistance.Clear();
         MainPlayer.transform.position = new Vector3(0, 0, -0.5f);
 
         SaveGame();
@@ -564,6 +568,7 @@ public class GameManager : MonoBehaviour
                 Receipts = MainPlayer.LearnedReceipts.ConvertAll(new Converter<ReceiptComponents, JSONReceipt>(ReceiptComponents.Serializer)),
                 Inventory = MainPlayer.SerializeItemsInventory(),
                 CollectedWorldIds = CollectedWorldIds,
+                PotionResistance = MainPlayer.PotionResistance,
                 PlayerPosition = MainPlayer.transform.position,
                 TimeLeft = time,
                 MaxTime = LifeProgressBar.Instance.MaxTime,
@@ -605,6 +610,7 @@ public class GameManager : MonoBehaviour
             MainPlayer.Deserialize(data.Receipts);
             MainPlayer.Deserialize(data.Inventory);
             CollectedWorldIds = data.CollectedWorldIds;
+            MainPlayer.PotionResistance = data.PotionResistance;
 
             GenerateMap.Instance.GenerateAll();
 

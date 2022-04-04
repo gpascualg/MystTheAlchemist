@@ -129,6 +129,7 @@ public class Mixing : MonoBehaviour
             foreach (var component in new List<Component>(components.Keys))
             {
                 RemoveComponent(component);
+                GameManager.Instance.MainPlayer.AddComponent(component);
             }
         }
     }
