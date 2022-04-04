@@ -16,7 +16,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 60bab9b8c6b16ec43b0765bf235cab74, type: 3}
   NameSprite: {fileID: 21300000, guid: 5fa8af997d81c654e993fe0460db6ff1, type: 3}
   Prefab: {fileID: 0}
-  Description: 
+  Description: As hard as your head
   RestoresSeconds: 0
   Threshold: 0.3
   ComponentType: 0

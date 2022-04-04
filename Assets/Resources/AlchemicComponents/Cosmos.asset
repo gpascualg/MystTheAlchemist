@@ -16,7 +16,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 0f872b2799973874098e2c856c2aa181, type: 3}
   NameSprite: {fileID: 21300000, guid: 1ed63bc54459126409d9e8a8a75ad3d6, type: 3}
   Prefab: {fileID: 0}
-  Description: 
+  Description: The legends says my petals look like stars... Do you agree?
   RestoresSeconds: 0
   Threshold: 0.8
   ComponentType: 0

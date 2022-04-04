@@ -16,7 +16,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 3e3032470d0fbd943bbea8db35a8ac3e, type: 3}
   NameSprite: {fileID: 21300000, guid: 96d6d8d1c8446b240b91b1d340c915e0, type: 3}
   Prefab: {fileID: 0}
-  Description: 
+  Description: Would you trust someone with as many faces as me?
   RestoresSeconds: 0
   Threshold: 0.5
   ComponentType: 0

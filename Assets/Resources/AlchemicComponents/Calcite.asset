@@ -16,7 +16,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: e9c3f8a2a3c612549b00c0299db3e32b, type: 3}
   NameSprite: {fileID: 21300000, guid: 5c34ef33210c412458fcc484461e4c8d, type: 3}
   Prefab: {fileID: 0}
-  Description: 
+  Description: I could be gold, but no
   RestoresSeconds: 0
   Threshold: 0.5
   ComponentType: 0

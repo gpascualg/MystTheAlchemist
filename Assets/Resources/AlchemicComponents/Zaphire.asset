@@ -16,7 +16,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: d9e59121f85881449841be62e7a0663e, type: 3}
   NameSprite: {fileID: 21300000, guid: 28e93f4a3bf4ef84ab4e2184fa509170, type: 3}
   Prefab: {fileID: 0}
-  Description: 
+  Description: Pure as a diamond, blue as the sky, beautiful as your eyes
   RestoresSeconds: 0
   Threshold: 0.4
   ComponentType: 0

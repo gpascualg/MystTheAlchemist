@@ -16,7 +16,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 82195e2d0855a2b458b555ef6ea82188, type: 3}
   NameSprite: {fileID: 21300000, guid: 15a08dfece85d1b4a95290804d710aa9, type: 3}
   Prefab: {fileID: 0}
-  Description: 
+  Description: Mana mana, du du dururu!
   RestoresSeconds: 4
   Threshold: 0
   ComponentType: 2

@@ -16,7 +16,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 5f51637e6af1bc34786e933e1c8b8f41, type: 3}
   NameSprite: {fileID: 21300000, guid: 699cf189027381944bbda4b277d8b4b9, type: 3}
   Prefab: {fileID: 0}
-  Description: 
+  Description: 'Mmmmh... So hot '
   RestoresSeconds: 0
   Threshold: 0.8
   ComponentType: 1

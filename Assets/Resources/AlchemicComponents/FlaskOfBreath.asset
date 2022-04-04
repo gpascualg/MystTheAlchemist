@@ -16,7 +16,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 751c7587786955948b1e0bc847d3a533, type: 3}
   NameSprite: {fileID: 21300000, guid: 4dccd4833ae69f7409848b10ed51408a, type: 3}
   Prefab: {fileID: 0}
-  Description: 
+  Description: You won't need to brush your teeth
   RestoresSeconds: 15
   Threshold: 0
   ComponentType: 2
