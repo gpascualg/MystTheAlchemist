@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class Tooltip : MonoBehaviour
@@ -9,7 +10,7 @@ public class Tooltip : MonoBehaviour
     public GameObject InventoryTooltip;
     public GameObject ReceiptTooltip;
 
-    public TMP_Text Name;
+    public Image NameSprite;
     public TMP_Text Text;
 
     private bool mixingActive;
@@ -49,12 +50,13 @@ public class Tooltip : MonoBehaviour
     {
         if (component.ComponentType == ComponentType.Potion && !GameManager.Instance.MainPlayer.Knows(component.ReceiptComponents))
         {
-            Name.text = "Dubious Concoction";
+            //NameSprite.text = "Dubious Concoction";
             Text.text = "A yet to be drank concoction, one of a kind.";
         }
         else
         {
-            Name.text = component.Name;
+            NameSprite.sprite = component.NameSprite;
+            NameSprite.SetNativeSize();
             Text.text = component.Description;
         }
 
