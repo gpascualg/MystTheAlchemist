@@ -1018,7 +1018,7 @@ MonoBehaviour:
   MixingTooltip: {fileID: 791703566}
   InventoryTooltip: {fileID: 7041759284697972367}
   ReceiptTooltip: {fileID: 7719655818727481337}
-  Name: {fileID: 0}
+  NameSprite: {fileID: 2224525141772165779}
   Text: {fileID: 2205636017667870074}
 --- !u!1 &1905312044
 GameObject:

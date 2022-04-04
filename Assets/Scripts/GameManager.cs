@@ -395,7 +395,7 @@ public class GameManager : MonoBehaviour
             {
                 Seed = Seed,
                 Receipts = MainPlayer.LearnedReceipts.ConvertAll(new Converter<ReceiptComponents, JSONReceipt>(ReceiptComponents.Serializer)),
-                Inventory = MainPlayer.SerializeInventory(),
+                Inventory = MainPlayer.SerializeItemsInventory(),
                 CollectedWorldIds = CollectedWorldIds,
                 PlayerPosition = MainPlayer.transform.position
             }));

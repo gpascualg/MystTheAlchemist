@@ -32,7 +32,7 @@ public class DuplicateKeyComparer<TKey> : IComparer<TKey> where TKey : IComparab
 public class Player : MonoBehaviour
 {
     private SortedList<float, WorldComponent> nearCandidates = new SortedList<float, WorldComponent>(new DuplicateKeyComparer<float>());
-    public SerializedDictionary<Component, int> Inventory = new SerializedDictionary<Component, int>();
+    public SerializedDictionary<Component, int> ItemsInventory = new SerializedDictionary<Component, int>();
     public Action<int> OnItemCollected;
     public Action<Component, int> OnItemAdd;
     public Action<Component, int> OnItemRemove;
@@ -63,10 +63,10 @@ public class Player : MonoBehaviour
         return (comp.transform.position - transform.position).sqrMagnitude;
     }
 
-    public List<JSONItem> SerializeInventory()
+    public List<JSONItem> SerializeItemsInventory()
     {
         List<JSONItem> result = new List<JSONItem>();
-        foreach (var pair in Inventory)
+        foreach (var pair in ItemsInventory)
         {
             result.Add(new JSONItem()
             {
@@ -169,22 +169,22 @@ public class Player : MonoBehaviour
 
     public void AddComponent(Component AlchemicComponent)
     {
-        if (Inventory.ContainsKey(AlchemicComponent))
+        if (ItemsInventory.ContainsKey(AlchemicComponent))
         {
-            Inventory[AlchemicComponent] += 1;
+            ItemsInventory[AlchemicComponent] += 1;
         }
         else
         {
-            Inventory.Add(AlchemicComponent, 1);
+            ItemsInventory.Add(AlchemicComponent, 1);
 
         }
 
-        OnItemAdd?.Invoke(AlchemicComponent, Inventory[AlchemicComponent]);
+        OnItemAdd?.Invoke(AlchemicComponent, ItemsInventory[AlchemicComponent]);
     }
 
     public bool HasElement(Component AlchemicComponent)
     {
-        return Inventory.ContainsKey(AlchemicComponent);
+        return ItemsInventory.ContainsKey(AlchemicComponent);
     }
 
     public void UseElement(Component AlchemicComponent)
@@ -201,6 +201,11 @@ public class Player : MonoBehaviour
         {
             LearnedReceipts.Add(AlchemicComponent.ReceiptComponents);
             OnLearnedReceipt?.Invoke(AlchemicComponent.ReceiptComponents);
+        }
+
+        if (!HasElement(AlchemicComponent))
+        {
+            Inventory.Instance.Tooltip.Hide();
         }
     }
 
@@ -223,27 +228,27 @@ public class Player : MonoBehaviour
 
     public void Deserialize(List<JSONItem> items)
     {
-        Inventory.Clear();
+        ItemsInventory.Clear();
         foreach (var itemData in items)
         {
             var item = itemData.Component.Deserialize();
-            Inventory.Add(item, itemData.Quantity);
+            ItemsInventory.Add(item, itemData.Quantity);
             OnItemAdd?.Invoke(item, itemData.Quantity);
         }
     }
 
     public void RemoveElement(Component AlchemicComponent)
     {
-        if (Inventory.ContainsKey(AlchemicComponent))
+        if (ItemsInventory.ContainsKey(AlchemicComponent))
         {
-            if (Inventory[AlchemicComponent] > 1)
+            if (ItemsInventory[AlchemicComponent] > 1)
             {
-                Inventory[AlchemicComponent] -= 1;
-                OnItemRemove?.Invoke(AlchemicComponent, Inventory[AlchemicComponent]);
+                ItemsInventory[AlchemicComponent] -= 1;
+                OnItemRemove?.Invoke(AlchemicComponent, ItemsInventory[AlchemicComponent]);
             }
             else
             {
-                Inventory.Remove(AlchemicComponent);
+                ItemsInventory.Remove(AlchemicComponent);
                 OnItemRemove?.Invoke(AlchemicComponent, 0);
             }
         }
