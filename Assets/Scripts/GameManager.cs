@@ -107,6 +107,9 @@ public class GameManager : MonoBehaviour
 
     public const float INITIAL_TIME = 300.0f;
 
+    private int numButterflies = 0;
+    public GameObject ButterflyPrefab;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -200,6 +203,22 @@ public class GameManager : MonoBehaviour
         }
 
         source.Play();
+    }
+
+    public void SpawnButterfly(Vector3 position)
+    {
+        if (numButterflies < 25)
+        {
+            numButterflies++;
+            position.z = -0.45f;
+            Instantiate(ButterflyPrefab, position, Quaternion.identity);
+        }
+    }
+
+    public void DespawnButterfly(GameObject butterfly)
+    {
+        --numButterflies;
+        Destroy(butterfly);
     }
 
     // Update is called once per frame
