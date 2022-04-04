@@ -10,6 +10,7 @@ public class Tooltip : MonoBehaviour
     public GameObject InventoryTooltip;
     public GameObject ReceiptTooltip;
 
+    public Sprite DubiousSprite;
     public Image NameSprite;
     public TMP_Text Text;
 
@@ -50,7 +51,7 @@ public class Tooltip : MonoBehaviour
     {
         if (component.ComponentType == ComponentType.Potion && !GameManager.Instance.MainPlayer.Knows(component.ReceiptComponents))
         {
-            //NameSprite.text = "Dubious Concoction";
+            NameSprite.sprite = DubiousSprite;
             Text.text = "A yet to be drank concoction, one of a kind.";
         }
         else

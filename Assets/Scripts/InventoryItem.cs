@@ -83,6 +83,11 @@ public class InventoryItem : MonoBehaviour, IPointerClickHandler, IPointerEnterH
 
         if (IsReceipt && Receipt != null)
         {
+            if (!GameManager.Instance.IsMixingOpen())
+            {
+                return;
+            }
+
             foreach (var component in Receipt.Components)
             {
                 if (GameManager.Instance.MainPlayer.HasElement(component))
