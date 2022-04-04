@@ -17,5 +17,5 @@ MonoBehaviour:
   Prefab: {fileID: 0}
   Description: 
   RestoresSeconds: 0
-  Threshold: 0
+  Threshold: 0.3
   ComponentType: 0

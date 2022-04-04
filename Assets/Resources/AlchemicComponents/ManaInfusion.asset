@@ -16,6 +16,6 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 82195e2d0855a2b458b555ef6ea82188, type: 3}
   Prefab: {fileID: 0}
   Description: 
-  RestoresSeconds: 0
+  RestoresSeconds: 4
   Threshold: 0
-  ComponentType: 0
+  ComponentType: 2
